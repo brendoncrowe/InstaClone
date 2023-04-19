@@ -11,6 +11,7 @@
 		403D6BEF29EF7806000D9915 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D6BEE29EF7806000D9915 /* DataBaseService.swift */; };
 		403D6BF229EF7B22000D9915 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D6BF129EF7B22000D9915 /* UIColor+Extensions.swift */; };
 		403D6BF429EF7DA6000D9915 /* AuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D6BF329EF7DA6000D9915 /* AuthenticationSession.swift */; };
+		403D6BF929F07F34000D9915 /* UIAlert+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D6BF829F07F34000D9915 /* UIAlert+Extensions.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* LoginViewController.swift */; };
@@ -28,6 +29,7 @@
 		403D6BEE29EF7806000D9915 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
 		403D6BF129EF7B22000D9915 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		403D6BF329EF7DA6000D9915 /* AuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSession.swift; sourceTree = "<group>"; };
+		403D6BF829F07F34000D9915 /* UIAlert+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlert+Extensions.swift"; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,8 +70,17 @@
 			isa = PBXGroup;
 			children = (
 				403D6BF129EF7B22000D9915 /* UIColor+Extensions.swift */,
+				403D6BF829F07F34000D9915 /* UIAlert+Extensions.swift */,
 			);
 			path = "Extensions ";
+			sourceTree = "<group>";
+		};
+		403D6BF729EF89D3000D9915 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				40E60EDF29EF629E00CA6EB7 /* LoginViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		40E60ECF29EF629E00CA6EB7 = {
@@ -94,7 +105,7 @@
 				403D6BF029EF7B12000D9915 /* Extensions  */,
 				403D6BED29EF77ED000D9915 /* Firebase Services */,
 				40EF48FD29EF6452009BF039 /* Views */,
-				40E60EDF29EF629E00CA6EB7 /* LoginViewController.swift */,
+				403D6BF729EF89D3000D9915 /* Controllers */,
 				40EF48FC29EF640F009BF039 /* Supporting */,
 				40E60EE929EF629F00CA6EB7 /* Info.plist */,
 				40EF491429EF75B4009BF039 /* GoogleService-Info.plist */,
@@ -207,6 +218,7 @@
 				403D6BF229EF7B22000D9915 /* UIColor+Extensions.swift in Sources */,
 				403D6BEF29EF7806000D9915 /* DataBaseService.swift in Sources */,
 				403D6BF429EF7DA6000D9915 /* AuthenticationSession.swift in Sources */,
+				403D6BF929F07F34000D9915 /* UIAlert+Extensions.swift in Sources */,
 				40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */,
 				40EF48FF29EF64A4009BF039 /* LoginView.swift in Sources */,
 				40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */,

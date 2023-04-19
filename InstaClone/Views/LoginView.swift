@@ -9,10 +9,11 @@ import UIKit
 
 class LoginView: UIView {
     
-    private lazy var addPhotoButton: UIButton = {
+    public lazy var addPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "plus_photo")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.clipsToBounds = true
+        button.setImage(UIImage(named: "plus_photo"), for: .normal)
         return button
     }()
     
@@ -47,7 +48,7 @@ class LoginView: UIView {
         textField.isSecureTextEntry = true // used to mask password text
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
-        textField.textContentType = .oneTimeCode
+        textField.textContentType = .oneTimeCode // prevents autofill for password 
         textField.backgroundColor = .systemGray6.withAlphaComponent(0.6)
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
@@ -92,9 +93,7 @@ class LoginView: UIView {
     }
     
     private func setupInputFields() {
-        
         let stackView = UIStackView(arrangedSubviews: [emailTextField, userNameTextField, passwordTextField, signUpButton])
-        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -112,13 +111,13 @@ class LoginView: UIView {
     
     @objc func handleTextInputChange() {
         let isFormValid = emailTextField.text?.isEmpty != true && userNameTextField.text?.isEmpty != true && passwordTextField.text?.isEmpty != true
-        
         if isFormValid {
             signUpButton.isEnabled = true
-            signUpButton.backgroundColor = .systemBlue.withAlphaComponent(0.6)
+            signUpButton.backgroundColor = .systemBlue.withAlphaComponent(0.7)
         } else {
             signUpButton.isEnabled = false
-            signUpButton.backgroundColor = .systemRed.withAlphaComponent(0.6)
+            signUpButton.backgroundColor = .systemRed.withAlphaComponent(0.7)
         }
     }
 }
+

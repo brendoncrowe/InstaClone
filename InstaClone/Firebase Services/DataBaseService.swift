@@ -18,9 +18,9 @@ class DataBaseService {
     private let dataBase = Firestore.firestore()
     
     // creating a user for the users collection in the database to more easily access
-    public func createDataBaseUser(authDataResult: AuthDataResult, userName: String, completion: @escaping (Result<Bool, Error>) -> ()) {
+    public func createDataBaseUser(authDataResult: AuthDataResult, userName: String, photoURL: String, completion: @escaping (Result<Bool, Error>) -> ()) {
         guard let email = authDataResult.user.email else { return }
-        dataBase.collection(DataBaseService.usersCollection).document(authDataResult.user.uid).setData(["email": email, "createdDate": Timestamp(date: Date()), "userId": authDataResult.user.uid, "userName": userName]) { error in
+        dataBase.collection(DataBaseService.usersCollection).document(authDataResult.user.uid).setData(["email": email, "createdDate": Timestamp(date: Date()), "userId": authDataResult.user.uid, "userName": userName, "photoURL": photoURL]) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
