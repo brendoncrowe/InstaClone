@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseAuth
 import PhotosUI
+import Mantis
+
 
 class LoginViewController: UIViewController {
     
@@ -21,11 +23,7 @@ class LoginViewController: UIViewController {
     
     private var selectedImage: UIImage? {
         didSet {
-            loginView.addPhotoButton.layer.cornerRadius = loginView.addPhotoButton.frame.width / 2
-            loginView.addPhotoButton.layer.masksToBounds = true
-            loginView.addPhotoButton.layer.borderColor = UIColor.black.cgColor
-            loginView.addPhotoButton.layer.borderWidth = 1
-            loginView.addPhotoButton.setImage(selectedImage?.withRenderingMode(.alwaysOriginal), for: .normal)
+            setNewPhoto()
         }
     }
     
@@ -39,6 +37,14 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .systemBackground
         loginView.signUpButton.addTarget(self, action: #selector(signUpButtonPressed), for: .touchUpInside)
         loginView.addPhotoButton.addTarget(self, action: #selector(addPhotoButtonPressed), for: .touchUpInside)
+    }
+    
+    private func setNewPhoto() {
+        loginView.addPhotoButton.layer.cornerRadius = loginView.addPhotoButton.frame.width / 2
+        loginView.addPhotoButton.layer.masksToBounds = true
+        loginView.addPhotoButton.layer.borderColor = UIColor.black.withAlphaComponent(0.7).cgColor
+        loginView.addPhotoButton.layer.borderWidth = 2
+        loginView.addPhotoButton.setImage(selectedImage?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
     @objc private func signUpButtonPressed() {
@@ -102,6 +108,12 @@ class LoginViewController: UIViewController {
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
     }
+    
+    private func cropPhotoController(for image: UIImage) {
+        let cropViewController = Mantis.cropViewController(image: image)
+        cropViewController.delegate = self
+        present(cropViewController, animated: true)
+    }
 }
 
 extension LoginViewController: PHPickerViewControllerDelegate {
@@ -121,7 +133,8 @@ extension LoginViewController: PHPickerViewControllerDelegate {
                         return
                     }
                     DispatchQueue.main.async {
-                        self?.selectedImage = image
+                        // TODO: Find a crop view controller
+                        self?.cropPhotoController(for: image)
                     }
                 }
             }
@@ -134,6 +147,17 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
         selectedImage = image
+        dismiss(animated: true)
+    }
+}
+
+extension LoginViewController: CropViewControllerDelegate {
+    func cropViewControllerDidCrop(_ cropViewController: Mantis.CropViewController, cropped: UIImage, transformation: Mantis.Transformation, cropInfo: Mantis.CropInfo) {
+        selectedImage = cropped
+        dismiss(animated: true)
+    }
+    
+    func cropViewControllerDidCancel(_ cropViewController: Mantis.CropViewController, original: UIImage) {
         dismiss(animated: true)
     }
 }
