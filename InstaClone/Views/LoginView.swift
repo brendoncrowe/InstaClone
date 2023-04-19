@@ -51,7 +51,7 @@ class LoginView: UIView {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Sign Up", for: .normal)
-        button.backgroundColor = .systemBlue
+        button.backgroundColor = .systemBlue.withAlphaComponent(0.6)
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         button.setTitleColor(.systemBackground, for: .normal)
