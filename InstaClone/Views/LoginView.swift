@@ -16,40 +16,48 @@ class LoginView: UIView {
         return button
     }()
     
-    private lazy var emailTextField: UITextField = {
+    public lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Email"
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         textField.backgroundColor = .systemGray6.withAlphaComponent(0.6)
         textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return textField
     }()
     
-    private lazy var userNameTextField: UITextField = {
+    public lazy var userNameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Username"
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
         textField.backgroundColor = .systemGray6.withAlphaComponent(0.6)
         textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return textField
     }()
     
-    private lazy var passwordTextField: UITextField = {
+    public lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true // used to mask password text
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.textContentType = .oneTimeCode
         textField.backgroundColor = .systemGray6.withAlphaComponent(0.6)
         textField.font = UIFont.preferredFont(forTextStyle: .body)
+        textField.addTarget(self, action: #selector(handleTextInputChange), for: .editingChanged)
         return textField
     }()
     
-    private lazy var signUpButton: UIButton = {
+    public lazy var signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = false
         button.setTitle("Sign Up", for: .normal)
         button.backgroundColor = .systemBlue.withAlphaComponent(0.6)
         button.layer.cornerRadius = 5
@@ -100,5 +108,17 @@ class LoginView: UIView {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40),
             stackView.heightAnchor.constraint(equalToConstant: 200)
         ])
+    }
+    
+    @objc func handleTextInputChange() {
+        let isFormValid = emailTextField.text?.isEmpty != true && userNameTextField.text?.isEmpty != true && passwordTextField.text?.isEmpty != true
+        
+        if isFormValid {
+            signUpButton.isEnabled = true
+            signUpButton.backgroundColor = .systemBlue.withAlphaComponent(0.6)
+        } else {
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = .systemRed.withAlphaComponent(0.6)
+        }
     }
 }
