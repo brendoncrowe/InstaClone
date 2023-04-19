@@ -27,8 +27,8 @@ class LoginViewController: UIViewController {
     @objc func handleSignUp() {
         guard let email = loginView.emailTextField.text,
               !email.isEmpty,
-              let username = loginView.userNameTextField.text,
-              !username.isEmpty,
+              let userName = loginView.userNameTextField.text,
+              !userName.isEmpty,
               let password = loginView.passwordTextField.text,
               !password.isEmpty else { return }
         
@@ -38,13 +38,15 @@ class LoginViewController: UIViewController {
                 print("there was an error creating a user: \(error.localizedDescription)")
             case .success(let authDataResult):
                 print("created user: \(authDataResult.user.uid)")
-                self?.createDatabaseUser(authDataResult: authDataResult)
+                // after creating a user, store that user to the dataBase
+                self?.createDatabaseUser(authDataResult: authDataResult, userName: userName)
             }
         }
     }
     
-    private func createDatabaseUser(authDataResult: AuthDataResult) {
-        DataBaseService.shared.createDataBaseUser(authDataResult: authDataResult) { result in
+    // helper function for handleSignUp
+    private func createDatabaseUser(authDataResult: AuthDataResult, userName: String) {
+        DataBaseService.shared.createDataBaseUser(authDataResult: authDataResult, userName: userName) { result in
             switch result {
             case .failure(let error):
                 print("Error creating user: \(error.localizedDescription)")
