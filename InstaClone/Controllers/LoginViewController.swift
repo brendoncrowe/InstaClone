@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     
     private let loginView = LoginView()
     private var authSession = AuthenticationSession()
+    private let storageService = StorageService()
     private lazy var imagePickerController: UIImagePickerController = {
         let ip = UIImagePickerController()
         ip.delegate = self
@@ -53,7 +54,9 @@ class LoginViewController: UIViewController {
               let userName = loginView.userNameTextField.text,
               !userName.isEmpty,
               let password = loginView.passwordTextField.text,
-              !password.isEmpty else { return }
+              !password.isEmpty, let selectedImage = selectedImage else { return }
+        
+        let resizedImage = UIImage.resizeImage(originalImage: selectedImage, rect: loginView.addPhotoButton.bounds)
         
         authSession.createNewUser(email: email, password: password) { [weak self] result in
             switch result {
@@ -61,8 +64,15 @@ class LoginViewController: UIViewController {
                 print("there was an error creating a user: \(error.localizedDescription)")
             case .success(let authDataResult):
                 print("created user: \(authDataResult.user.uid)")
-                // after creating a user, store that user to the dataBase
-                self?.createDatabaseUser(authDataResult: authDataResult, userName: userName, photoURL: "")
+                // call storage service first in order to get photoURL for database user 
+                self?.storageService.uploadPhoto(userId: authDataResult.user.uid, postId: nil, image: resizedImage) { result in
+                    switch result {
+                    case .failure(let error):
+                        print("Error uploading photo: \(error.localizedDescription)")
+                    case .success(let photoURL):
+                        self?.createDatabaseUser(authDataResult: authDataResult, userName: userName, photoURL: photoURL.absoluteString)
+                    }
+                }
             }
         }
     }
@@ -133,7 +143,6 @@ extension LoginViewController: PHPickerViewControllerDelegate {
                         return
                     }
                     DispatchQueue.main.async {
-                        // TODO: Find a crop view controller
                         self?.cropPhotoController(for: image)
                     }
                 }
