@@ -24,6 +24,7 @@ class UserProfileController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = user?.displayName
         configureCV()
+        configureSettingsTabBarButton()
     }
     
     private func configureCV() {
@@ -32,11 +33,31 @@ class UserProfileController: UIViewController {
         userProfileView.collectionView.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         userProfileView.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
     }
+    
+    private func configureSettingsTabBarButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
+    }
+    
+    @objc private func handleLogout() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
+            do {
+                try Auth.auth().signOut()
+                UserProfileController.showViewController(LoginController())
+            } catch {
+                self?.showAlert(title: "Error", message: "There was an error logging out: \(error)")
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(logoutAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+    }
 }
 
 extension UserProfileController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return 12
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

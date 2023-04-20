@@ -19,7 +19,6 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        tabBar.backgroundColor = .systemGray6.withAlphaComponent(0.8)
         viewControllers = [userProfileController]
     }
 }

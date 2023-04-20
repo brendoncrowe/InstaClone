@@ -11,9 +11,9 @@ import PhotosUI
 import Mantis
 
 
-class LoginViewController: UIViewController {
+class SignUpController: UIViewController {
     
-    private let loginView = LoginView()
+    private let loginView = SignUpView()
     private var authSession = AuthenticationSession()
     private let storageService = StorageService()
     private lazy var imagePickerController: UIImagePickerController = {
@@ -133,7 +133,7 @@ class LoginViewController: UIViewController {
     }
 }
 
-extension LoginViewController: PHPickerViewControllerDelegate {
+extension SignUpController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         if !results.isEmpty {
@@ -159,7 +159,7 @@ extension LoginViewController: PHPickerViewControllerDelegate {
     }
 }
 
-extension LoginViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension SignUpController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
         selectedImage = image
@@ -167,7 +167,7 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
     }
 }
 
-extension LoginViewController: CropViewControllerDelegate {
+extension SignUpController: CropViewControllerDelegate {
     func cropViewControllerDidCrop(_ cropViewController: Mantis.CropViewController, cropped: UIImage, transformation: Mantis.Transformation, cropInfo: Mantis.CropInfo) {
         selectedImage = cropped
         dismiss(animated: true)
