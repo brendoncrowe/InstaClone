@@ -16,7 +16,6 @@ class DataBaseService {
     
     static let usersCollection = "users"
     private let dataBase = Firestore.firestore()
-    
     // creating a user for the users collection in the database to more easily access
     public func createDataBaseUser(authDataResult: AuthDataResult, userName: String, photoURL: String, completion: @escaping (Result<Bool, Error>) -> ()) {
         guard let email = authDataResult.user.email else { return }

@@ -63,8 +63,7 @@ class LoginViewController: UIViewController {
             case .failure(let error):
                 print("there was an error creating a user: \(error.localizedDescription)")
             case .success(let authDataResult):
-                print("created user: \(authDataResult.user.uid)")
-                // call storage service first in order to get photoURL for database user 
+                // call storage service first in order to get photoURL for database user
                 self?.storageService.uploadPhoto(userId: authDataResult.user.uid, postId: nil, image: resizedImage) { result in
                     switch result {
                     case .failure(let error):

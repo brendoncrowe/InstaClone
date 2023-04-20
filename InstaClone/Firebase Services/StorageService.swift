@@ -15,16 +15,13 @@ class StorageService {
     public func uploadPhoto(userId: String? = nil, postId: String? = nil, image: UIImage, completion: @escaping (Result<URL, Error>) ->()) {
         guard let imageData = image.jpegData(compressionQuality: 1.0) else { return }
         var photoReference: StorageReference!
-        
         if let userId = userId {
             photoReference = storageReference.child("UserProfilePhotos/\(userId).jpg")
         } else if let postId = postId {
             photoReference = storageReference.child("PostPhotos/\(postId).jpg")
         }
-        
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpg"
-        
         let _ = photoReference.putData(imageData, metadata: metaData) { metaData, error in
             if let error = error {
                 completion(.failure(error))
