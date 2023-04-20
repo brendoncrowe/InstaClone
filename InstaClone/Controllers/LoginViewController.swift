@@ -78,12 +78,20 @@ class LoginViewController: UIViewController {
     
     // helper function for handleSignUp
     private func createDatabaseUser(authDataResult: AuthDataResult, userName: String, photoURL: String) {
-        DataBaseService.shared.createDataBaseUser(authDataResult: authDataResult, userName: userName, photoURL: photoURL) { result in
+        DataBaseService.shared.createDataBaseUser(authDataResult: authDataResult, displayName: userName, photoURL: photoURL) { result in
             switch result {
             case .failure(let error):
                 print("Error creating user: \(error.localizedDescription)")
             case .success:
-                print("user created")
+                let request = Auth.auth().currentUser?.createProfileChangeRequest()
+                request?.displayName = userName  // set the display name of current user
+                request?.commitChanges(completion: { error in
+                    if let error = error {
+                        print("Error setting display name: \(error.localizedDescription)")
+                    } else {
+                        print("success setting display name")
+                    }
+                })
             }
         }
     }
