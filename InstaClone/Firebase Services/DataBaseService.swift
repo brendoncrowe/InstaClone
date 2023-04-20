@@ -27,4 +27,15 @@ class DataBaseService {
             }
         }
     }
+    
+    public func fetchUserProfileImage(userId: String, completion: @escaping (Result<String, Error>) ->()) {
+        dataBase.collection(DataBaseService.usersCollection).document(userId).getDocument { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                guard let photoURL = snapshot.get("photoURL") as? String else { return }
+                completion(.success(photoURL))
+            }
+        }
+    }
 }

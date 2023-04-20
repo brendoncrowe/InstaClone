@@ -15,7 +15,7 @@ class UserProfileView: UIView {
         layout.itemSize = CGSize(width: 200, height: 200)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .red
+        cv.backgroundColor = .systemBackground
         return cv
     }()
     

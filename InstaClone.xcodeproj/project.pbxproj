@@ -22,6 +22,8 @@
 		4086DCC629F1BB8300F2FFC5 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCC529F1BB8300F2FFC5 /* MainTabBarController.swift */; };
 		4086DCC829F1BC2F00F2FFC5 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCC729F1BC2F00F2FFC5 /* UserProfileController.swift */; };
 		4086DCCA29F1C45A00F2FFC5 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCC929F1C45A00F2FFC5 /* UserProfileView.swift */; };
+		4086DCCC29F1C86A00F2FFC5 /* UserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCCB29F1C86A00F2FFC5 /* UserProfileHeader.swift */; };
+		4086DCCF29F1CEEE00F2FFC5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCCE29F1CEEE00F2FFC5 /* User.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* LoginViewController.swift */; };
@@ -41,6 +43,8 @@
 		4086DCC529F1BB8300F2FFC5 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		4086DCC729F1BC2F00F2FFC5 /* UserProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		4086DCC929F1C45A00F2FFC5 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		4086DCCB29F1C86A00F2FFC5 /* UserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeader.swift; sourceTree = "<group>"; };
+		4086DCCE29F1CEEE00F2FFC5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +103,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		4086DCCD29F1CEE200F2FFC5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4086DCCE29F1CEEE00F2FFC5 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		40E60ECF29EF629E00CA6EB7 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +130,7 @@
 		40E60EDA29EF629E00CA6EB7 /* InstaClone */ = {
 			isa = PBXGroup;
 			children = (
+				4086DCCD29F1CEE200F2FFC5 /* Models */,
 				403D6BF029EF7B12000D9915 /* Extensions  */,
 				403D6BED29EF77ED000D9915 /* Firebase Services */,
 				40EF48FD29EF6452009BF039 /* Views */,
@@ -145,6 +158,7 @@
 			children = (
 				40EF48FE29EF64A4009BF039 /* LoginView.swift */,
 				4086DCC929F1C45A00F2FFC5 /* UserProfileView.swift */,
+				4086DCCB29F1C86A00F2FFC5 /* UserProfileHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,6 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4086DCCC29F1C86A00F2FFC5 /* UserProfileHeader.swift in Sources */,
 				40E60EE029EF629E00CA6EB7 /* LoginViewController.swift in Sources */,
 				403D6BF229EF7B22000D9915 /* UIColor+Extensions.swift in Sources */,
 				4086DCC829F1BC2F00F2FFC5 /* UserProfileController.swift in Sources */,
@@ -240,6 +255,7 @@
 				403D6BEF29EF7806000D9915 /* DataBaseService.swift in Sources */,
 				4086DCCA29F1C45A00F2FFC5 /* UserProfileView.swift in Sources */,
 				403D6BF429EF7DA6000D9915 /* AuthenticationSession.swift in Sources */,
+				4086DCCF29F1CEEE00F2FFC5 /* User.swift in Sources */,
 				403D6BF929F07F34000D9915 /* UIAlert+Extensions.swift in Sources */,
 				40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */,
 				40EF48FF29EF64A4009BF039 /* LoginView.swift in Sources */,

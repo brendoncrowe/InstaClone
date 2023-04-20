@@ -24,10 +24,11 @@ class UserProfileController: UIViewController {
         fetchUserInfo()
     }
     
+    
     private func configureCV() {
         userProfileView.collectionView.dataSource = self
         userProfileView.collectionView.delegate = self
-        userProfileView.collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
+        userProfileView.collectionView.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
         userProfileView.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "itemCell")
     }
     
@@ -41,7 +42,7 @@ class UserProfileController: UIViewController {
 
 extension UserProfileController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -51,8 +52,7 @@ extension UserProfileController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath)
-        header.backgroundColor = .green
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as? UserProfileHeader else { fatalError("could not load header") }
         return header
     }
 }

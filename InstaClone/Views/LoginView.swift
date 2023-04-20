@@ -13,7 +13,7 @@ class LoginView: UIView {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
-        button.imageView?.contentMode = .scaleAspectFill
+        button.imageView?.contentMode = .scaleToFill
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
         return button
     }()
