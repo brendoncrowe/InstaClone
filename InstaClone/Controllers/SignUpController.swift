@@ -55,22 +55,26 @@ class SignUpController: UIViewController {
               !userName.isEmpty,
               let password = loginView.passwordTextField.text,
               !password.isEmpty, let selectedImage = selectedImage else { return }
-        
         let resizedImage = UIImage.resizeImage(originalImage: selectedImage, rect: loginView.addPhotoButton.bounds)
-        
         authSession.createNewUser(email: email, password: password) { [weak self] result in
             switch result {
             case .failure(let error):
-                print("there was an error creating a user: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "App Error", message: "There was an error creating a user: \(error.localizedDescription)")
+                }
             case .success(let authDataResult):
                 // call storage service first in order to get photoURL for database user
                 self?.storageService.uploadPhoto(userId: authDataResult.user.uid, postId: nil, image: resizedImage) { result in
                     switch result {
                     case .failure(let error):
-                        print("Error uploading photo: \(error.localizedDescription)")
+                        DispatchQueue.main.async {
+                            self?.showAlert(title: "Photo Error", message: "There was an error saving the profile photo: \(error.localizedDescription).")
+                        }
                     case .success(let photoURL):
                         self?.createDatabaseUser(authDataResult: authDataResult, userName: userName, photoURL: photoURL.absoluteString)
-                        self?.continueSignUpFlow(userName)
+                        DispatchQueue.main.async {
+                            self?.continueSignUpFlow(userName)
+                        }
                     }
                 }
             }
@@ -80,7 +84,6 @@ class SignUpController: UIViewController {
     private func continueSignUpFlow(_ userName: String) {
         UIViewController.showViewController(MainTabBarController())
     }
-    
     // helper function for handleSignUp
     private func createDatabaseUser(authDataResult: AuthDataResult, userName: String, photoURL: String) {
         DataBaseService.shared.createDataBaseUser(authDataResult: authDataResult, displayName: userName, photoURL: photoURL) { result in
@@ -94,7 +97,7 @@ class SignUpController: UIViewController {
                     if let error = error {
                         print("Error setting display name: \(error.localizedDescription)")
                     } else {
-                        print("success setting display name")
+                        print("success creating user")
                     }
                 })
             }

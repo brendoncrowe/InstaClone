@@ -29,7 +29,7 @@ class LoginView: UIView {
     public lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Username"
+        textField.placeholder = "Email"
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.backgroundColor = .systemGray6.withAlphaComponent(0.6)
@@ -55,7 +55,6 @@ class LoginView: UIView {
     public lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isEnabled = false
         button.setTitle("Login", for: .normal)
         button.backgroundColor = .systemBlue.withAlphaComponent(0.8)
         button.layer.cornerRadius = 5
@@ -92,7 +91,6 @@ class LoginView: UIView {
         super.init(coder: coder)
         commonInit()
     }
-    
     
     private func commonInit() {
         setSignUpButtonConstraints()
