@@ -24,6 +24,10 @@ class UserProfileController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = user?.displayName
         configureCV()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         configureSettingsTabBarButton()
     }
     

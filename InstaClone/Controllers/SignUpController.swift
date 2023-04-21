@@ -70,10 +70,15 @@ class SignUpController: UIViewController {
                         print("Error uploading photo: \(error.localizedDescription)")
                     case .success(let photoURL):
                         self?.createDatabaseUser(authDataResult: authDataResult, userName: userName, photoURL: photoURL.absoluteString)
+                        self?.continueSignUpFlow(userName)
                     }
                 }
             }
         }
+    }
+    
+    private func continueSignUpFlow(_ userName: String) {
+        UIViewController.showViewController(MainTabBarController())
     }
     
     // helper function for handleSignUp

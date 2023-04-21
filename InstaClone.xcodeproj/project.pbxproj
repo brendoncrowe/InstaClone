@@ -27,6 +27,7 @@
 		4086DCD129F2029500F2FFC5 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCD029F2029500F2FFC5 /* LoginController.swift */; };
 		4086DCD329F202A500F2FFC5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCD229F202A500F2FFC5 /* LoginView.swift */; };
 		4086DCD529F2034800F2FFC5 /* UIViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCD429F2034800F2FFC5 /* UIViewController+Navigation.swift */; };
+		4086DCD729F2110D00F2FFC5 /* MainFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCD629F2110D00F2FFC5 /* MainFeedController.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */; };
@@ -51,6 +52,7 @@
 		4086DCD029F2029500F2FFC5 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		4086DCD229F202A500F2FFC5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		4086DCD429F2034800F2FFC5 /* UIViewController+Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Navigation.swift"; sourceTree = "<group>"; };
+		4086DCD629F2110D00F2FFC5 /* MainFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedController.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				4086DCD029F2029500F2FFC5 /* LoginController.swift */,
 				4086DCC529F1BB8300F2FFC5 /* MainTabBarController.swift */,
 				4086DCC729F1BC2F00F2FFC5 /* UserProfileController.swift */,
+				4086DCD629F2110D00F2FFC5 /* MainFeedController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */,
 				4086DCD529F2034800F2FFC5 /* UIViewController+Navigation.swift in Sources */,
 				40EF48FF29EF64A4009BF039 /* SignUpView.swift in Sources */,
+				4086DCD729F2110D00F2FFC5 /* MainFeedController.swift in Sources */,
 				4086DCC429F0BA8100F2FFC5 /* UIImage+Extensions.swift in Sources */,
 				4086DCD129F2029500F2FFC5 /* LoginController.swift in Sources */,
 				4086DCB929F0B69500F2FFC5 /* StorageService.swift in Sources */,

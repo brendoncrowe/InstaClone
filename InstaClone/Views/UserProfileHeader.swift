@@ -20,7 +20,7 @@ class UserProfileHeader: UICollectionViewCell {
         return iv
     }()
     
-    private lazy var userNameLabel: UILabel = {
+    public lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Username"

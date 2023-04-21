@@ -16,9 +16,15 @@ class MainTabBarController: UITabBarController {
         return viewController
     }()
     
+    private lazy var mainFeedController: UIViewController = {
+        let viewController = UINavigationController(rootViewController: MainFeedController())
+        viewController.tabBarItem = UITabBarItem(title: "feed", image: UIImage(systemName: "newspaper"), tag: 1)
+        return viewController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        viewControllers = [userProfileController]
+        viewControllers = [mainFeedController, userProfileController]
     }
 }
