@@ -24,6 +24,7 @@ class UserProfileController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = user?.displayName
         configureCV()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,6 +57,10 @@ class UserProfileController: UIViewController {
         alertController.addAction(logoutAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
+    }
+    
+    @objc func editButtonPressed() {
+        print("tapped")
     }
 }
 

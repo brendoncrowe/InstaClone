@@ -63,7 +63,7 @@ class UserProfileHeader: UICollectionViewCell {
         return label
     }()
     
-    private lazy var editProfileButton: UIButton = {
+    public lazy var editProfileButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Edit Profile", for: .normal)
@@ -120,7 +120,7 @@ class UserProfileHeader: UICollectionViewCell {
         profileImageView.layer.cornerRadius = 80 / 2
         userNameLabel.text = user.displayName
     }
-    
+
     private func fetchProfileImage() {
         guard let user = Auth.auth().currentUser else { return }
         DataBaseService.shared.fetchUserProfileImage(userId: user.uid) { [weak self] result in
