@@ -13,7 +13,7 @@ class SignUpView: UIView {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
-        button.imageView?.contentMode = .scaleToFill
+        button.imageView?.contentMode = .scaleAspectFill
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
         return button
     }()
@@ -71,7 +71,11 @@ class SignUpView: UIView {
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Already have an account? Login", for: .normal)
+        let attributedTitle = NSMutableAttributedString(string: "Already have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        
+        attributedTitle.append(NSAttributedString(string: "Login", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.systemBlue.withAlphaComponent(0.8)
+            ]))
+        button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(presentSignUpController), for: .touchUpInside)
         return button
     }()

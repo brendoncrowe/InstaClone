@@ -7,13 +7,13 @@
 
 import UIKit
 
-class MainFeedController: UIViewController {
+class HomeFeedController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        
+        navigationItem.title = "Home Feed"
     }
 
 }

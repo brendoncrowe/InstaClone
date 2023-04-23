@@ -19,7 +19,7 @@ class LoginView: UIView {
         view.addSubview(logoImageView)
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 12),
+            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
             logoImageView.heightAnchor.constraint(equalToConstant: 50),
             logoImageView.widthAnchor.constraint(equalToConstant: 200)
         ])
@@ -66,7 +66,11 @@ class LoginView: UIView {
     private lazy var signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Don't have an account? Sign Up", for: .normal)
+        let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        
+        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.systemBlue.withAlphaComponent(0.8)
+            ]))
+        button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(presentSignUpController), for: .touchUpInside)
         return button
     }()

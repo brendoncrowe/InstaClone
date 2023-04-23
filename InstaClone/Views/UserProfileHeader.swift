@@ -14,7 +14,8 @@ class UserProfileHeader: UICollectionViewCell {
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleToFill
+        iv.contentMode = .scaleAspectFill
+        iv.image = UIImage(systemName: "person.fill")
         iv.clipsToBounds = true
         iv.backgroundColor = .systemBackground
         return iv
@@ -69,7 +70,7 @@ class UserProfileHeader: UICollectionViewCell {
         button.setTitle("Edit Profile", for: .normal)
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 1
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(UIColor.label, for: .normal)
         button.layer.cornerRadius = 3
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         return button

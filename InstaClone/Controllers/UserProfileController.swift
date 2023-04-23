@@ -40,7 +40,7 @@ class UserProfileController: UIViewController {
     }
     
     private func configureSettingsTabBarButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "gear")?.withTintColor(UIColor.label).withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleLogout))
     }
     
     @objc private func handleLogout() {
