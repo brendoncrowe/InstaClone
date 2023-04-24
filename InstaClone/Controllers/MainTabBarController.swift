@@ -9,44 +9,64 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     
+    
     private lazy var mainFeedController: UIViewController = {
         let viewController = UINavigationController(rootViewController: HomeFeedController())
-        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "home_unselected")?.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "home_selected")?.withRenderingMode(.alwaysOriginal))
-        viewController.tabBarItem.tag = 0
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 0)
         return viewController
     }()
     
     private lazy var searchController: UIViewController = {
         let viewController = UINavigationController(rootViewController: SearchController())
-        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "search_unselected")?.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "search_selected")?.withRenderingMode(.alwaysOriginal))
-        viewController.tabBarItem.tag = 1
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "magnifyingglass")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 1)
         return viewController
     }()
     
     private lazy var addPostController: UIViewController = {
         let viewController = UINavigationController(rootViewController: AddPostController())
-        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "plus_unselected")?.withRenderingMode(.alwaysOriginal), selectedImage: nil)
-        viewController.tabBarItem.tag = 2
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "plus.app")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 2)
         return viewController
     }()
     
     private lazy var likeController: UIViewController = {
         let viewController = UINavigationController(rootViewController: LikeController())
-        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "like_unselected")?.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "like_selected")?.withRenderingMode(.alwaysOriginal))
-        viewController.tabBarItem.tag = 3
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 3)
         return viewController
     }()
     
     private lazy var userProfileController: UIViewController = {
         let viewController = UINavigationController(rootViewController: UserProfileController())
-        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "profile_unselected")?.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "profile_selected")?.withRenderingMode(.alwaysOriginal))
-        viewController.tabBarItem.tag = 4
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 4)
         return viewController
     }()
     
+    
+    
     override func viewDidLoad() {
+        self.delegate = self
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         viewControllers = [mainFeedController, searchController, addPostController, likeController, userProfileController]
     }
+    
 }
+
+extension MainTabBarController: UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let index = viewControllers?.firstIndex(of: viewController)
+        if index == 2 {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            let photSelectorController = PhotoSelectorController(collectionViewLayout: layout)
+            let navController = UINavigationController(rootViewController: photSelectorController)
+            navController.modalPresentationStyle = .fullScreen
+            present(navController, animated: true)
+            return false
+        }
+        return true
+    }
+}
+
+
+

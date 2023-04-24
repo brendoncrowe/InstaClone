@@ -34,6 +34,7 @@
 		408FE0EC29F5FBAD00E8EEE8 /* AddPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0EB29F5FBAD00E8EEE8 /* AddPostController.swift */; };
 		408FE0EE29F5FC8500E8EEE8 /* LikeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */; };
 		408FE0F029F5FC9E00E8EEE8 /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */; };
+		408FE0F229F6013800E8EEE8 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */; };
@@ -65,6 +66,7 @@
 		408FE0EB29F5FBAD00E8EEE8 /* AddPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostController.swift; sourceTree = "<group>"; };
 		408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeController.swift; sourceTree = "<group>"; };
 		408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
+		408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				4086DCC529F1BB8300F2FFC5 /* MainTabBarController.swift */,
+				408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */,
 				408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */,
 				408FE0EB29F5FBAD00E8EEE8 /* AddPostController.swift */,
 				40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */,
@@ -298,6 +301,7 @@
 				40EF48FF29EF64A4009BF039 /* SignUpView.swift in Sources */,
 				4086DCD729F2110D00F2FFC5 /* HomeFeedController.swift in Sources */,
 				4086DCC429F0BA8100F2FFC5 /* UIImage+Extensions.swift in Sources */,
+				408FE0F229F6013800E8EEE8 /* PhotoSelectorController.swift in Sources */,
 				4086DCD129F2029500F2FFC5 /* LoginController.swift in Sources */,
 				408FE0F029F5FC9E00E8EEE8 /* LikeView.swift in Sources */,
 				4086DCB929F0B69500F2FFC5 /* StorageService.swift in Sources */,
