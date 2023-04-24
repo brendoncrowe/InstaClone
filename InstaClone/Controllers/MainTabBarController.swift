@@ -40,15 +40,12 @@ class MainTabBarController: UITabBarController {
         return viewController
     }()
     
-    
-    
     override func viewDidLoad() {
         self.delegate = self
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         viewControllers = [mainFeedController, searchController, addPostController, likeController, userProfileController]
     }
-    
 }
 
 extension MainTabBarController: UITabBarControllerDelegate {
@@ -67,6 +64,3 @@ extension MainTabBarController: UITabBarControllerDelegate {
         return true
     }
 }
-
-
-

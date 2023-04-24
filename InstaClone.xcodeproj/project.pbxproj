@@ -35,6 +35,7 @@
 		408FE0EE29F5FC8500E8EEE8 /* LikeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */; };
 		408FE0F029F5FC9E00E8EEE8 /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */; };
 		408FE0F229F6013800E8EEE8 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */; };
+		408FE0F429F623E200E8EEE8 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F329F623E200E8EEE8 /* PhotoSelectorCell.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */; };
@@ -67,6 +68,7 @@
 		408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeController.swift; sourceTree = "<group>"; };
 		408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
 		408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
+		408FE0F329F623E200E8EEE8 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				408FE0E529F5FA2A00E8EEE8 /* HomeFeedView.swift */,
+				408FE0F329F623E200E8EEE8 /* PhotoSelectorCell.swift */,
 				408FE0E929F5FAB400E8EEE8 /* SearchView.swift */,
 				40EF48FE29EF64A4009BF039 /* SignUpView.swift */,
 				408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */,
@@ -293,6 +296,7 @@
 				4086DCCF29F1CEEE00F2FFC5 /* User.swift in Sources */,
 				408FE0EA29F5FAB400E8EEE8 /* SearchView.swift in Sources */,
 				408FE0E829F5FAA600E8EEE8 /* SearchController.swift in Sources */,
+				408FE0F429F623E200E8EEE8 /* PhotoSelectorCell.swift in Sources */,
 				403D6BF929F07F34000D9915 /* UIAlert+Extensions.swift in Sources */,
 				4086DCD329F202A500F2FFC5 /* LoginView.swift in Sources */,
 				40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */,
