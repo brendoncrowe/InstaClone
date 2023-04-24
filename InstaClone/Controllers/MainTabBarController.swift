@@ -57,7 +57,6 @@ extension MainTabBarController: UITabBarControllerDelegate {
             layout.scrollDirection = .vertical
             let photSelectorController = PhotoSelectorController(collectionViewLayout: layout)
             let navController = UINavigationController(rootViewController: photSelectorController)
-            navController.modalPresentationStyle = .fullScreen
             present(navController, animated: true)
             return false
         }

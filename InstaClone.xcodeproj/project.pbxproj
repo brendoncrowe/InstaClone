@@ -36,6 +36,7 @@
 		408FE0F029F5FC9E00E8EEE8 /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */; };
 		408FE0F229F6013800E8EEE8 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */; };
 		408FE0F429F623E200E8EEE8 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F329F623E200E8EEE8 /* PhotoSelectorCell.swift */; };
+		408FE0F629F6D33500E8EEE8 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F529F6D33500E8EEE8 /* PhotoSelectorHeader.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */; };
@@ -69,6 +70,7 @@
 		408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
 		408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		408FE0F329F623E200E8EEE8 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
+		408FE0F529F6D33500E8EEE8 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				4086DCD229F202A500F2FFC5 /* LoginView.swift */,
 				4086DCC929F1C45A00F2FFC5 /* UserProfileView.swift */,
 				4086DCCB29F1C86A00F2FFC5 /* UserProfileHeader.swift */,
+				408FE0F529F6D33500E8EEE8 /* PhotoSelectorHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				4086DCC829F1BC2F00F2FFC5 /* UserProfileController.swift in Sources */,
 				4086DCC629F1BB8300F2FFC5 /* MainTabBarController.swift in Sources */,
 				403D6BEF29EF7806000D9915 /* DataBaseService.swift in Sources */,
+				408FE0F629F6D33500E8EEE8 /* PhotoSelectorHeader.swift in Sources */,
 				4086DCCA29F1C45A00F2FFC5 /* UserProfileView.swift in Sources */,
 				403D6BF429EF7DA6000D9915 /* AuthenticationSession.swift in Sources */,
 				4086DCCF29F1CEEE00F2FFC5 /* User.swift in Sources */,

@@ -14,9 +14,8 @@ class UserProfileHeader: UICollectionViewCell {
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(systemName: "person.fill")
         iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFill
         iv.backgroundColor = .systemBackground
         return iv
     }()
