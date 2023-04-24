@@ -15,7 +15,7 @@ class UserProfilePostCell: UICollectionViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = .systemOrange
+        iv.backgroundColor = .systemBackground
         return iv
     }()
 

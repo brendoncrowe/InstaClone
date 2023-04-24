@@ -28,6 +28,7 @@ class CaptionView: UIView {
         let tv = UITextView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.font = UIFont.preferredFont(forTextStyle: .body)
+        tv.autocapitalizationType = .none
         return tv
     }()
     

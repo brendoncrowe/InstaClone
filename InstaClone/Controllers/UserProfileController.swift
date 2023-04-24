@@ -7,18 +7,22 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 import Kingfisher
 
 class UserProfileController: UIViewController {
     
     private let userProfileView = UserProfileView()
     private let user = Auth.auth().currentUser
+    private var listener: ListenerRegistration?
     private let cellId = "cellId"
     private let headerId = "headerId"
     
     private var posts = [Post]() {
         didSet {
-            userProfileView.collectionView.reloadData()
+            DispatchQueue.main.async {
+                self.userProfileView.collectionView.reloadData()
+            }
         }
     }
     
@@ -32,29 +36,30 @@ class UserProfileController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = user?.displayName
         configureCV()
-        fetchPosts()
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        listener = Firestore.firestore().collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: user!.uid).addSnapshotListener({ [weak self] snapshot, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error", message: "Could not load posts: \(error)")
+                }
+            } else if let snapshot = snapshot {
+                let posts = snapshot.documents.map { Post($0.data()) }
+                self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
+            }
+        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        listener?.remove()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureSettingsTabBarButton()
-    }
-    
-    private func fetchPosts() {
-        guard let user = Auth.auth().currentUser else { return }
-        DataBaseService.shared.fetchCurrentUsersPosts(userId: user.uid) { [weak self] result in
-            switch result {
-            case .failure:
-                DispatchQueue.main.async {
-                    self?.showAlert(title: "Error", message: "Could not load posts")
-                }
-            case .success(let posts):
-                DispatchQueue.main.async {
-                    self?.posts = posts
-                }
-            }
-        }
     }
     
     private func configureCV() {
@@ -118,6 +123,9 @@ extension UserProfileController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as? UserProfileHeader else { fatalError("could not load header") }
+        let attributedText = NSMutableAttributedString(string: "\(posts.count)\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
+        attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
+        header.postsLabel.attributedText = attributedText
         return header
     }
 }

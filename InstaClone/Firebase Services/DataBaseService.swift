@@ -33,7 +33,7 @@ class DataBaseService {
     public func createPost(postCaption: String, userName: String, completion: @escaping (Result<String, Error>) -> ()){
         guard let user = Auth.auth().currentUser else { return }
         let docRef = dataBase.collection(DataBaseService.postsCollections).document()
-        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedData": Timestamp(date: Date()), "userName": userName, "userId": user.uid]) { error in
+        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "userName": userName, "userId": user.uid]) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -53,6 +53,8 @@ class DataBaseService {
         }
     }
     
+    
+    // MARK: used snapshot listener instead of the below instance method for fetching user's posts
     public func fetchCurrentUsersPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {
         guard let user = Auth.auth().currentUser else { return }
         dataBase.collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: user.uid).getDocuments { snapshot, error in
@@ -60,7 +62,7 @@ class DataBaseService {
                 completion(.failure(error))
             } else if let snapshot = snapshot {
                 let posts = snapshot.documents.map { Post($0.data()) }
-                completion(.success(posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }))
+                completion(.success(posts.sorted { $0.postedDate.dateValue() < $1.postedDate.dateValue() }))
             }
         }
     }

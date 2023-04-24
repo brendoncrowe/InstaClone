@@ -10,7 +10,7 @@ import UIKit
 class MainTabBarController: UITabBarController {
     
     
-    private lazy var mainFeedController: UIViewController = {
+    private lazy var homeFeedController: UIViewController = {
         let viewController = UINavigationController(rootViewController: HomeFeedController())
         viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 0)
         return viewController
@@ -44,7 +44,7 @@ class MainTabBarController: UITabBarController {
         self.delegate = self
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        viewControllers = [mainFeedController, searchController, addPostController, likeController, userProfileController]
+        viewControllers = [homeFeedController, searchController, addPostController, likeController, userProfileController]
     }
 }
 
