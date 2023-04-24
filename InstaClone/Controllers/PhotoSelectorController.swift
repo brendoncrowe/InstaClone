@@ -66,16 +66,18 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     
     private func setupNavButtons() {
         navigationController?.navigationBar.tintColor = .label
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleDone))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancelButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(handleNextButton))
     }
     
-    @objc private func handleCancel() {
+    @objc private func handleCancelButton() {
         dismiss(animated: true)
     }
     
-    @objc private func handleDone() {
-        print("done")
+    @objc private func handleNextButton() {
+        guard let image = selectedImage else { return }
+        let captionController = CaptionController(image)
+        navigationController?.pushViewController(captionController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -94,7 +96,7 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
                 let targetSize = CGSize(width: 600, height: 600)
                 imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .default, options: nil) { image, info in
                     if let image = image {
-                            header.configureHeaderPhoto(image)
+                        header.configureHeaderPhoto(image)
                     }
                 }
             }
