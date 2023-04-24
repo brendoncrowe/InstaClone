@@ -52,4 +52,16 @@ class DataBaseService {
             }
         }
     }
+    
+    public func fetchCurrentUsersPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {
+        guard let user = Auth.auth().currentUser else { return }
+        dataBase.collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: user.uid).getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let posts = snapshot.documents.map { Post($0.data()) }
+                completion(.success(posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }))
+            }
+        }
+    }
 }

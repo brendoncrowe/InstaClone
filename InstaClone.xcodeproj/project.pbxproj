@@ -39,6 +39,8 @@
 		408FE0F629F6D33500E8EEE8 /* PhotoSelectorHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F529F6D33500E8EEE8 /* PhotoSelectorHeader.swift */; };
 		408FE0F829F6DD4800E8EEE8 /* CaptionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F729F6DD4800E8EEE8 /* CaptionController.swift */; };
 		408FE0FA29F6E46000E8EEE8 /* CaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F929F6E46000E8EEE8 /* CaptionView.swift */; };
+		408FE0FC29F6F8EB00E8EEE8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0FB29F6F8EB00E8EEE8 /* Post.swift */; };
+		408FE0FE29F6FE1700E8EEE8 /* UserProfilePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0FD29F6FE1700E8EEE8 /* UserProfilePostCell.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */; };
@@ -75,6 +77,8 @@
 		408FE0F529F6D33500E8EEE8 /* PhotoSelectorHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorHeader.swift; sourceTree = "<group>"; };
 		408FE0F729F6DD4800E8EEE8 /* CaptionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionController.swift; sourceTree = "<group>"; };
 		408FE0F929F6E46000E8EEE8 /* CaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionView.swift; sourceTree = "<group>"; };
+		408FE0FB29F6F8EB00E8EEE8 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		408FE0FD29F6FE1700E8EEE8 /* UserProfilePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilePostCell.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				4086DCCE29F1CEEE00F2FFC5 /* User.swift */,
+				408FE0FB29F6F8EB00E8EEE8 /* Post.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,6 +207,7 @@
 				408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */,
 				4086DCD229F202A500F2FFC5 /* LoginView.swift */,
 				4086DCC929F1C45A00F2FFC5 /* UserProfileView.swift */,
+				408FE0FD29F6FE1700E8EEE8 /* UserProfilePostCell.swift */,
 				4086DCCB29F1C86A00F2FFC5 /* UserProfileHeader.swift */,
 				408FE0F529F6D33500E8EEE8 /* PhotoSelectorHeader.swift */,
 			);
@@ -302,6 +308,7 @@
 				4086DCC629F1BB8300F2FFC5 /* MainTabBarController.swift in Sources */,
 				403D6BEF29EF7806000D9915 /* DataBaseService.swift in Sources */,
 				408FE0F629F6D33500E8EEE8 /* PhotoSelectorHeader.swift in Sources */,
+				408FE0FE29F6FE1700E8EEE8 /* UserProfilePostCell.swift in Sources */,
 				4086DCCA29F1C45A00F2FFC5 /* UserProfileView.swift in Sources */,
 				403D6BF429EF7DA6000D9915 /* AuthenticationSession.swift in Sources */,
 				4086DCCF29F1CEEE00F2FFC5 /* User.swift in Sources */,
@@ -312,6 +319,7 @@
 				4086DCD329F202A500F2FFC5 /* LoginView.swift in Sources */,
 				408FE0F829F6DD4800E8EEE8 /* CaptionController.swift in Sources */,
 				40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */,
+				408FE0FC29F6F8EB00E8EEE8 /* Post.swift in Sources */,
 				408FE0EE29F5FC8500E8EEE8 /* LikeController.swift in Sources */,
 				4086DCD529F2034800F2FFC5 /* UIViewController+Navigation.swift in Sources */,
 				40EF48FF29EF64A4009BF039 /* SignUpView.swift in Sources */,

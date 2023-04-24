@@ -7,12 +7,20 @@
 
 import UIKit
 import FirebaseAuth
+import Kingfisher
 
 class UserProfileController: UIViewController {
     
     private let userProfileView = UserProfileView()
     private let user = Auth.auth().currentUser
     private let cellId = "cellId"
+    private let headerId = "headerId"
+    
+    private var posts = [Post]() {
+        didSet {
+            userProfileView.collectionView.reloadData()
+        }
+    }
     
     override func loadView() {
         super.loadView()
@@ -24,7 +32,8 @@ class UserProfileController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = user?.displayName
         configureCV()
-        
+        fetchPosts()
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -32,11 +41,27 @@ class UserProfileController: UIViewController {
         configureSettingsTabBarButton()
     }
     
+    private func fetchPosts() {
+        guard let user = Auth.auth().currentUser else { return }
+        DataBaseService.shared.fetchCurrentUsersPosts(userId: user.uid) { [weak self] result in
+            switch result {
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error", message: "Could not load posts")
+                }
+            case .success(let posts):
+                DispatchQueue.main.async {
+                    self?.posts = posts
+                }
+            }
+        }
+    }
+    
     private func configureCV() {
         userProfileView.collectionView.dataSource = self
         userProfileView.collectionView.delegate = self
-        userProfileView.collectionView.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerId")
-        userProfileView.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        userProfileView.collectionView.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
+        userProfileView.collectionView.register(UserProfilePostCell.self, forCellWithReuseIdentifier: cellId)
     }
     
     private func configureSettingsTabBarButton() {
@@ -66,12 +91,15 @@ class UserProfileController: UIViewController {
 
 extension UserProfileController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        cell.backgroundColor = .systemOrange
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? UserProfilePostCell else {
+            fatalError("could not dequeue a UserProfilePostCell")
+        }
+        let post = posts[indexPath.row]
+        cell.setCellImage(post.imageURL)
         return cell
     }
     
@@ -89,7 +117,7 @@ extension UserProfileController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as? UserProfileHeader else { fatalError("could not load header") }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as? UserProfileHeader else { fatalError("could not load header") }
         return header
     }
 }
