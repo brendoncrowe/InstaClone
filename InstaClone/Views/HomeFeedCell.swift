@@ -9,9 +9,6 @@ import UIKit
 import Kingfisher
 import FirebaseAuth
 
-// MARK: *** Because a resized image was saved to firebase storage for purposes of saving space, the quality of the image won't be 100% when setting the image for the homeFeed controller ***
-
-
 class HomeFeedCell: UICollectionViewCell {
     
     public lazy var userProfilePhotoimageView: UIImageView = {
@@ -43,16 +40,16 @@ class HomeFeedCell: UICollectionViewCell {
     public lazy var optionsButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         button.setTitle("•••", for: .normal)
         button.setTitleColor(.label, for: .normal)
+        button.isEnabled = true
         return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
-        optionsButton.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -68,10 +65,11 @@ class HomeFeedCell: UICollectionViewCell {
         setupProfileNameLabelConstraints()
         fetchProfileImage()
         profileNameLabel.text = user.displayName
+        optionsButton.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
     }
     
     private func setupProfilePhotoConstraints() {
-        addSubview(userProfilePhotoimageView)
+        contentView.addSubview(userProfilePhotoimageView)
         NSLayoutConstraint.activate([
             userProfilePhotoimageView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             userProfilePhotoimageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
@@ -81,7 +79,7 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     private func setupProfileNameLabelConstraints() {
-        addSubview(profileNameLabel)
+        contentView.addSubview(profileNameLabel)
         NSLayoutConstraint.activate([
             profileNameLabel.topAnchor.constraint(equalTo: topAnchor),
             profileNameLabel.leadingAnchor.constraint(equalTo: userProfilePhotoimageView.trailingAnchor, constant: 8),
@@ -91,7 +89,7 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     private func setupImageViewConstraints() {
-        addSubview(imageView)
+        contentView.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: userProfilePhotoimageView.bottomAnchor, constant: 8),
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -101,7 +99,7 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     private func setupOptionsButtonConstraints() {
-        addSubview(optionsButton)
+        contentView.addSubview(optionsButton)
         NSLayoutConstraint.activate([
             optionsButton.topAnchor.constraint(equalTo: topAnchor),
             optionsButton.bottomAnchor.constraint(equalTo: imageView.topAnchor),

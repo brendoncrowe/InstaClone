@@ -64,6 +64,7 @@ class UserProfileHeader: UICollectionViewCell {
     public lazy var editProfileButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = true
         button.setTitle("Edit Profile", for: .normal)
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 1
@@ -135,7 +136,7 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     private func setProfileImageViewConstraints() {
-        addSubview(profileImageView)
+        contentView.addSubview(profileImageView)
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             profileImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
@@ -157,9 +158,9 @@ class UserProfileHeader: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        addSubview(stackView)
-        addSubview(topDividerView)
-        addSubview(bottomDividerView)
+        contentView.addSubview(stackView)
+        contentView.addSubview(topDividerView)
+        contentView.addSubview(bottomDividerView)
         
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -187,7 +188,7 @@ class UserProfileHeader: UICollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [postsLabel, followersLabel, followingLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillEqually
-        addSubview(stackView)
+        contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
@@ -198,7 +199,7 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     private func setUserNameLabelConstraints()  {
-        addSubview(userNameLabel)
+        contentView.addSubview(userNameLabel)
         NSLayoutConstraint.activate([
             userNameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 4),
             userNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
@@ -209,7 +210,7 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     private func setEditProfileButtonConstraints() {
-        addSubview(editProfileButton)
+        contentView.addSubview(editProfileButton)
         NSLayoutConstraint.activate([
             editProfileButton.topAnchor.constraint(equalTo: postsLabel.bottomAnchor, constant: 8),
             editProfileButton.leadingAnchor.constraint(equalTo: postsLabel.leadingAnchor, constant: 8),
