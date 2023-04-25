@@ -15,6 +15,8 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     private var images = [UIImage]()
     private var assets = [PHAsset]()
     
+    private var header: PhotoSelectorHeader?
+    
     private var selectedImage: UIImage?
     
     override func viewDidLoad() {
@@ -75,7 +77,7 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     }
     
     @objc private func handleNextButton() {
-        guard let image = selectedImage else { return }
+        guard let image = header?.imageView.image else { return }
         let captionController = CaptionController(image)
         navigationController?.pushViewController(captionController, animated: true)
     }
@@ -89,11 +91,13 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as? PhotoSelectorHeader else {
             fatalError("could not load PhotoSelectorHeader")
         }
+        self.header = header
+        
         if let selectedImage = selectedImage {
             if let index = self.images.firstIndex(of: selectedImage) {
                 let selectedAsset = self.assets[index]
                 let imageManager = PHImageManager.default()
-                let targetSize = CGSize(width: 600, height: 600)
+                let targetSize = CGSize(width: 700, height: 700)
                 imageManager.requestImage(for: selectedAsset, targetSize: targetSize, contentMode: .default, options: nil) { image, info in
                     if let image = image {
                         header.configureHeaderPhoto(image)

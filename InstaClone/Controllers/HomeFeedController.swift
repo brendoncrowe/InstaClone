@@ -7,12 +7,14 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class HomeFeedController: UIViewController {
     
     private let homeFeedView = HomeFeedView()
     private let cellId = "cellId"
-    
+    private var listener: ListenerRegistration?
+
     private var posts = [Post]() {
         didSet {
             homeFeedView.collectionView.reloadData()
@@ -29,27 +31,33 @@ class HomeFeedController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.titleView = UIImageView(image: UIImage(named: "logo2")?.withTintColor(.label))
         setupCV()
-        fetchPosts()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let user = Auth.auth().currentUser else { return }
+        listener = Firestore.firestore().collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: user.uid).addSnapshotListener({ [weak self] snapshot, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error", message: "Could not load posts: \(error)")
+                }
+            } else if let snapshot = snapshot {
+                let posts = snapshot.documents.map { Post($0.data()) }
+                self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
+            }
+        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        listener?.remove()
+    }
+    
     
     private func setupCV() {
         homeFeedView.collectionView.dataSource = self
         homeFeedView.collectionView.delegate = self
         homeFeedView.collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellId)
-    }
-    
-    private func fetchPosts() {
-        guard let user = Auth.auth().currentUser else { return }
-        DataBaseService.shared.fetchCurrentUsersPosts(userId: user.uid) { [weak self] result in
-            switch result {
-            case .failure:
-                print("could not load posts")
-            case .success(let posts):
-                DispatchQueue.main.async {
-                    self?.posts = posts
-                }
-            }
-        }
     }
 }
 

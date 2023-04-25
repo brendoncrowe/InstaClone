@@ -9,10 +9,10 @@ import UIKit
 
 class CaptionView: UIView {
     
-    private lazy var containerView: UIView = {
+    public lazy var containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray5
         return view
     }()
     
@@ -29,6 +29,7 @@ class CaptionView: UIView {
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.font = UIFont.preferredFont(forTextStyle: .body)
         tv.autocapitalizationType = .none
+        tv.backgroundColor = .systemGray5
         return tv
     }()
     

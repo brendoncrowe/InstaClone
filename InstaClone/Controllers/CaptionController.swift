@@ -42,7 +42,7 @@ class CaptionController: UIViewController {
     
     @objc private func handlePostButton() {
         guard let postCaption = captionView.textView.text, !postCaption.isEmpty, let userName = Auth.auth().currentUser?.displayName else { return }
-        let resizedImage = UIImage.resizeImage(originalImage: image, rect: captionView.imageView.bounds)
+        let uploadImage = image
         // TODO: Send post to firebase db as well as store post image
         DataBaseService.shared.createPost(postCaption: postCaption, userName: userName) { [weak self] result in
             switch result {
@@ -51,7 +51,7 @@ class CaptionController: UIViewController {
                     self?.showAlert(title: "Upload Error", message: "There was an error uploading the post. Try again.")
                 }
             case .success(let docRef):
-                self?.storageService.uploadPhoto(postId: docRef, image: resizedImage) { [weak self] result in
+                self?.storageService.uploadPhoto(postId: docRef, image: uploadImage) { [weak self] result in
                     switch result {
                     case .failure:
                         DispatchQueue.main.async {

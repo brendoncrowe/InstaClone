@@ -130,11 +130,7 @@ class HomeFeedCell: UICollectionViewCell {
         }
     }
     
-    @objc private func handleOptions(_ sender: UIButton) {
-        sender.isHighlighted = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            sender.isHighlighted = false
-        }
+    @objc private func handleOptions() {
         print("tapped")
     }
 }
