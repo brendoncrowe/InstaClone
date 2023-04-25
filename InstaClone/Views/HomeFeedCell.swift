@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import FirebaseAuth
 
 // MARK: *** Because a resized image was saved to firebase storage for purposes of saving space, the quality of the image won't be 100% when setting the image for the homeFeed controller ***
 
@@ -17,7 +18,6 @@ class HomeFeedCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.clipsToBounds = true
-        iv.backgroundColor = .systemBlue
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 40 / 2
         return iv
@@ -44,7 +44,8 @@ class HomeFeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        button.setTitle("Done", for: .normal)
+        button.setTitle("•••", for: .normal)
+        button.setTitleColor(.label, for: .normal)
         return button
     }()
     
@@ -60,10 +61,13 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     private func commonInit() {
+        guard let user = Auth.auth().currentUser else { return }
         setupProfilePhotoConstraints()
         setupImageViewConstraints()
         setupOptionsButtonConstraints()
         setupProfileNameLabelConstraints()
+        fetchProfileImage()
+        profileNameLabel.text = user.displayName
     }
     
     private func setupProfilePhotoConstraints() {
@@ -82,7 +86,7 @@ class HomeFeedCell: UICollectionViewCell {
             profileNameLabel.topAnchor.constraint(equalTo: topAnchor),
             profileNameLabel.leadingAnchor.constraint(equalTo: userProfilePhotoimageView.trailingAnchor, constant: 8),
             profileNameLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor),
-            profileNameLabel.trailingAnchor.constraint(equalTo: optionsButton.leadingAnchor)
+            profileNameLabel.trailingAnchor.constraint(equalTo: optionsButton.leadingAnchor, constant: -8)
         ])
     }
     
@@ -101,14 +105,29 @@ class HomeFeedCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             optionsButton.topAnchor.constraint(equalTo: topAnchor),
             optionsButton.bottomAnchor.constraint(equalTo: imageView.topAnchor),
-            optionsButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            optionsButton.widthAnchor.constraint(equalToConstant: 44),
+            optionsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            optionsButton.widthAnchor.constraint(equalToConstant: 50),
         ])
     }
     
     public func configureCellPhoto(_ imageURL: String) {
         guard let url = URL(string: imageURL) else { return }
         imageView.kf.setImage(with: url)
+    }
+    
+    private func fetchProfileImage() {
+        guard let user = Auth.auth().currentUser else { return }
+        DataBaseService.shared.fetchUserProfileImage(userId: user.uid) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let photoURL):
+                let url = URL(string: photoURL)
+                DispatchQueue.main.async {
+                    self?.userProfilePhotoimageView.kf.setImage(with: url)
+                }
+            }
+        }
     }
     
     @objc private func handleOptions(_ sender: UIButton) {

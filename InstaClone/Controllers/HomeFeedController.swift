@@ -67,6 +67,11 @@ extension HomeFeedController: UICollectionViewDataSource {
         cell.configureCellPhoto(post.imageURL)
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = view.frame.width
+        return CGSize(width: width, height: width)
+    }
 }
 
 extension HomeFeedController: UICollectionViewDelegateFlowLayout {
