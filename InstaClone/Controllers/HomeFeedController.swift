@@ -74,7 +74,7 @@ extension HomeFeedController: UICollectionViewDataSource {
         let post = posts[indexPath.row]
         
         // TODO: refactor below method 
-        cell.configureCellPhoto(post.imageURL)
+        cell.configureCell(post)
         return cell
     }
     

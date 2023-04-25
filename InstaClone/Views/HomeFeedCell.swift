@@ -79,13 +79,6 @@ class HomeFeedCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
-
-        let attributedText = NSMutableAttributedString(string: "Username", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: " Some caption text that will describe the post", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
-        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
-        attributedText.append(NSAttributedString(string: "1 week ago", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
-        
-        label.attributedText = attributedText
         label.numberOfLines = 0
         return label
     }()
@@ -101,13 +94,21 @@ class HomeFeedCell: UICollectionViewCell {
         commonInit()
     }
     
+    fileprivate func setupAttributedCaption(_ post: Post) {
+        let attributedText = NSMutableAttributedString(string: post.userName, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        attributedText.append(NSAttributedString(string: " \(post.postCaption)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
+        let timeAgoDisplay = post.postedDate.dateValue().timeAgoDisplay()
+        attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        captionLabel.attributedText = attributedText
+    }
+    
     private func commonInit() {
         guard let user = Auth.auth().currentUser else { return }
         setupProfilePhotoConstraints()
         setupImageViewConstraints()
         setupOptionsButtonConstraints()
         setupProfileNameLabelConstraints()
-        fetchProfileImage()
         setupActionButtons()
         setupCaptionLabelConstraints()
         profileNameLabel.text = user.displayName
@@ -185,15 +186,11 @@ class HomeFeedCell: UICollectionViewCell {
         ])
     }
     
-    
-    public func configureCellPhoto(_ imageURL: String) {
-        guard let url = URL(string: imageURL) else { return }
+    public func configureCell(_ post: Post) {
+        guard let url = URL(string: post.imageURL) else { return }
         photoImageView.kf.setImage(with: url)
-    }
-    
-    private func fetchProfileImage() {
-        guard let user = Auth.auth().currentUser else { return }
-        DataBaseService.shared.fetchUserProfileImage(userId: user.uid) { [weak self] result in
+        setupAttributedCaption(post)
+        DataBaseService.shared.fetchUserProfileImage(userId: post.userId) { [weak self] result in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
@@ -206,8 +203,7 @@ class HomeFeedCell: UICollectionViewCell {
         }
     }
     
-    
     @objc private func handleOptions() {
-        print("tapped")
+        print("options")
     }
 }
