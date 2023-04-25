@@ -28,7 +28,7 @@ class HomeFeedCell: UICollectionViewCell {
         return label
     }()
     
-    public lazy var imageView: UIImageView = {
+    public lazy var photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.clipsToBounds = true
@@ -47,6 +47,50 @@ class HomeFeedCell: UICollectionViewCell {
         return button
     }()
     
+    public lazy var likeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "like_unselected")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        return button
+    }()
+    
+    public lazy var commentButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "comment")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        return button
+    }()
+    
+    public lazy var sendMessageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "send2")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        return button
+    }()
+    
+    public lazy var bookmarkButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "ribbon")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        return button
+    }()
+    
+    public lazy var captionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.clipsToBounds = true
+
+        let attributedText = NSMutableAttributedString(string: "Username", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        attributedText.append(NSAttributedString(string: " Some caption text that will describe the post", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
+        attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
+        attributedText.append(NSAttributedString(string: "1 week ago", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.gray]))
+        
+        label.attributedText = attributedText
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -64,6 +108,8 @@ class HomeFeedCell: UICollectionViewCell {
         setupOptionsButtonConstraints()
         setupProfileNameLabelConstraints()
         fetchProfileImage()
+        setupActionButtons()
+        setupCaptionLabelConstraints()
         profileNameLabel.text = user.displayName
         optionsButton.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
     }
@@ -83,18 +129,18 @@ class HomeFeedCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             profileNameLabel.topAnchor.constraint(equalTo: topAnchor),
             profileNameLabel.leadingAnchor.constraint(equalTo: userProfilePhotoimageView.trailingAnchor, constant: 8),
-            profileNameLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor),
+            profileNameLabel.bottomAnchor.constraint(equalTo: photoImageView.topAnchor),
             profileNameLabel.trailingAnchor.constraint(equalTo: optionsButton.leadingAnchor, constant: -8)
         ])
     }
     
     private func setupImageViewConstraints() {
-        contentView.addSubview(imageView)
+        contentView.addSubview(photoImageView)
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: userProfilePhotoimageView.bottomAnchor, constant: 8),
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            photoImageView.topAnchor.constraint(equalTo: userProfilePhotoimageView.bottomAnchor, constant: 8),
+            photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            photoImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 1)
         ])
     }
     
@@ -102,15 +148,47 @@ class HomeFeedCell: UICollectionViewCell {
         contentView.addSubview(optionsButton)
         NSLayoutConstraint.activate([
             optionsButton.topAnchor.constraint(equalTo: topAnchor),
-            optionsButton.bottomAnchor.constraint(equalTo: imageView.topAnchor),
+            optionsButton.bottomAnchor.constraint(equalTo: photoImageView.topAnchor),
             optionsButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
             optionsButton.widthAnchor.constraint(equalToConstant: 50),
         ])
     }
     
+    private func setupActionButtons() {
+        let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton])
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: photoImageView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: 50),
+            stackView.widthAnchor.constraint(equalToConstant: 120)
+        ])
+        
+        addSubview(bookmarkButton)
+        NSLayoutConstraint.activate([
+            bookmarkButton.topAnchor.constraint(equalTo: photoImageView.bottomAnchor),
+            bookmarkButton.rightAnchor.constraint(equalTo: rightAnchor),
+            bookmarkButton.widthAnchor.constraint(equalToConstant: 40),
+            bookmarkButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    private func setupCaptionLabelConstraints() {
+        contentView.addSubview(captionLabel)
+        NSLayoutConstraint.activate([
+            captionLabel.topAnchor.constraint(equalTo: likeButton.bottomAnchor),
+            captionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            captionLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            captionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+        ])
+    }
+    
+    
     public func configureCellPhoto(_ imageURL: String) {
         guard let url = URL(string: imageURL) else { return }
-        imageView.kf.setImage(with: url)
+        photoImageView.kf.setImage(with: url)
     }
     
     private func fetchProfileImage() {
@@ -127,6 +205,7 @@ class HomeFeedCell: UICollectionViewCell {
             }
         }
     }
+    
     
     @objc private func handleOptions() {
         print("tapped")

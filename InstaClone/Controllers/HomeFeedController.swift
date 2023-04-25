@@ -72,13 +72,19 @@ extension HomeFeedController: UICollectionViewDataSource {
             fatalError("could not dequeue a HomeFeedCell")
         }
         let post = posts[indexPath.row]
+        
+        // TODO: refactor below method 
         cell.configureCellPhoto(post.imageURL)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width
-        return CGSize(width: width, height: width)
+        var height: CGFloat = 56 //userProfile image view (40) plus top and bottom padding of 8
+        height += width
+        height += 50
+        height += 60
+        return CGSize(width: width, height: height)
     }
 }
 
