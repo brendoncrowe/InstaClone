@@ -53,6 +53,16 @@ class DataBaseService {
         }
     }
     
+    public func fetchUsers(completion: @escaping (Result<[User], Error>) ->()) {
+        dataBase.collection(DataBaseService.usersCollection).getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let users = snapshot.documents.map { User($0.data())}
+                completion(.success(users))
+            }
+        }
+    }
     
     // MARK: used snapshot listener instead of the below instance method for fetching user's posts
     public func fetchCurrentUsersPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {
