@@ -9,6 +9,13 @@ import UIKit
 
 class SearchView: UIView {
     
+    public lazy var searchBar: UISearchBar = {
+       let sb = UISearchBar()
+        sb.translatesAutoresizingMaskIntoConstraints = false
+        sb.placeholder = "search users"
+        return sb
+    }()
+    
     public lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -31,6 +38,7 @@ class SearchView: UIView {
         setCVConstraints()
     }
     
+
     private func setCVConstraints() {
         addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -40,5 +48,4 @@ class SearchView: UIView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
-
 }

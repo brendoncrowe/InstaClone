@@ -20,16 +20,6 @@ class SearchController: UIViewController {
     
     private var userResults = [User]()
     
-    private let searchController: UISearchController = {
-        let sc = UISearchController()
-        sc.loadViewIfNeeded()
-        sc.obscuresBackgroundDuringPresentation = false
-        sc.searchBar.placeholder = "search users"
-        sc.searchBar.enablesReturnKeyAutomatically = false
-        sc.searchBar.returnKeyType = UIReturnKeyType.default
-        return sc
-    }()
-    
     override func loadView() {
         super.loadView()
         view = searchView
@@ -38,10 +28,9 @@ class SearchController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.searchController = searchController
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "search users"
         configureCV()
+        navigationItem.titleView = searchView.searchBar
+        searchView.searchBar.delegate = self
     }
     
     private func configureCV() {
@@ -62,16 +51,6 @@ class SearchController: UIViewController {
                 }
             }
         }
-    }
-}
-
-extension SearchController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let text = searchController.searchBar.text, !text.isEmpty else {
-            users = userResults
-            return
-        }
-        users = userResults.filter { $0.displayName.lowercased().contains(text.lowercased()) }
     }
 }
 
@@ -100,4 +79,18 @@ extension SearchController: UICollectionViewDataSource {
 
 extension SearchController: UICollectionViewDelegateFlowLayout {
     
+}
+
+extension SearchController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let text = searchBar.text, !text.isEmpty else {
+            users = userResults
+            return
+        }
+        users = userResults.filter { $0.displayName.lowercased().contains(text.lowercased()) }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 }
