@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import Kingfisher
 
-class UserProfileController: UIViewController {
+class CurrentUserProfileController: UIViewController {
     
     private let userProfileView = UserProfileView()
     private let user = Auth.auth().currentUser
@@ -78,7 +78,7 @@ class UserProfileController: UIViewController {
         let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
             do {
                 try Auth.auth().signOut()
-                UserProfileController.showViewController(LoginController())
+                CurrentUserProfileController.showViewController(LoginController())
             } catch {
                 self?.showAlert(title: "Error", message: "There was an error logging out: \(error)")
             }
@@ -94,7 +94,7 @@ class UserProfileController: UIViewController {
     }
 }
 
-extension UserProfileController: UICollectionViewDataSource {
+extension CurrentUserProfileController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
@@ -130,7 +130,7 @@ extension UserProfileController: UICollectionViewDataSource {
     }
 }
 
-extension UserProfileController: UICollectionViewDelegateFlowLayout {
+extension CurrentUserProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)

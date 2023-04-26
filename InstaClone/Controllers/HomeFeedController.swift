@@ -53,7 +53,6 @@ class HomeFeedController: UIViewController {
         listener?.remove()
     }
     
-    
     private func setupCV() {
         homeFeedView.collectionView.dataSource = self
         homeFeedView.collectionView.delegate = self

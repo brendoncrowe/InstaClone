@@ -1,15 +1,15 @@
 //
-//  UserProfileCollectionViewHeader.swift
+//  SearchedUserProfileHeader.swift
 //  InstaClone
 //
-//  Created by Brendon Crowe on 4/20/23.
+//  Created by Brendon Crowe on 4/26/23.
 //
 
 import UIKit
 import FirebaseAuth
 import Kingfisher
 
-class UserProfileHeader: UICollectionViewCell {
+class SearchedProfileHeader: UICollectionViewCell {
     
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -17,6 +17,7 @@ class UserProfileHeader: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.backgroundColor = .systemBackground
+        iv.layer.cornerRadius = 80 / 2
         return iv
     }()
     
@@ -61,14 +62,13 @@ class UserProfileHeader: UICollectionViewCell {
         return label
     }()
     
-    public lazy var editProfileButton: UIButton = {
+    public lazy var FollowButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = true
-        button.setTitle("Edit Profile", for: .normal)
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.borderWidth = 1
-        button.setTitleColor(UIColor.label, for: .normal)
+        button.setTitle("Follow", for: .normal)
+        button.backgroundColor = .systemBlue.withAlphaComponent(0.8)
+        button.setTitleColor(.systemBackground, for: .normal)
         button.layer.cornerRadius = 3
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         return button
@@ -105,34 +105,11 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     private func commonInit() {
-        setupHeaderUI()
-        fetchProfileImage()
         setProfileImageViewConstraints()
         setupBottomToolBar()
         setUserNameLabelConstraints()
         setupUserStatsView()
         setEditProfileButtonConstraints()
-    }
-    
-    private func setupHeaderUI() {
-        guard let user = Auth.auth().currentUser else { return }
-        profileImageView.layer.cornerRadius = 80 / 2
-        userNameLabel.text = user.displayName
-    }
-
-    private func fetchProfileImage() {
-        guard let user = Auth.auth().currentUser else { return }
-        DataBaseService.shared.fetchUserProfileImage(userId: user.uid) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let photoURL):
-                let url = URL(string: photoURL)
-                DispatchQueue.main.async {
-                    self?.profileImageView.kf.setImage(with: url)
-                }
-            }
-        }
     }
     
     private func setProfileImageViewConstraints() {
@@ -180,7 +157,7 @@ class UserProfileHeader: UICollectionViewCell {
             bottomDividerView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
             bottomDividerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             bottomDividerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            bottomDividerView.heightAnchor.constraint(equalToConstant: 0.5)
+            bottomDividerView.heightAnchor.constraint(equalToConstant: 0.7)
         ])
     }
         
@@ -210,12 +187,19 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     private func setEditProfileButtonConstraints() {
-        contentView.addSubview(editProfileButton)
+        contentView.addSubview(FollowButton)
         NSLayoutConstraint.activate([
-            editProfileButton.topAnchor.constraint(equalTo: postsLabel.bottomAnchor, constant: 8),
-            editProfileButton.leadingAnchor.constraint(equalTo: postsLabel.leadingAnchor, constant: 8),
-            editProfileButton.trailingAnchor.constraint(equalTo: followingLabel.trailingAnchor),
-            editProfileButton.heightAnchor.constraint(equalToConstant: 34)
+            FollowButton.topAnchor.constraint(equalTo: postsLabel.bottomAnchor, constant: 8),
+            FollowButton.leadingAnchor.constraint(equalTo: postsLabel.leadingAnchor, constant: 8),
+            FollowButton.trailingAnchor.constraint(equalTo: followingLabel.trailingAnchor),
+            FollowButton.heightAnchor.constraint(equalToConstant: 34)
         ])
+    }
+    
+    public func configureHeader(_ user: User, _ attributedText: NSAttributedString) {
+        userNameLabel.text = user.displayName
+        postsLabel.attributedText = attributedText
+        guard let photoUrl = URL(string: user.photoURL) else { return }
+        profileImageView.kf.setImage(with: photoUrl)
     }
 }

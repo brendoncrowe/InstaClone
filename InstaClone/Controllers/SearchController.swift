@@ -36,18 +36,12 @@ class SearchController: UIViewController {
         configureCV()
         navigationItem.titleView = searchView.searchBar
         searchView.searchBar.delegate = self
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc private func dismissKeyboard() {
-        searchView.searchBar.resignFirstResponder()
     }
     
     private func configureCV() {
         searchView.collectionView.dataSource = self
         searchView.collectionView.delegate = self
-        searchView.collectionView.register(UserSearchCell.self, forCellWithReuseIdentifier: cellId)
+        searchView.collectionView.register(SearchUserCell.self, forCellWithReuseIdentifier: cellId)
     }
     
     private func fetchUsers() {
@@ -71,7 +65,7 @@ extension SearchController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = searchView.collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? UserSearchCell else {
+        guard let cell = searchView.collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? SearchUserCell else {
             fatalError("could not dequeue a SearchUserCell")
         }
         let user = filteredUsers[indexPath.row]
@@ -87,7 +81,12 @@ extension SearchController: UICollectionViewDataSource {
 }
 
 extension SearchController: UICollectionViewDelegateFlowLayout {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let user = filteredUsers[indexPath.row]
+        print(user.displayName)
+        let viewController =  SearchedUserController(user)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension SearchController: UISearchBarDelegate {

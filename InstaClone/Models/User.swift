@@ -14,8 +14,6 @@ struct User: Equatable {
     let displayName: String
     let userId: String
     let photoURL: String
-    
-    
 }
 
 extension User {

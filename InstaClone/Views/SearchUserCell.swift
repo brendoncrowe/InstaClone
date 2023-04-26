@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class UserSearchCell: UICollectionViewCell {
+class SearchUserCell: UICollectionViewCell {
     
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()

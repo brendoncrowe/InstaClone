@@ -63,6 +63,24 @@ class DataBaseService {
             }
         }
     }
+
+    public func fetchCurrentUser(completion: @escaping (Result<User, Error>) ->()) {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        dataBase.collection(DataBaseService.usersCollection).document(userId).getDocument { document, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let document = document {
+                let data = document.data()
+                let email = data?["email"] as? String ?? "no email"
+                let displayName = data?["displayName"] as? String ?? "no name"
+                let userId = userId
+                let photoURL = data?["photoURL"] as? String ?? "no photo url"
+                let createdDate = data?["createdDate"] as? Timestamp ?? Timestamp(date: Date())
+                let currentUser = User(email: email, createdDate: createdDate, displayName: displayName, userId: userId, photoURL: photoURL)
+                completion(.success(currentUser))
+            }
+        }
+    }
     
     // MARK: used snapshot listener instead of the below instance method for fetching user's posts
     public func fetchCurrentUsersPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {

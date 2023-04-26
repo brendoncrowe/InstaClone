@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class MainTabBarController: UITabBarController {
-    
     
     private lazy var homeFeedController: UIViewController = {
         let viewController = UINavigationController(rootViewController: HomeFeedController())
@@ -35,7 +35,7 @@ class MainTabBarController: UITabBarController {
     }()
     
     private lazy var userProfileController: UIViewController = {
-        let viewController = UINavigationController(rootViewController: UserProfileController())
+        let viewController = UINavigationController(rootViewController: CurrentUserProfileController())
         viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 4)
         return viewController
     }()
@@ -47,19 +47,19 @@ class MainTabBarController: UITabBarController {
         viewControllers = [homeFeedController, searchController, addPostController, likeController, userProfileController]
     }
 }
-
-extension MainTabBarController: UITabBarControllerDelegate {
     
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        let index = viewControllers?.firstIndex(of: viewController)
-        if index == 2 {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .vertical
-            let photSelectorController = PhotoSelectorController(collectionViewLayout: layout)
-            let navController = UINavigationController(rootViewController: photSelectorController)
-            present(navController, animated: true)
-            return false
+    extension MainTabBarController: UITabBarControllerDelegate {
+        
+        func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+            let index = viewControllers?.firstIndex(of: viewController)
+            if index == 2 {
+                let layout = UICollectionViewFlowLayout()
+                layout.scrollDirection = .vertical
+                let photSelectorController = PhotoSelectorController(collectionViewLayout: layout)
+                let navController = UINavigationController(rootViewController: photSelectorController)
+                present(navController, animated: true)
+                return false
+            }
+            return true
         }
-        return true
     }
-}
