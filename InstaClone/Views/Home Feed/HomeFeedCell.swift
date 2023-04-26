@@ -103,14 +103,12 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     private func commonInit() {
-        guard let user = Auth.auth().currentUser else { return }
         setupProfilePhotoConstraints()
         setupImageViewConstraints()
         setupOptionsButtonConstraints()
         setupProfileNameLabelConstraints()
         setupActionButtons()
         setupCaptionLabelConstraints()
-        profileNameLabel.text = user.displayName
         optionsButton.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
     }
     
@@ -186,20 +184,11 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     public func configureCell(_ post: Post) {
-        guard let url = URL(string: post.imageURL) else { return }
-        photoImageView.kf.setImage(with: url)
+        profileNameLabel.text = post.userName
         setupAttributedCaption(post)
-        DataBaseService.shared.fetchUserProfileImage(userId: post.userId) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let photoURL):
-                let url = URL(string: photoURL)
-                DispatchQueue.main.async {
-                    self?.userProfilePhotoimageView.kf.setImage(with: url)
-                }
-            }
-        }
+        guard let photoURL = URL(string: post.imageURL), let profileImageURL = URL(string: post.userPhotoURL) else { return }
+        photoImageView.kf.setImage(with: photoURL)
+        userProfilePhotoimageView.kf.setImage(with: profileImageURL)
     }
     
     @objc private func handleOptions() {

@@ -42,11 +42,11 @@ class CaptionController: UIViewController {
     }
     
     @objc private func handlePostButton() {
-        guard let postCaption = captionView.textView.text, !postCaption.isEmpty, let userName = Auth.auth().currentUser?.displayName else { return }
+        guard let postCaption = captionView.textView.text, !postCaption.isEmpty, let user = Auth.auth().currentUser else { return }
         let uploadImage = image
         navigationItem.rightBarButtonItem?.isEnabled = false
         // TODO: Send post to firebase db as well as store post image
-        DataBaseService.shared.createPost(postCaption: postCaption, userName: userName) { [weak self] result in
+        DataBaseService.shared.createPost(postCaption: postCaption, user: user) { [weak self] result in
             switch result {
             case .failure:
                 DispatchQueue.main.async {

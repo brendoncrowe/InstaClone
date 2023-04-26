@@ -30,10 +30,9 @@ class DataBaseService {
         }
     }
     
-    public func createPost(postCaption: String, userName: String, completion: @escaping (Result<String, Error>) -> ()){
-        guard let user = Auth.auth().currentUser else { return }
+    public func createPost(postCaption: String, user: FirebaseAuth.User, completion: @escaping (Result<String, Error>) -> ()){
         let docRef = dataBase.collection(DataBaseService.postsCollections).document()
-        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "userName": userName, "userId": user.uid]) { error in
+        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "userName": user.displayName!, "userId": user.uid, "userPhotoURL": user.photoURL!.absoluteString]) { error in
             if let error = error {
                 completion(.failure(error))
             } else {

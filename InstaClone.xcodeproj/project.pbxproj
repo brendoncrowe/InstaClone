@@ -217,6 +217,15 @@
 			path = "Searched User";
 			sourceTree = "<group>";
 		};
+		40A7C93A29F9C484001F44E8 /* UserState */ = {
+			isa = PBXGroup;
+			children = (
+				4086DCD229F202A500F2FFC5 /* LoginView.swift */,
+				40EF48FE29EF64A4009BF039 /* SignUpView.swift */,
+			);
+			path = UserState;
+			sourceTree = "<group>";
+		};
 		40E60ECF29EF629E00CA6EB7 = {
 			isa = PBXGroup;
 			children = (
@@ -262,15 +271,14 @@
 		40EF48FD29EF6452009BF039 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				40A7C93A29F9C484001F44E8 /* UserState */,
+				40A7C93729F9B88D001F44E8 /* Searched User */,
 				40A7C93429F9B80B001F44E8 /* User Search */,
 				40A7C93329F9B7E6001F44E8 /* Current User */,
 				40A7C93129F9B7BF001F44E8 /* Home Feed */,
 				40A7C93229F9B7CC001F44E8 /* Photo Selector */,
 				408FE0F929F6E46000E8EEE8 /* CaptionView.swift */,
-				40A7C93729F9B88D001F44E8 /* Searched User */,
 				408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */,
-				4086DCD229F202A500F2FFC5 /* LoginView.swift */,
-				40EF48FE29EF64A4009BF039 /* SignUpView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
