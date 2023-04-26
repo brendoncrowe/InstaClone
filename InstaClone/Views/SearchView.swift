@@ -13,6 +13,8 @@ class SearchView: UIView {
        let sb = UISearchBar()
         sb.translatesAutoresizingMaskIntoConstraints = false
         sb.placeholder = "search users"
+        sb.returnKeyType = .done
+        sb.enablesReturnKeyAutomatically = false
         return sb
     }()
     
@@ -23,6 +25,7 @@ class SearchView: UIView {
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)

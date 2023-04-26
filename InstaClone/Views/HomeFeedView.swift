@@ -14,6 +14,7 @@ class HomeFeedView: UIView {
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.delaysContentTouches = false
         return cv
     }()
     

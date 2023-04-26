@@ -8,12 +8,14 @@
 import Foundation
 import Firebase
 
-struct User {
+struct User: Equatable {
     let email: String
     let createdDate: Timestamp
     let displayName: String
     let userId: String
     let photoURL: String
+    
+    
 }
 
 extension User {
