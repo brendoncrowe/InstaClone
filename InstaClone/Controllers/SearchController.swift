@@ -28,7 +28,6 @@ class SearchController: UIViewController {
     override func loadView() {
         super.loadView()
         view = searchView
-        fetchUsers()
     }
     
     override func viewDidLoad() {
@@ -38,6 +37,11 @@ class SearchController: UIViewController {
         searchView.searchBar.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUsers()
+    }
+    
     private func configureCV() {
         searchView.collectionView.dataSource = self
         searchView.collectionView.delegate = self
@@ -45,6 +49,7 @@ class SearchController: UIViewController {
     }
     
     private func fetchUsers() {
+        // the below currentUser is needed to remove the current user from appearing in users array
         guard let currentUserName = Auth.auth().currentUser?.displayName else { return }
         DataBaseService.shared.fetchUsers { [weak self] result in
             switch result {
@@ -83,8 +88,7 @@ extension SearchController: UICollectionViewDataSource {
 extension SearchController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let user = filteredUsers[indexPath.row]
-        print(user.displayName)
-        let viewController =  SearchedUserController(user)
+        let viewController =  SearchedUserProfileController(user)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

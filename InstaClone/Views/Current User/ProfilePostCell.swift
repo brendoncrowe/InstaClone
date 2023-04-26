@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class UserProfilePostCell: UICollectionViewCell {
+class ProfilePostCell: UICollectionViewCell {
     
     private var imageView: UIImageView = {
         let iv = UIImageView()

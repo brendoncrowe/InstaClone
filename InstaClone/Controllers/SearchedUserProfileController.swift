@@ -9,11 +9,10 @@ import UIKit
 import FirebaseFirestore
 import FirebaseAuth
 
-class SearchedUserController: UIViewController {
+class SearchedUserProfileController: UIViewController {
     
     private let mainView = SearchedUserView()
     private let user: User
-    private var listener: ListenerRegistration?
     private let cellId = "cellId"
     private let headerId = "headerId"
     
@@ -34,7 +33,6 @@ class SearchedUserController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-        
         override func loadView() {
             super.loadView()
             view = mainView
@@ -47,46 +45,43 @@ class SearchedUserController: UIViewController {
         configureCV()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        listener = Firestore.firestore().collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: user.userId).addSnapshotListener({ [weak self] snapshot, error in
-            if let error = error {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchPosts()
+    }
+    
+    private func fetchPosts() {
+        DataBaseService.shared.fetchUsersPosts(userId: user.userId) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print("Error fetching user's posts: \(error)")
+            case .success(let posts):
                 DispatchQueue.main.async {
-                    self?.showAlert(title: "Error", message: "Could not load posts: \(error)")
+                    self?.posts = posts
                 }
-            } else if let snapshot = snapshot {
-                let posts = snapshot.documents.map { Post($0.data()) }
-                self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
             }
-        })
+        }
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        listener?.remove()
-    }
-    
     
     private func configureCV() {
         mainView.collectionView.dataSource = self
         mainView.collectionView.delegate = self
         mainView.collectionView.register(SearchedProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-        mainView.collectionView.register(UserProfilePostCell.self, forCellWithReuseIdentifier: cellId)
+        mainView.collectionView.register(ProfilePostCell.self, forCellWithReuseIdentifier: cellId)
     }
-    
     
     @objc func editButtonPressed() {
         print("tapped")
     }
 }
 
-extension SearchedUserController: UICollectionViewDataSource {
+extension SearchedUserProfileController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? UserProfilePostCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? ProfilePostCell else {
             fatalError("could not dequeue a UserProfilePostCell")
         }
         let post = posts[indexPath.row]
@@ -116,7 +111,7 @@ extension SearchedUserController: UICollectionViewDataSource {
     }
 }
 
-extension SearchedUserController: UICollectionViewDelegateFlowLayout {
+extension SearchedUserProfileController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 200)

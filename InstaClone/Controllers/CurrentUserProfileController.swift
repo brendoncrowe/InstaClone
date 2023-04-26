@@ -38,35 +38,34 @@ class CurrentUserProfileController: UIViewController {
         configureCV()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        listener = Firestore.firestore().collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: user!.uid).addSnapshotListener({ [weak self] snapshot, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self?.showAlert(title: "Error", message: "Could not load posts: \(error)")
-                }
-            } else if let snapshot = snapshot {
-                let posts = snapshot.documents.map { Post($0.data()) }
-                self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
-            }
-        })
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        listener?.remove()
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configureSettingsTabBarButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchPosts()
+    }
+    
+    private func fetchPosts() {
+        DataBaseService.shared.fetchUsersPosts(userId: user!.uid) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print("Error fetching user's posts: \(error)")
+            case .success(let posts):
+                DispatchQueue.main.async {
+                    self?.posts = posts
+                }
+            }
+        }
     }
     
     private func configureCV() {
         userProfileView.collectionView.dataSource = self
         userProfileView.collectionView.delegate = self
         userProfileView.collectionView.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
-        userProfileView.collectionView.register(UserProfilePostCell.self, forCellWithReuseIdentifier: cellId)
+        userProfileView.collectionView.register(ProfilePostCell.self, forCellWithReuseIdentifier: cellId)
     }
     
     private func configureSettingsTabBarButton() {
@@ -100,7 +99,7 @@ extension CurrentUserProfileController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? UserProfilePostCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? ProfilePostCell else {
             fatalError("could not dequeue a UserProfilePostCell")
         }
         let post = posts[indexPath.row]
@@ -125,7 +124,7 @@ extension CurrentUserProfileController: UICollectionViewDataSource {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as? UserProfileHeader else { fatalError("could not load header") }
         let attributedText = NSMutableAttributedString(string: "\(posts.count)\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
         attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
-        header.postsLabel.attributedText = attributedText
+        header.configureHeader(user!, attributedText)
         return header
     }
 }

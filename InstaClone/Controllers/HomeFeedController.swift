@@ -35,8 +35,7 @@ class HomeFeedController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        guard let user = Auth.auth().currentUser else { return }
-        listener = Firestore.firestore().collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: user.uid).addSnapshotListener({ [weak self] snapshot, error in
+        listener = Firestore.firestore().collection(DataBaseService.postsCollections).addSnapshotListener({ [weak self] snapshot, error in
             if let error = error {
                 DispatchQueue.main.async {
                     self?.showAlert(title: "Error", message: "Could not load posts: \(error)")

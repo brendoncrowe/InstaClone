@@ -17,6 +17,7 @@ class UserProfileHeader: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
         iv.backgroundColor = .systemBackground
+        iv.layer.cornerRadius = 80 / 2
         return iv
     }()
     
@@ -105,8 +106,6 @@ class UserProfileHeader: UICollectionViewCell {
     }
     
     private func commonInit() {
-        setupHeaderUI()
-        fetchProfileImage()
         setProfileImageViewConstraints()
         setupBottomToolBar()
         setUserNameLabelConstraints()
@@ -114,24 +113,11 @@ class UserProfileHeader: UICollectionViewCell {
         setEditProfileButtonConstraints()
     }
     
-    private func setupHeaderUI() {
-        guard let user = Auth.auth().currentUser else { return }
-        profileImageView.layer.cornerRadius = 80 / 2
+    public func configureHeader(_ user: FirebaseAuth.User, _ attributedText: NSAttributedString) {
         userNameLabel.text = user.displayName
-    }
-
-    private func fetchProfileImage() {
-        guard let user = Auth.auth().currentUser else { return }
-        DataBaseService.shared.fetchUserProfileImage(userId: user.uid) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                print(error.localizedDescription)
-            case .success(let photoURL):
-                let url = URL(string: photoURL)
-                DispatchQueue.main.async {
-                    self?.profileImageView.kf.setImage(with: url)
-                }
-            }
+        postsLabel.attributedText = attributedText
+        if let url = user.photoURL {
+            profileImageView.kf.setImage(with: url)
         }
     }
     

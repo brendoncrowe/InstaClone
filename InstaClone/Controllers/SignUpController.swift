@@ -93,6 +93,7 @@ class SignUpController: UIViewController {
             case .success:
                 let request = Auth.auth().currentUser?.createProfileChangeRequest()
                 request?.displayName = userName  // set the display name of current user
+                request?.photoURL = URL(string: photoURL)
                 request?.commitChanges(completion: { error in
                     if let error = error {
                         print("Error setting display name: \(error.localizedDescription)")
