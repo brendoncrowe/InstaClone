@@ -64,6 +64,23 @@ class DataBaseService {
         }
     }
     
+    public func fetchFollowedUsers(completion: @escaping (Result<[User], Error>) ->()) {
+        guard let user = Auth.auth().currentUser else { return }
+        dataBase.collection(DataBaseService.usersCollection).document(user.uid).collection(DataBaseService.followingCollection).getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let count = snapshot.documents.count
+                if count > 0 {
+                    let followedUsers = snapshot.documents.map { User($0.data()) }
+                    completion(.success(followedUsers))
+                } else {
+                    completion(.success([]))
+                }
+            }
+        }
+    }
+    
     public func followUser(user: User, completion: @escaping (Result<Bool, Error>) ->()) {
         guard let currentUser = Auth.auth().currentUser else { return }
         dataBase.collection(DataBaseService.usersCollection).document(currentUser.uid).collection(DataBaseService.followingCollection).document(user.userId).setData(["userName": user.displayName, "userId": user.userId, "email": user.email, "photoURL": user.photoURL, "followedDate": Timestamp(date: Date())]) { error in
@@ -101,24 +118,6 @@ class DataBaseService {
             }
         }
     }
-
-//    public func fetchCurrentUser(completion: @escaping (Result<User, Error>) ->()) {
-//        guard let userId = Auth.auth().currentUser?.uid else { return }
-//        dataBase.collection(DataBaseService.usersCollection).document(userId).getDocument { document, error in
-//            if let error = error {
-//                completion(.failure(error))
-//            } else if let document = document {
-//                let data = document.data()
-//                let email = data?["email"] as? String ?? "no email"
-//                let displayName = data?["displayName"] as? String ?? "no name"
-//                let userId = userId
-//                let photoURL = data?["photoURL"] as? String ?? "no photo url"
-//                let createdDate = data?["createdDate"] as? Timestamp ?? Timestamp(date: Date())
-//                let currentUser = User(email: email, createdDate: createdDate, displayName: displayName, userId: userId, photoURL: photoURL)
-//                completion(.success(currentUser))
-//            }
-//        }
-//    }
     
     // MARK: used snapshot listener instead of the below instance method for fetching user's posts
     public func fetchUsersPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {

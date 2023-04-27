@@ -214,12 +214,12 @@ class SearchedProfileHeader: UICollectionViewCell {
     }
     
     public func configureHeader(_ user: User, _ attributedText: NSAttributedString) {
+        updateUI()
         self.user = user
         userNameLabel.text = user.displayName
         postsLabel.attributedText = attributedText
         guard let photoUrl = URL(string: user.photoURL) else { return }
         profileImageView.kf.setImage(with: photoUrl)
-        updateUI()
     }
     
     @objc private func handleFollowButton() {
@@ -264,10 +264,12 @@ class SearchedProfileHeader: UICollectionViewCell {
                 if success {
                     DispatchQueue.main.async {
                         self?.isFollowing = true
+                        print("is following")
                     }
                 } else {
                     DispatchQueue.main.async {
                         self?.isFollowing = false
+                        print("is not following")
                     }
                 }
             }
