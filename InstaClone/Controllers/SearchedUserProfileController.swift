@@ -58,7 +58,7 @@ class SearchedUserProfileController: UIViewController {
                 print("Error fetching user's posts: \(error)")
             case .success(let posts):
                 DispatchQueue.main.async {
-                    self?.posts = posts
+                    self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
                 }
             }
         }

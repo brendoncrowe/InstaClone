@@ -50,28 +50,28 @@ class HomeFeedCell: UICollectionViewCell {
     public lazy var likeButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "like_unselected")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(UIImage(systemName: "heart")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
     
     public lazy var commentButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "comment")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(UIImage(systemName: "bubble.left")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
     
     public lazy var sendMessageButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "send2")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(UIImage(systemName: "paperplane")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
     
     public lazy var bookmarkButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "ribbon")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(UIImage(systemName: "bookmark")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
         return button
     }()
     
@@ -155,6 +155,7 @@ class HomeFeedCell: UICollectionViewCell {
     private func setupActionButtons() {
         let stackView = UIStackView(arrangedSubviews: [likeButton, commentButton, sendMessageButton])
         stackView.distribution = .fillEqually
+        stackView.spacing = 4
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         NSLayoutConstraint.activate([
@@ -167,7 +168,7 @@ class HomeFeedCell: UICollectionViewCell {
         addSubview(bookmarkButton)
         NSLayoutConstraint.activate([
             bookmarkButton.topAnchor.constraint(equalTo: photoImageView.bottomAnchor),
-            bookmarkButton.rightAnchor.constraint(equalTo: rightAnchor),
+            bookmarkButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             bookmarkButton.widthAnchor.constraint(equalToConstant: 40),
             bookmarkButton.heightAnchor.constraint(equalToConstant: 50)
         ])

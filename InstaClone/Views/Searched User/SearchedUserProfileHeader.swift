@@ -231,7 +231,6 @@ class SearchedProfileHeader: UICollectionViewCell {
                     print("Error unfollowing: \(error.localizedDescription)")
                 case .success:
                     DispatchQueue.main.async {
-                        print("user was unfollowed")
                         self?.isFollowing = false
                     }
                 }

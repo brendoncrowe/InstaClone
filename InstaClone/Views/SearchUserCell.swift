@@ -15,7 +15,6 @@ class SearchUserCell: UICollectionViewCell {
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = .systemBlue
         return iv
     }()
     
