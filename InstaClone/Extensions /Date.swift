@@ -45,3 +45,19 @@ extension Date {
     }
 }
 
+// another useful extension similar to above
+extension Date {
+    
+    func agoDisplay() -> String {
+        let timePeriod = ["second", "minute", "hour", "day", "week", "month", "year", "decade"]
+        let duration = [60, 60, 24, 7, 4.33, 12, 10]
+        var secondsAgo = Date().timeIntervalSince(self)
+        
+        var i: Int = 0
+        while i < duration.count && secondsAgo >= duration[i] {
+            secondsAgo /= duration[i]
+            i += 1
+        }
+        return "\(Int(secondsAgo)) \(timePeriod[i])\(Int(secondsAgo) != 1 ? "s" : "") ago"
+    }
+}

@@ -11,11 +11,14 @@ import Kingfisher
 
 class UserProfileHeader: UICollectionViewCell {
     
+    let user = Auth.auth().currentUser!
+    
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
+        iv.kf.setImage(with: user.photoURL)
         iv.backgroundColor = .systemBackground
         iv.layer.cornerRadius = 80 / 2
         return iv
@@ -24,7 +27,7 @@ class UserProfileHeader: UICollectionViewCell {
     public lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Username"
+        label.text = user.displayName
         label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         return label
     }()
@@ -43,7 +46,7 @@ class UserProfileHeader: UICollectionViewCell {
     private lazy var followersLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
+        let attributedText = NSMutableAttributedString(string: "100\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
         attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
         label.attributedText = attributedText
         label.numberOfLines = 2
@@ -54,7 +57,7 @@ class UserProfileHeader: UICollectionViewCell {
     private lazy var followingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
+        let attributedText = NSMutableAttributedString(string: "328\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
         attributedText.append(NSAttributedString(string: "following", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
         label.attributedText = attributedText
         label.numberOfLines = 2
@@ -113,12 +116,8 @@ class UserProfileHeader: UICollectionViewCell {
         setEditProfileButtonConstraints()
     }
     
-    public func configureHeader(_ user: FirebaseAuth.User, _ attributedText: NSAttributedString) {
-        userNameLabel.text = user.displayName
+    public func configureHeader(_ attributedText: NSAttributedString) {
         postsLabel.attributedText = attributedText
-        if let url = user.photoURL {
-            profileImageView.kf.setImage(with: url)
-        }
     }
     
     private func setProfileImageViewConstraints() {

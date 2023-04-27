@@ -60,7 +60,7 @@ class SearchedProfileHeader: UICollectionViewCell {
     private lazy var followersLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
+        let attributedText = NSMutableAttributedString(string: "319\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
         attributedText.append(NSAttributedString(string: "followers", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
         label.attributedText = attributedText
         label.numberOfLines = 2
@@ -71,7 +71,7 @@ class SearchedProfileHeader: UICollectionViewCell {
     private lazy var followingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
+        let attributedText = NSMutableAttributedString(string: "842\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
         attributedText.append(NSAttributedString(string: "following", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
         label.attributedText = attributedText
         label.numberOfLines = 2
