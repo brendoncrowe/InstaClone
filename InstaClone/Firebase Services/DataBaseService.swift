@@ -16,6 +16,7 @@ class DataBaseService {
     
     static let usersCollection = "users"
     static let postsCollections = "posts"
+    static let followingCollection = "following"
     
     private let dataBase = Firestore.firestore()
     // creating a user for the users collection in the database to more easily access
@@ -59,6 +60,44 @@ class DataBaseService {
             } else if let snapshot = snapshot {
                 let users = snapshot.documents.map { User($0.data())}
                 completion(.success(users))
+            }
+        }
+    }
+    
+    public func followUser(user: User, completion: @escaping (Result<Bool, Error>) ->()) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.uid).collection(DataBaseService.followingCollection).document(user.userId).setData(["userName": user.displayName, "userId": user.userId, "email": user.email, "photoURL": user.photoURL, "followedDate": Timestamp(date: Date())]) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+        }
+    }
+    
+    public func unfollowUser(user: User, completion: @escaping (Result<Bool, Error>) ->()) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.uid).collection(DataBaseService.followingCollection).document(user.userId).delete { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+        }
+    }
+    
+    public func checkUserIsFollowed(user: User, completion: @escaping (Result<Bool, Error>) ->()) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.uid).collection(DataBaseService.followingCollection).whereField("userId", isEqualTo: user.userId).getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot { // the below code is a simple logic check for documents stored when a user is followed
+                let count = snapshot.documents.count
+                if count > 0 {
+                    completion(.success(true))
+                } else {
+                    completion(.success(false))
+                }
             }
         }
     }

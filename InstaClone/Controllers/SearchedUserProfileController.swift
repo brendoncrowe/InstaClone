@@ -15,7 +15,7 @@ class SearchedUserProfileController: UIViewController {
     private let user: User
     private let cellId = "cellId"
     private let headerId = "headerId"
-    
+        
     private var posts = [Post]() {
         didSet {
             DispatchQueue.main.async {
@@ -49,6 +49,7 @@ class SearchedUserProfileController: UIViewController {
         super.viewWillAppear(animated)
         fetchPosts()
     }
+    
     
     private func fetchPosts() {
         DataBaseService.shared.fetchUsersPosts(userId: user.userId) { [weak self] result in

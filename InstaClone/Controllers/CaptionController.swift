@@ -77,6 +77,7 @@ class CaptionController: UIViewController {
             } else {
                 DispatchQueue.main.async {
                     self?.dismiss(animated: true)
+                    // TODO: Add custom delegation here 
                 }
             }
         }

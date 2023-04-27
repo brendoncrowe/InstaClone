@@ -9,7 +9,24 @@ import UIKit
 import FirebaseAuth
 import Kingfisher
 
+protocol SearchedProfileHeaderDelegate: AnyObject {
+    func followButtonWasPressed(_ searchedProfileHeader: SearchedProfileHeader)
+}
+
 class SearchedProfileHeader: UICollectionViewCell {
+    
+    private var user: User?
+    
+    public weak var delegate: SearchedProfileHeaderDelegate?
+    private var isFollowing = false {
+        didSet {
+            if isFollowing {
+                followButton.setTitle("Unfollow", for: .normal)
+            } else {
+                followButton.setTitle("Follow", for: .normal)
+            }
+        }
+    }
     
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -62,11 +79,10 @@ class SearchedProfileHeader: UICollectionViewCell {
         return label
     }()
     
-    public lazy var FollowButton: UIButton = {
+    public lazy var followButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = true
-        button.setTitle("Follow", for: .normal)
         button.backgroundColor = .systemBlue.withAlphaComponent(0.8)
         button.setTitleColor(.systemBackground, for: .normal)
         button.layer.cornerRadius = 3
@@ -110,6 +126,7 @@ class SearchedProfileHeader: UICollectionViewCell {
         setUserNameLabelConstraints()
         setupUserStatsView()
         setEditProfileButtonConstraints()
+        followButton.addTarget(self, action: #selector(handleFollowButton), for: .touchUpInside)
     }
     
     private func setProfileImageViewConstraints() {
@@ -187,19 +204,73 @@ class SearchedProfileHeader: UICollectionViewCell {
     }
     
     private func setEditProfileButtonConstraints() {
-        contentView.addSubview(FollowButton)
+        contentView.addSubview(followButton)
         NSLayoutConstraint.activate([
-            FollowButton.topAnchor.constraint(equalTo: postsLabel.bottomAnchor, constant: 8),
-            FollowButton.leadingAnchor.constraint(equalTo: postsLabel.leadingAnchor, constant: 8),
-            FollowButton.trailingAnchor.constraint(equalTo: followingLabel.trailingAnchor),
-            FollowButton.heightAnchor.constraint(equalToConstant: 34)
+            followButton.topAnchor.constraint(equalTo: postsLabel.bottomAnchor, constant: 8),
+            followButton.leadingAnchor.constraint(equalTo: postsLabel.leadingAnchor, constant: 8),
+            followButton.trailingAnchor.constraint(equalTo: followingLabel.trailingAnchor),
+            followButton.heightAnchor.constraint(equalToConstant: 34)
         ])
     }
     
     public func configureHeader(_ user: User, _ attributedText: NSAttributedString) {
+        self.user = user
         userNameLabel.text = user.displayName
         postsLabel.attributedText = attributedText
         guard let photoUrl = URL(string: user.photoURL) else { return }
         profileImageView.kf.setImage(with: photoUrl)
+        updateUI()
+    }
+    
+    @objc private func handleFollowButton() {
+        guard let user = user else { return }
+        if isFollowing { // remove from favorites
+            DataBaseService.shared.unfollowUser(user: user) { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    print("Error unfollowing: \(error.localizedDescription)")
+                case .success:
+                    DispatchQueue.main.async {
+                        print("user was unfollowed")
+                        self?.isFollowing = false
+                    }
+                }
+            }
+        } else { // add to favorites
+            DataBaseService.shared.followUser(user: user) { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        print("Error following user: \(error.localizedDescription)")
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        print("user was favorited")
+                        self?.isFollowing = true
+                    }
+                }
+            }
+        }
+    }
+    
+    private func updateUI() {
+        // check if item is favorited in order to update follow button
+        guard let user = user else { return }
+        DataBaseService.shared.checkUserIsFollowed(user: user) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print("Error checking for following status: \(error)")
+            case .success(let success):
+                if success {
+                    DispatchQueue.main.async {
+                        self?.isFollowing = true
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self?.isFollowing = false
+                    }
+                }
+            }
+        }
     }
 }
