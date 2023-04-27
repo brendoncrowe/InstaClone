@@ -71,15 +71,16 @@ class DataBaseService {
             if let error = error {
                 completion(.failure(error))
             } else if let snapshot = snapshot {
-                if snapshot.documents.count > 0 {
+                let count = snapshot.documents.count
+                if count > 0  {
                     let followedUsers = snapshot.documents.map { User($0.data()) }
                     for user in followedUsers {
                         userIds.append(user.userId)
                     }
                     completion(.success(userIds))
+                } else {
+                    completion(.success([""]))
                 }
-            } else {
-                completion(.success([]))
             }
         }
     }

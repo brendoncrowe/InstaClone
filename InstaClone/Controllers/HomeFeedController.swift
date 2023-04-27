@@ -87,7 +87,6 @@ extension HomeFeedController: UICollectionViewDataSource {
             fatalError("could not dequeue a HomeFeedCell")
         }
         let post = posts[indexPath.row]
-        
         // TODO: refactor below method 
         cell.configureCell(post)
         return cell
