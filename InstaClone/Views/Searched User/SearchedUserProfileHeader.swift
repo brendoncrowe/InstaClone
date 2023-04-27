@@ -245,7 +245,6 @@ class SearchedProfileHeader: UICollectionViewCell {
                     }
                 case .success:
                     DispatchQueue.main.async {
-                        print("user was favorited")
                         self?.isFollowing = true
                     }
                 }
@@ -264,12 +263,10 @@ class SearchedProfileHeader: UICollectionViewCell {
                 if success {
                     DispatchQueue.main.async {
                         self?.isFollowing = true
-                        print("is following")
                     }
                 } else {
                     DispatchQueue.main.async {
                         self?.isFollowing = false
-                        print("is not following")
                     }
                 }
             }

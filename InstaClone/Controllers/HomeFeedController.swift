@@ -35,21 +35,38 @@ class HomeFeedController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        listener = Firestore.firestore().collection(DataBaseService.postsCollections).addSnapshotListener({ [weak self] snapshot, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self?.showAlert(title: "Error", message: "Could not load posts: \(error)")
-                }
-            } else if let snapshot = snapshot {
-                let posts = snapshot.documents.map { Post($0.data()) }
-                self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
-            }
-        })
+        getFollowedUsers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         listener?.remove()
+    }
+    
+    private func getFollowedUsers() {
+        DataBaseService.shared.fetchFollowedUsers { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let userIds):
+                DispatchQueue.main.async {
+                    self?.fetchPosts(userIds)
+                }
+            }
+        }
+    }
+    
+    private func fetchPosts(_ userIds: [String]) {
+        listener = Firestore.firestore().collection(DataBaseService.postsCollections).whereField("userId", in: userIds).addSnapshotListener({ [weak self] snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let snapshot = snapshot {
+                let posts = snapshot.documents.map { Post($0.data()) }
+                DispatchQueue.main.async {
+                    self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
+                }
+            }
+        })
     }
     
     private func setupCV() {

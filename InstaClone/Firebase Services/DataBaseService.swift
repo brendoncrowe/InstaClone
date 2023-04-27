@@ -64,14 +64,22 @@ class DataBaseService {
         }
     }
     
-    public func fetchFollowedUsers(completion: @escaping (Result<[User], Error>) ->()) {
+    public func fetchFollowedUsers(completion: @escaping (Result<[String], Error>) ->()) {
         guard let user = Auth.auth().currentUser else { return }
+        var userIds = [String]()
         dataBase.collection(DataBaseService.usersCollection).document(user.uid).collection(DataBaseService.followingCollection).getDocuments { snapshot, error in
             if let error = error {
                 completion(.failure(error))
             } else if let snapshot = snapshot {
-                let followedUsers = snapshot.documents.map { User($0.data()) }
-                completion(.success(followedUsers))
+                if snapshot.documents.count > 0 {
+                    let followedUsers = snapshot.documents.map { User($0.data()) }
+                    for user in followedUsers {
+                        userIds.append(user.userId)
+                    }
+                    completion(.success(userIds))
+                }
+            } else {
+                completion(.success([]))
             }
         }
     }
