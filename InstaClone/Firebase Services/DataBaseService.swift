@@ -33,7 +33,7 @@ class DataBaseService {
     
     public func createPost(postCaption: String, user: FirebaseAuth.User, completion: @escaping (Result<String, Error>) -> ()){
         let docRef = dataBase.collection(DataBaseService.postsCollections).document()
-        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "userName": user.displayName!, "userId": user.uid, "userPhotoURL": user.photoURL!.absoluteString]) { error in
+        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "displayName": user.displayName!, "userId": user.uid, "userPhotoURL": user.photoURL!.absoluteString]) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -70,13 +70,8 @@ class DataBaseService {
             if let error = error {
                 completion(.failure(error))
             } else if let snapshot = snapshot {
-                let count = snapshot.documents.count
-                if count > 0 {
-                    let followedUsers = snapshot.documents.map { User($0.data()) }
-                    completion(.success(followedUsers))
-                } else {
-                    completion(.success([]))
-                }
+                let followedUsers = snapshot.documents.map { User($0.data()) }
+                completion(.success(followedUsers))
             }
         }
     }

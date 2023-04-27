@@ -94,7 +94,7 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     fileprivate func setupAttributedCaption(_ post: Post) {
-        let attributedText = NSMutableAttributedString(string: post.userName, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
+        let attributedText = NSMutableAttributedString(string: post.displayName, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14)])
         attributedText.append(NSAttributedString(string: " \(post.postCaption)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]))
         attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 4)]))
         let timeAgoDisplay = post.postedDate.dateValue().timeAgoDisplay()
@@ -184,7 +184,7 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     public func configureCell(_ post: Post) {
-        profileNameLabel.text = post.userName
+        profileNameLabel.text = post.displayName
         setupAttributedCaption(post)
         guard let photoURL = URL(string: post.imageURL), let profileImageURL = URL(string: post.userPhotoURL) else { return }
         photoImageView.kf.setImage(with: photoURL)

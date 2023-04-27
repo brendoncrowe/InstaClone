@@ -51,8 +51,8 @@ class SignUpController: UIViewController {
     @objc private func signUpButtonPressed() {
         guard let email = loginView.emailTextField.text,
               !email.isEmpty,
-              let userName = loginView.userNameTextField.text,
-              !userName.isEmpty,
+              let displayName = loginView.userNameTextField.text,
+              !displayName.isEmpty,
               let password = loginView.passwordTextField.text,
               !password.isEmpty, let selectedImage = selectedImage else { return }
         let resizedImage = UIImage.resizeImage(originalImage: selectedImage, rect: loginView.addPhotoButton.bounds)
@@ -71,9 +71,9 @@ class SignUpController: UIViewController {
                             self?.showAlert(title: "Photo Error", message: "There was an error saving the profile photo: \(error.localizedDescription).")
                         }
                     case .success(let photoURL):
-                        self?.createDatabaseUser(authDataResult: authDataResult, userName: userName, photoURL: photoURL.absoluteString)
+                        self?.createDatabaseUser(authDataResult: authDataResult, displayName: displayName, photoURL: photoURL.absoluteString)
                         DispatchQueue.main.async {
-                            self?.continueSignUpFlow(userName)
+                            self?.continueSignUpFlow(displayName)
                         }
                     }
                 }
@@ -85,14 +85,14 @@ class SignUpController: UIViewController {
         UIViewController.showViewController(MainTabBarController())
     }
     // helper function for handleSignUp
-    private func createDatabaseUser(authDataResult: AuthDataResult, userName: String, photoURL: String) {
-        DataBaseService.shared.createDataBaseUser(authDataResult: authDataResult, displayName: userName, photoURL: photoURL) { result in
+    private func createDatabaseUser(authDataResult: AuthDataResult, displayName: String, photoURL: String) {
+        DataBaseService.shared.createDataBaseUser(authDataResult: authDataResult, displayName: displayName, photoURL: photoURL) { result in
             switch result {
             case .failure(let error):
                 print("Error creating user: \(error.localizedDescription)")
             case .success:
                 let request = Auth.auth().currentUser?.createProfileChangeRequest()
-                request?.displayName = userName  // set the display name of current user
+                request?.displayName = displayName  // set the display name of current user
                 request?.photoURL = URL(string: photoURL)
                 request?.commitChanges(completion: { error in
                     if let error = error {
