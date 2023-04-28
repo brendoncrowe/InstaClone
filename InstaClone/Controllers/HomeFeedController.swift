@@ -13,12 +13,14 @@ class HomeFeedController: UIViewController {
     private let homeFeedView = HomeFeedView()
     private let cellId = "cellId"
     private var refreshControl: UIRefreshControl!
-
+    static let notificationName = NSNotification.Name(rawValue: "HomeControllerTapped")
     private var posts = [Post]() {
         didSet {
             homeFeedView.collectionView.reloadData()
         }
     }
+    
+    public var canScroll = false
     
     override func loadView() {
         super.loadView()
@@ -32,6 +34,17 @@ class HomeFeedController: UIViewController {
         setupCV()
         getFollowedUsers()
         configureRefreshControl()
+        NotificationCenter.default.addObserver(self, selector: #selector(scrollToTop), name: HomeFeedController.notificationName, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        canScroll = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        canScroll = false
     }
     
     private func configureRefreshControl() {
@@ -51,6 +64,11 @@ class HomeFeedController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc private func scrollToTop() {
+            let index = IndexPath(item: 0, section: 0)
+            homeFeedView.collectionView.scrollToItem(at: index, at: .bottom, animated: true)
     }
     
     private func fetchPosts(_ userIds: [String]) {

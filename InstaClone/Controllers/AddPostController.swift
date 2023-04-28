@@ -7,12 +7,11 @@
 
 import UIKit
 
+// MARK: ** This controller is simply being used as a 'placeholder' for a tab bar item **
+
 class AddPostController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
-
 }

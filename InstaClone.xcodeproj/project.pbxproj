@@ -31,8 +31,7 @@
 		408FE0E629F5FA2A00E8EEE8 /* HomeFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0E529F5FA2A00E8EEE8 /* HomeFeedView.swift */; };
 		408FE0E829F5FAA600E8EEE8 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0E729F5FAA600E8EEE8 /* SearchController.swift */; };
 		408FE0EA29F5FAB400E8EEE8 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0E929F5FAB400E8EEE8 /* SearchView.swift */; };
-		408FE0EC29F5FBAD00E8EEE8 /* AddPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0EB29F5FBAD00E8EEE8 /* AddPostController.swift */; };
-		408FE0EE29F5FC8500E8EEE8 /* LikeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */; };
+		408FE0EE29F5FC8500E8EEE8 /* FavoritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0ED29F5FC8500E8EEE8 /* FavoritesController.swift */; };
 		408FE0F029F5FC9E00E8EEE8 /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */; };
 		408FE0F229F6013800E8EEE8 /* PhotoSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */; };
 		408FE0F429F623E200E8EEE8 /* PhotoSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408FE0F329F623E200E8EEE8 /* PhotoSelectorCell.swift */; };
@@ -48,6 +47,7 @@
 		40A7C93029F9B6A6001F44E8 /* SearchedUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7C92F29F9B6A6001F44E8 /* SearchedUserView.swift */; };
 		40A7C93629F9B85E001F44E8 /* SearchedUserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7C93529F9B85E001F44E8 /* SearchedUserProfileHeader.swift */; };
 		40A7C93929F9B8E5001F44E8 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7C93829F9B8E5001F44E8 /* PostCell.swift */; };
+		40A7C94029FB4B11001F44E8 /* AddPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7C93F29FB4B11001F44E8 /* AddPostController.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */; };
@@ -76,8 +76,7 @@
 		408FE0E529F5FA2A00E8EEE8 /* HomeFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedView.swift; sourceTree = "<group>"; };
 		408FE0E729F5FAA600E8EEE8 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		408FE0E929F5FAB400E8EEE8 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		408FE0EB29F5FBAD00E8EEE8 /* AddPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostController.swift; sourceTree = "<group>"; };
-		408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeController.swift; sourceTree = "<group>"; };
+		408FE0ED29F5FC8500E8EEE8 /* FavoritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesController.swift; sourceTree = "<group>"; };
 		408FE0EF29F5FC9E00E8EEE8 /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
 		408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorController.swift; sourceTree = "<group>"; };
 		408FE0F329F623E200E8EEE8 /* PhotoSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelectorCell.swift; sourceTree = "<group>"; };
@@ -93,6 +92,7 @@
 		40A7C92F29F9B6A6001F44E8 /* SearchedUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUserView.swift; sourceTree = "<group>"; };
 		40A7C93529F9B85E001F44E8 /* SearchedUserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUserProfileHeader.swift; sourceTree = "<group>"; };
 		40A7C93829F9B8E5001F44E8 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		40A7C93F29FB4B11001F44E8 /* AddPostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPostController.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,8 +149,8 @@
 				4086DCC529F1BB8300F2FFC5 /* MainTabBarController.swift */,
 				408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */,
 				408FE0F729F6DD4800E8EEE8 /* CaptionController.swift */,
-				408FE0ED29F5FC8500E8EEE8 /* LikeController.swift */,
-				408FE0EB29F5FBAD00E8EEE8 /* AddPostController.swift */,
+				40A7C93F29FB4B11001F44E8 /* AddPostController.swift */,
+				408FE0ED29F5FC8500E8EEE8 /* FavoritesController.swift */,
 				40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */,
 				4086DCD029F2029500F2FFC5 /* LoginController.swift */,
 				408FE0E729F5FAA600E8EEE8 /* SearchController.swift */,
@@ -370,7 +370,6 @@
 				40A7C92C29F8B75E001F44E8 /* SearchUserCell.swift in Sources */,
 				4086DCCC29F1C86A00F2FFC5 /* UserProfileHeader.swift in Sources */,
 				40A7C93929F9B8E5001F44E8 /* PostCell.swift in Sources */,
-				408FE0EC29F5FBAD00E8EEE8 /* AddPostController.swift in Sources */,
 				408FE0E629F5FA2A00E8EEE8 /* HomeFeedView.swift in Sources */,
 				40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */,
 				403D6BF229EF7B22000D9915 /* UIColor+Extensions.swift in Sources */,
@@ -396,9 +395,10 @@
 				408FE0FC29F6F8EB00E8EEE8 /* Post.swift in Sources */,
 				40A4FC1E29F739DC004702E0 /* HomeFeedCell.swift in Sources */,
 				40A7C92A29F86B1F001F44E8 /* Date.swift in Sources */,
-				408FE0EE29F5FC8500E8EEE8 /* LikeController.swift in Sources */,
+				408FE0EE29F5FC8500E8EEE8 /* FavoritesController.swift in Sources */,
 				4086DCD529F2034800F2FFC5 /* UIViewController+Navigation.swift in Sources */,
 				40EF48FF29EF64A4009BF039 /* SignUpView.swift in Sources */,
+				40A7C94029FB4B11001F44E8 /* AddPostController.swift in Sources */,
 				4086DCD729F2110D00F2FFC5 /* HomeFeedController.swift in Sources */,
 				4086DCC429F0BA8100F2FFC5 /* UIImage+Extensions.swift in Sources */,
 				408FE0F229F6013800E8EEE8 /* PhotoSelectorController.swift in Sources */,

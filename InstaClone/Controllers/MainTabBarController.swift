@@ -10,6 +10,8 @@ import FirebaseAuth
 
 class MainTabBarController: UITabBarController {
     
+    static let notificationName = NSNotification.Name(rawValue: "HomeControllerTapped")
+    
     private lazy var homeFeedController: UIViewController = {
         let viewController = UINavigationController(rootViewController: HomeFeedController())
         viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 0)
@@ -28,8 +30,8 @@ class MainTabBarController: UITabBarController {
         return viewController
     }()
     
-    private lazy var likeController: UIViewController = {
-        let viewController = UINavigationController(rootViewController: LikeController())
+    private lazy var favoritesController: UIViewController = {
+        let viewController = UINavigationController(rootViewController: FavoritesController())
         viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 3)
         return viewController
     }()
@@ -44,7 +46,7 @@ class MainTabBarController: UITabBarController {
         self.delegate = self
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        viewControllers = [homeFeedController, searchController, addPostController, likeController, userProfileController]
+        viewControllers = [homeFeedController, searchController, addPostController, favoritesController, userProfileController]
     }
 }
 
@@ -61,5 +63,17 @@ extension MainTabBarController: UITabBarControllerDelegate {
             return false
         }
         return true
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        guard let navController = tabBarController.viewControllers?.first as? UINavigationController, let homeFeedController = navController.viewControllers.first as? HomeFeedController else {
+            return
+            }
+        let index = viewControllers?.firstIndex(of: viewController)
+        if index == 0 {
+            if homeFeedController.canScroll == true {
+            NotificationCenter.default.post(name: MainTabBarController.notificationName, object: nil)
+            }
+        }
     }
 }
