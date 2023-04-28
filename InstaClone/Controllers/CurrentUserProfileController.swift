@@ -14,10 +14,9 @@ class CurrentUserProfileController: UIViewController {
     
     private let userProfileView = UserProfileView()
     private let user = Auth.auth().currentUser
-    private var listener: ListenerRegistration?
     private let cellId = "cellId"
     private let headerId = "headerId"
-    
+    static let notificationName = NSNotification.Name(rawValue: "UpdateFeed")
     private var posts = [Post]() {
         didSet {
             DispatchQueue.main.async {
@@ -33,23 +32,20 @@ class CurrentUserProfileController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationItem.title = user?.displayName
-        configureCV()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         configureSettingsTabBarButton()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        viewControllerConfig()
+        configureCV()
         fetchPosts()
     }
     
-    private func fetchPosts() {
-        DataBaseService.shared.fetchUsersPosts(userId: user!.uid) { [weak self] result in
+    private func viewControllerConfig() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchPosts), name: CurrentUserProfileController.notificationName, object: nil)
+        view.backgroundColor = .systemBackground
+        navigationItem.title = user?.displayName
+    }
+    
+    @objc private func fetchPosts() {
+        DataBaseService.shared.fetchUserPosts(userId: user!.uid) { [weak self] result in
             switch result {
             case .failure(let error):
                 print("Error fetching user's posts: \(error)")

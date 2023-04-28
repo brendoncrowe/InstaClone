@@ -15,7 +15,8 @@ class CaptionController: UIViewController {
     private let storageService = StorageService()
     private var image: UIImage
     private var activityIndicator: UIActivityIndicatorView!
-    
+    private static let notificationName = NSNotification.Name(rawValue: "UpdateFeed")
+
     override func loadView() {
         super.loadView()
         view = captionView
@@ -75,9 +76,9 @@ class CaptionController: UIViewController {
                     self?.showAlert(title: "Failed to update item", message: "\(error.localizedDescription)")
                 }
             } else {
+                NotificationCenter.default.post(name: CaptionController.notificationName, object: nil)
                 DispatchQueue.main.async {
                     self?.dismiss(animated: true)
-                    // TODO: Add custom delegation here 
                 }
             }
         }

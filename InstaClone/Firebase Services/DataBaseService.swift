@@ -124,7 +124,7 @@ class DataBaseService {
     }
     
     // MARK: used snapshot listener instead of the below instance method for fetching user's posts
-    public func fetchUsersPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {
+    public func fetchUserPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {
         dataBase.collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: userId).getDocuments { snapshot, error in
             if let error = error {
                 completion(.failure(error))
@@ -133,5 +133,16 @@ class DataBaseService {
                 completion(.success(posts.sorted { $0.postedDate.dateValue() < $1.postedDate.dateValue() }))
             }
         }
+    }
+    
+    public func fetchFollowedUsersPosts(_ userIds: [String], completion: @escaping (Result<[Post], Error>) ->()) {
+        dataBase.collection(DataBaseService.postsCollections).whereField("userId", in: userIds).addSnapshotListener({ snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let snapshot = snapshot {
+                let posts = snapshot.documents.map { Post($0.data()) }
+                completion(.success( posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }))
+            }
+        })
     }
 }

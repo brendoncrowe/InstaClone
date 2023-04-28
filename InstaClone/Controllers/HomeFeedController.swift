@@ -7,13 +7,12 @@
 
 import UIKit
 import FirebaseAuth
-import FirebaseFirestore
 
 class HomeFeedController: UIViewController {
     
     private let homeFeedView = HomeFeedView()
     private let cellId = "cellId"
-    private var listener: ListenerRegistration?
+    private var refreshControl: UIRefreshControl!
 
     private var posts = [Post]() {
         didSet {
@@ -31,19 +30,17 @@ class HomeFeedController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.titleView = UIImageView(image: UIImage(named: "logo2")?.withTintColor(.label))
         setupCV()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         getFollowedUsers()
+        configureRefreshControl()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        listener?.remove()
+    private func configureRefreshControl() {
+        refreshControl = UIRefreshControl()
+        homeFeedView.collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(getFollowedUsers), for: .valueChanged)
     }
     
-    private func getFollowedUsers() {
+    @objc private func getFollowedUsers() {
         DataBaseService.shared.fetchFollowedUsers { [weak self] result in
             switch result {
             case .failure(let error):
@@ -57,16 +54,19 @@ class HomeFeedController: UIViewController {
     }
     
     private func fetchPosts(_ userIds: [String]) {
-        listener = Firestore.firestore().collection(DataBaseService.postsCollections).whereField("userId", in: userIds).addSnapshotListener({ [weak self] snapshot, error in
-            if let error = error {
+        DataBaseService.shared.fetchFollowedUsersPosts(userIds) { [weak self] result in
+            DispatchQueue.main.async {
+                 self?.refreshControl.endRefreshing()
+             }
+            switch result {
+            case .failure(let error):
                 print(error.localizedDescription)
-            } else if let snapshot = snapshot {
-                let posts = snapshot.documents.map { Post($0.data()) }
+            case .success(let posts):
                 DispatchQueue.main.async {
-                    self?.posts = posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }
+                    self?.posts = posts
                 }
             }
-        })
+        }
     }
     
     private func setupCV() {

@@ -52,7 +52,7 @@ class SearchedUserProfileController: UIViewController {
     
     
     private func fetchPosts() {
-        DataBaseService.shared.fetchUsersPosts(userId: user.userId) { [weak self] result in
+        DataBaseService.shared.fetchUserPosts(userId: user.userId) { [weak self] result in
             switch result {
             case .failure(let error):
                 print("Error fetching user's posts: \(error)")

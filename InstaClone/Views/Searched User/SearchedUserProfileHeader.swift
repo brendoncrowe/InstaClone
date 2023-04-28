@@ -21,9 +21,9 @@ class SearchedProfileHeader: UICollectionViewCell {
     private var isFollowing = false {
         didSet {
             if isFollowing {
-                followButton.setTitle("Unfollow", for: .normal)
+                unFollowButtonUI()
             } else {
-                followButton.setTitle("Follow", for: .normal)
+                configFollowButton()
             }
         }
     }
@@ -83,10 +83,6 @@ class SearchedProfileHeader: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isEnabled = true
-        button.backgroundColor = .systemBlue.withAlphaComponent(0.8)
-        button.setTitleColor(.systemBackground, for: .normal)
-        button.layer.cornerRadius = 3
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         return button
     }()
     
@@ -220,6 +216,24 @@ class SearchedProfileHeader: UICollectionViewCell {
         postsLabel.attributedText = attributedText
         guard let photoUrl = URL(string: user.photoURL) else { return }
         profileImageView.kf.setImage(with: photoUrl)
+    }
+    
+    private func unFollowButtonUI() {
+        followButton.setTitle("Unfollow", for: .normal)
+        followButton.layer.borderColor = UIColor.lightGray.cgColor
+        followButton.backgroundColor = .systemBackground
+        followButton.layer.borderWidth = 1
+        followButton.setTitleColor(UIColor.label, for: .normal)
+        followButton.layer.cornerRadius = 3
+        followButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+    }
+    
+    private func configFollowButton() {
+        followButton.setTitle("Follow", for: .normal)
+        followButton.backgroundColor = .systemBlue.withAlphaComponent(0.8)
+        followButton.setTitleColor(.systemBackground, for: .normal)
+        followButton.layer.cornerRadius = 3
+        followButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
     }
     
     @objc private func handleFollowButton() {
