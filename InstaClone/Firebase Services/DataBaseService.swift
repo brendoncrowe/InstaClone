@@ -41,18 +41,7 @@ class DataBaseService {
             }
         }
     }
-    
-    public func fetchUserProfileImage(userId: String, completion: @escaping (Result<String, Error>) ->()) {
-        dataBase.collection(DataBaseService.usersCollection).document(userId).getDocument { snapshot, error in
-            if let error = error {
-                completion(.failure(error))
-            } else if let snapshot = snapshot {
-                guard let photoURL = snapshot.get("photoURL") as? String else { return }
-                completion(.success(photoURL))
-            }
-        }
-    }
-    
+        
     public func fetchUsers(completion: @escaping (Result<[User], Error>) ->()) {
         dataBase.collection(DataBaseService.usersCollection).getDocuments { snapshot, error in
             if let error = error {
@@ -87,7 +76,7 @@ class DataBaseService {
     
     public func followUser(user: User, completion: @escaping (Result<Bool, Error>) ->()) {
         guard let currentUser = Auth.auth().currentUser else { return }
-        dataBase.collection(DataBaseService.usersCollection).document(currentUser.uid).collection(DataBaseService.followingCollection).document(user.userId).setData(["userName": user.displayName, "userId": user.userId, "email": user.email, "photoURL": user.photoURL, "followedDate": Timestamp(date: Date())]) { error in
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.uid).collection(DataBaseService.followingCollection).document(user.userId).setData(["userName": user.displayName, "userId": user.userId, "photoURL": user.photoURL, "followedDate": Timestamp(date: Date())]) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -123,7 +112,6 @@ class DataBaseService {
         }
     }
     
-    // MARK: used snapshot listener instead of the below instance method for fetching user's posts
     public func fetchUserPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {
         dataBase.collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: userId).getDocuments { snapshot, error in
             if let error = error {

@@ -29,8 +29,7 @@ class HomeFeedController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        navigationItem.titleView = UIImageView(image: UIImage(named: "logo2")?.withTintColor(.label))
+        configureVC()
         setupCV()
         getFollowedUsers()
         configureRefreshControl()
@@ -45,6 +44,18 @@ class HomeFeedController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         canScroll = false
+    }
+    
+    private func configureVC() {
+        view.backgroundColor = .systemBackground
+        navigationItem.titleView = UIImageView(image: UIImage(named: "logo2")?.withTintColor(.label))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "camera")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(cameraButtonTapped))
+    }
+    
+    private func setupCV() {
+        homeFeedView.collectionView.dataSource = self
+        homeFeedView.collectionView.delegate = self
+        homeFeedView.collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellId)
     }
     
     private func configureRefreshControl() {
@@ -87,11 +98,13 @@ class HomeFeedController: UIViewController {
         }
     }
     
-    private func setupCV() {
-        homeFeedView.collectionView.dataSource = self
-        homeFeedView.collectionView.delegate = self
-        homeFeedView.collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellId)
+    @objc private func cameraButtonTapped() {
+        let controller =  CameraController()
+        controller.modalPresentationStyle = .fullScreen
+        present(controller, animated: true)
+        
     }
+
 }
 
 extension HomeFeedController: UICollectionViewDataSource {
@@ -112,10 +125,7 @@ extension HomeFeedController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width
-        var height: CGFloat = 56 //userProfile image view (40) plus top and bottom padding of 8
-        height += width
-        height += 50
-        height += 60
+        let height: CGFloat = 176 + width //userProfile image view (40) plus top and bottom padding of 8
         return CGSize(width: width, height: height)
     }
 }

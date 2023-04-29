@@ -68,11 +68,11 @@ extension MainTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard let navController = tabBarController.viewControllers?.first as? UINavigationController, let homeFeedController = navController.viewControllers.first as? HomeFeedController else {
             return
-            }
+        }
         let index = viewControllers?.firstIndex(of: viewController)
         if index == 0 {
             if homeFeedController.canScroll == true {
-            NotificationCenter.default.post(name: MainTabBarController.notificationName, object: nil)
+                NotificationCenter.default.post(name: MainTabBarController.notificationName, object: nil)
             }
         }
     }

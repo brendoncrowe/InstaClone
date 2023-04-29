@@ -12,6 +12,7 @@
 		403D6BF229EF7B22000D9915 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D6BF129EF7B22000D9915 /* UIColor+Extensions.swift */; };
 		403D6BF429EF7DA6000D9915 /* AuthenticationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D6BF329EF7DA6000D9915 /* AuthenticationSession.swift */; };
 		403D6BF929F07F34000D9915 /* UIAlert+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403D6BF829F07F34000D9915 /* UIAlert+Extensions.swift */; };
+		4069C9CB29FC5A6500D412F2 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4069C9CA29FC5A6500D412F2 /* CameraController.swift */; };
 		4086DCB729F093EE00F2FFC5 /* Mantis in Frameworks */ = {isa = PBXBuildFile; productRef = 4086DCB629F093EE00F2FFC5 /* Mantis */; };
 		4086DCB929F0B69500F2FFC5 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086DCB829F0B69500F2FFC5 /* StorageService.swift */; };
 		4086DCBC29F0B7A600F2FFC5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4086DCBB29F0B7A600F2FFC5 /* FirebaseAuth */; };
@@ -62,6 +63,7 @@
 		403D6BF129EF7B22000D9915 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		403D6BF329EF7DA6000D9915 /* AuthenticationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationSession.swift; sourceTree = "<group>"; };
 		403D6BF829F07F34000D9915 /* UIAlert+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlert+Extensions.swift"; sourceTree = "<group>"; };
+		4069C9CA29FC5A6500D412F2 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		4086DCB829F0B69500F2FFC5 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		4086DCC329F0BA8100F2FFC5 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		4086DCC529F1BB8300F2FFC5 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			children = (
 				4086DCC529F1BB8300F2FFC5 /* MainTabBarController.swift */,
 				408FE0F129F6013800E8EEE8 /* PhotoSelectorController.swift */,
+				4069C9CA29FC5A6500D412F2 /* CameraController.swift */,
 				408FE0F729F6DD4800E8EEE8 /* CaptionController.swift */,
 				40A7C93F29FB4B11001F44E8 /* AddPostController.swift */,
 				408FE0ED29F5FC8500E8EEE8 /* FavoritesController.swift */,
@@ -381,6 +384,7 @@
 				408FE0FE29F6FE1700E8EEE8 /* ProfilePostCell.swift in Sources */,
 				4086DCCA29F1C45A00F2FFC5 /* UserProfileView.swift in Sources */,
 				403D6BF429EF7DA6000D9915 /* AuthenticationSession.swift in Sources */,
+				4069C9CB29FC5A6500D412F2 /* CameraController.swift in Sources */,
 				4086DCCF29F1CEEE00F2FFC5 /* User.swift in Sources */,
 				408FE0EA29F5FAB400E8EEE8 /* SearchView.swift in Sources */,
 				408FE0E829F5FAA600E8EEE8 /* SearchController.swift in Sources */,
