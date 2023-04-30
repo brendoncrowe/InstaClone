@@ -23,5 +23,4 @@ class LikeView: UIView {
     private func commonInit() {
         
     }
-    
 }
