@@ -35,15 +35,15 @@ class LoginController: UIViewController {
                 DispatchQueue.main.async {
                     self?.showAlert(title: "Login Error", message: "There is no account associated with the information entered. Make sure to enter in the correct login information.")
                 }
-            case .success(let user):
+            case .success:
                 DispatchQueue.main.async {
-                    self?.navigateToMainView(user)
+                    self?.navigateToMainView()
                 }
             }
         }
     }
     
-    private func navigateToMainView(_ user: User) {
-        UIViewController.showViewController(MainTabBarController(user))
+    private func navigateToMainView() {
+        UIViewController.showViewController(MainTabBarController())
     }
 }

@@ -15,7 +15,7 @@ protocol SearchedProfileHeaderDelegate: AnyObject {
 
 class SearchedProfileHeader: UICollectionViewCell {
     
-    private var user: User?
+    private var searchedUser: User?
     
     public weak var delegate: SearchedProfileHeaderDelegate?
     private var isFollowing = false {
@@ -211,7 +211,7 @@ class SearchedProfileHeader: UICollectionViewCell {
     
     public func configureHeader(_ user: User, _ attributedText: NSAttributedString) {
         updateUI()
-        self.user = user
+        self.searchedUser = user
         userNameLabel.text = user.displayName
         postsLabel.attributedText = attributedText
         guard let photoUrl = URL(string: user.photoURL) else { return }
@@ -237,7 +237,7 @@ class SearchedProfileHeader: UICollectionViewCell {
     }
     
     @objc private func handleFollowButton() {
-        guard let user = user else { return }
+        guard let user = searchedUser else { return }
         if isFollowing { // remove from favorites
             DataBaseService.shared.unfollowUser(user: user) { [weak self] result in
                 switch result {
@@ -267,7 +267,7 @@ class SearchedProfileHeader: UICollectionViewCell {
     
     private func updateUI() {
         // check if item is favorited in order to update follow button
-        guard let user = user else { return }
+        guard let user = searchedUser else { return }
         DataBaseService.shared.checkUserIsFollowed(user: user) { [weak self] result in
             switch result {
             case .failure(let error):

@@ -10,17 +10,6 @@ import FirebaseAuth
 
 class MainTabBarController: UITabBarController {
     
-    var user: User
-    
-    init(_ user: User) {
-        self.user = user
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     static let notificationName = NSNotification.Name(rawValue: "HomeControllerTapped")
     
     private lazy var homeFeedController: UIViewController = {
@@ -48,7 +37,7 @@ class MainTabBarController: UITabBarController {
     }()
     
     private lazy var userProfileController: UIViewController = {
-        let viewController = UINavigationController(rootViewController: CurrentUserProfileController(user))
+        let viewController = UINavigationController(rootViewController: CurrentUserProfileController())
         viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 4)
         return viewController
     }()

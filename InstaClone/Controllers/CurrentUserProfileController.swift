@@ -13,8 +13,8 @@ import Kingfisher
 class CurrentUserProfileController: UIViewController {
     
     private let userProfileView = UserProfileView()
-    private let user: User
     private let cellId = "cellId"
+    let user = Auth.auth().currentUser
     private let headerId = "headerId"
     static let notificationName = NSNotification.Name(rawValue: "UpdateFeed")
     private var posts = [Post]() {
@@ -23,15 +23,6 @@ class CurrentUserProfileController: UIViewController {
                 self.userProfileView.collectionView.reloadData()
             }
         }
-    }
-    
-    init(_ user: User) {
-        self.user = user
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
@@ -50,11 +41,11 @@ class CurrentUserProfileController: UIViewController {
     private func viewControllerConfig() {
         NotificationCenter.default.addObserver(self, selector: #selector(fetchPosts), name: CurrentUserProfileController.notificationName, object: nil)
         view.backgroundColor = .systemBackground
-        navigationItem.title = user.displayName
+        navigationItem.title = user?.displayName
     }
     
     @objc private func fetchPosts() {
-        DataBaseService.shared.fetchUserPosts(userId: user.userId) { [weak self] result in
+        DataBaseService.shared.fetchUserPosts(userId: user!.uid) { [weak self] result in
             switch result {
             case .failure(let error):
                 print("Error fetching user's posts: \(error)")
@@ -127,9 +118,6 @@ extension CurrentUserProfileController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as? UserProfileHeader else { fatalError("could not load header") }
-        let attributedText = NSMutableAttributedString(string: "\(posts.count)\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
-        attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
-            header.configureHeader(user, attributedText)
         return header
     }
 }

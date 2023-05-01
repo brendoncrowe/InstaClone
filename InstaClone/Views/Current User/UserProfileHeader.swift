@@ -11,6 +11,8 @@ import Kingfisher
 
 class UserProfileHeader: UICollectionViewCell {
     
+    let firebaseUser = Auth.auth().currentUser
+    
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -31,7 +33,7 @@ class UserProfileHeader: UICollectionViewCell {
     public lazy var postsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let attributedText = NSMutableAttributedString(string: "0\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
+        let attributedText = NSMutableAttributedString(string: "15\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
         attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
         label.attributedText = attributedText
         label.numberOfLines = 2
@@ -109,13 +111,14 @@ class UserProfileHeader: UICollectionViewCell {
         setupBottomToolBar()
         setUserNameLabelConstraints()
         setupUserStatsView()
+        configureHeader()
         setEditProfileButtonConstraints()
     }
     
-    public func configureHeader(_ user: User, _ attributedText: NSAttributedString) {
-        userNameLabel.text = user.displayName
-        postsLabel.attributedText = attributedText
-        guard let photoUrl = URL(string: user.photoURL) else { return }
+    public func configureHeader() {
+        let currentUser = User(firebaseUser: firebaseUser!)
+        userNameLabel.text = currentUser.displayName
+        guard let photoUrl = URL(string: currentUser.photoURL) else { return }
         profileImageView.kf.setImage(with: photoUrl)
     }
     

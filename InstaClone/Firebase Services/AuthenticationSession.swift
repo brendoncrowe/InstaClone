@@ -20,14 +20,12 @@ class AuthenticationSession {
         }
     }
     
-    public func signInExistingUser(email: String, password: String, completion: @escaping (Result<User, Error>) -> ()) {
+    public func signInExistingUser(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> ()) {
         Auth.auth().signIn(withEmail: email, password: password) { (authDataResult, error) in
             if let error = error {
                 completion(.failure(error))
             } else if let authDataResult = authDataResult {
-                let firebaseUser = authDataResult.user
-                let user = User(firebaseUser: firebaseUser)
-                completion(.success(user))
+                completion(.success(authDataResult))
             }
         }
     }
