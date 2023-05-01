@@ -12,7 +12,8 @@ class CameraController: UIViewController {
     
     var outPut = AVCapturePhotoOutput()
     var previewLayer = AVCaptureVideoPreviewLayer()
-    
+    var customAnimationPresenter = CustomAnimatorPresenter()
+    var customAnimationDismisser = CustomAnimatorDismisser()
     let capturePhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -34,8 +35,8 @@ class CameraController: UIViewController {
         setupConstraints()
         capturePhotoButton.addTarget(self, action: #selector(handleCapturePhoto), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(dismissCamera), for: .touchUpInside)
-
         navigationController?.navigationBar.isHidden = true
+        transitioningDelegate = self
     }
     
     private func setupCaptureSession() {
@@ -99,5 +100,15 @@ extension CameraController: AVCapturePhotoCaptureDelegate {
         self.view.addSubview(containerView)
         containerView.frame = view.frame
         containerView.photoImageView.image = previewImage
+    }
+}
+
+extension CameraController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return customAnimationPresenter
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return customAnimationDismisser
     }
 }

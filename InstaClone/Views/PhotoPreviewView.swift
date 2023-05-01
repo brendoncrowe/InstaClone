@@ -79,7 +79,6 @@ class PhotoPreviewView: UIView {
                 print("Error saving to phone: \(error.localizedDescription)")
             }
         }
-        print("successfully saved")
         DispatchQueue.main.async {
             let savedLabel = UILabel()
             savedLabel.text = "Photo was saved"
