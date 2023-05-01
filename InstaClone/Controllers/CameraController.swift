@@ -16,7 +16,7 @@ class CameraController: UIViewController {
     let capturePhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "capture_photo"), for: .normal)
+        button.setImage(UIImage(named: "capture_photo")?.withRenderingMode(.alwaysOriginal), for: .normal)
         return button
     }()
     
@@ -33,6 +33,8 @@ class CameraController: UIViewController {
         setupCaptureSession()
         setupConstraints()
         capturePhotoButton.addTarget(self, action: #selector(handleCapturePhoto), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(dismissCamera), for: .touchUpInside)
+
         navigationController?.navigationBar.isHidden = true
     }
     
@@ -73,7 +75,7 @@ class CameraController: UIViewController {
         
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 64),
-            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18)
+            backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
         ])
     }
     
@@ -83,15 +85,19 @@ class CameraController: UIViewController {
         settings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewFormatType]
         outPut.capturePhoto(with: settings, delegate: self)
     }
+    
+    @objc private func dismissCamera() {
+        dismiss(animated: true)
+    }
 }
 
 extension CameraController: AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let imageData = photo.fileDataRepresentation() else { return }
-        let previewImage = UIImage(data: imageData)
-        let photoPreviewImageView = UIImageView(image: previewImage)
-        photoPreviewImageView.frame = view.frame
-        self.view.addSubview(photoPreviewImageView)
+        guard let imageData = photo.fileDataRepresentation(), let previewImage = UIImage(data: imageData) else { return }
+        let containerView = PhotoPreviewView()
+        self.view.addSubview(containerView)
+        containerView.frame = view.frame
+        containerView.photoImageView.image = previewImage
     }
 }
