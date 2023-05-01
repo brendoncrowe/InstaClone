@@ -33,9 +33,6 @@ class UserProfileHeader: UICollectionViewCell {
     public lazy var postsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        let attributedText = NSMutableAttributedString(string: "15\n", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 17)])
-        attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
-        label.attributedText = attributedText
         label.numberOfLines = 2
         label.textAlignment = .center
         return label
@@ -111,13 +108,13 @@ class UserProfileHeader: UICollectionViewCell {
         setupBottomToolBar()
         setUserNameLabelConstraints()
         setupUserStatsView()
-        configureHeader()
         setEditProfileButtonConstraints()
     }
     
-    public func configureHeader() {
+    public func configureHeader(_ attributedText: NSAttributedString) {
         let currentUser = User(firebaseUser: firebaseUser!)
         userNameLabel.text = currentUser.displayName
+        postsLabel.attributedText = attributedText
         guard let photoUrl = URL(string: currentUser.photoURL) else { return }
         profileImageView.kf.setImage(with: photoUrl)
     }

@@ -9,7 +9,14 @@ import UIKit
 import Kingfisher
 import FirebaseAuth
 
+protocol HomeFeedCellDelegate: NSObject {
+    func commentButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post)
+}
+
 class HomeFeedCell: UICollectionViewCell {
+    
+    public weak var delegate: HomeFeedCellDelegate?
+    private var currentPost: Post?
     
     public lazy var userProfilePhotoimageView: UIImageView = {
         let iv = UIImageView()
@@ -109,7 +116,12 @@ class HomeFeedCell: UICollectionViewCell {
         setupProfileNameLabelConstraints()
         setupActionButtons()
         setupCaptionLabelConstraints()
+        setupButtonActions()
+    }
+    
+    private func setupButtonActions() {
         optionsButton.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
+        commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
     }
     
     private func setupProfilePhotoConstraints() {
@@ -185,6 +197,7 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     public func configureCell(_ post: Post) {
+        self.currentPost = post
         profileNameLabel.text = post.displayName
         setupAttributedCaption(post)
         guard let photoURL = URL(string: post.imageURL), let profileImageURL = URL(string: post.userPhotoURL) else { return }
@@ -194,5 +207,11 @@ class HomeFeedCell: UICollectionViewCell {
     
     @objc private func handleOptions() {
         print("options")
+    }
+    
+    @objc private func handleComment() {
+        if let post = currentPost {
+            delegate?.commentButtonTapped(self, for: post)
+        }
     }
 }
