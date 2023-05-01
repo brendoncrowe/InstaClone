@@ -36,11 +36,6 @@ class HomeFeedController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(scrollToTop), name: HomeFeedController.notificationName, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = false
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         canScroll = true
@@ -143,6 +138,7 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
 
 extension HomeFeedController: HomeFeedCellDelegate {
     func commentButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post) {
+
         let controller = CommentController(post)
         navigationController?.pushViewController(controller, animated: true)
     }
