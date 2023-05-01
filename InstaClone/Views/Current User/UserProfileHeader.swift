@@ -11,14 +11,11 @@ import Kingfisher
 
 class UserProfileHeader: UICollectionViewCell {
     
-    let user = Auth.auth().currentUser!
-    
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.kf.setImage(with: user.photoURL)
         iv.backgroundColor = .systemBackground
         iv.layer.cornerRadius = 80 / 2
         return iv
@@ -27,7 +24,6 @@ class UserProfileHeader: UICollectionViewCell {
     public lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = user.displayName
         label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         return label
     }()
@@ -116,8 +112,11 @@ class UserProfileHeader: UICollectionViewCell {
         setEditProfileButtonConstraints()
     }
     
-    public func configureHeader(_ attributedText: NSAttributedString) {
+    public func configureHeader(_ user: User, _ attributedText: NSAttributedString) {
+        userNameLabel.text = user.displayName
         postsLabel.attributedText = attributedText
+        guard let photoUrl = URL(string: user.photoURL) else { return }
+        profileImageView.kf.setImage(with: photoUrl)
     }
     
     private func setProfileImageViewConstraints() {

@@ -72,8 +72,10 @@ class SignUpController: UIViewController {
                         }
                     case .success(let photoURL):
                         self?.createDatabaseUser(authDataResult: authDataResult, displayName: displayName, photoURL: photoURL.absoluteString)
+                        let firebaseUser = authDataResult.user
+                        let user = User(firebaseUser: firebaseUser)
                         DispatchQueue.main.async {
-                            self?.continueSignUpFlow(displayName)
+                            self?.continueSignUpFlow(user)
                         }
                     }
                 }
@@ -81,8 +83,8 @@ class SignUpController: UIViewController {
         }
     }
     
-    private func continueSignUpFlow(_ userName: String) {
-        UIViewController.showViewController(MainTabBarController())
+    private func continueSignUpFlow(_ user: User) {
+        UIViewController.showViewController(MainTabBarController(user))
     }
     // helper function for handleSignUp
     private func createDatabaseUser(authDataResult: AuthDataResult, displayName: String, photoURL: String) {

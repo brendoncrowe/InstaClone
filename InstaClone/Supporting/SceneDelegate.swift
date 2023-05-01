@@ -11,14 +11,15 @@ import FirebaseAuth
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+    let currentUser = Auth.auth().currentUser
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow()
         window?.windowScene = windowScene
-        if let _ = Auth.auth().currentUser {
-            UIViewController.showViewController(MainTabBarController())
+        if let currentUser = Auth.auth().currentUser {
+            let user = User(firebaseUser: currentUser)
+            UIViewController.showViewController(MainTabBarController(user))
         } else {
             UIViewController.showViewController(LoginController())
         }
