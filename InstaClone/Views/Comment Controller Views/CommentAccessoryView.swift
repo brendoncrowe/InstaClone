@@ -1,0 +1,86 @@
+//
+//  CommentView.swift
+//  InstaClone
+//
+//  Created by Brendon Crowe on 5/1/23.
+//
+
+import UIKit
+
+class CommentAccessoryView: UIView {
+    
+    public let textView: FlexibleTextView = {
+        let tv = FlexibleTextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.isScrollEnabled = false
+        tv.font = UIFont.preferredFont(forTextStyle: .body)
+        return tv
+    }()
+    
+    private let postButton: UIButton = {
+        let sb = UIButton(type: .system)
+        sb.translatesAutoresizingMaskIntoConstraints = false
+        sb.setTitle("Post", for: .normal)
+        sb.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        return sb
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        postButton.isEnabled = false
+        textView.delegate = self
+        textView.layer.cornerRadius = 6
+        textView.maxHeight = 80
+        autoresizingMask = .flexibleHeight
+        backgroundColor = .systemGroupedBackground
+        addSubview(textView)
+        addSubview(postButton)
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
+            textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            textView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            textView.trailingAnchor.constraint(equalTo: postButton.leadingAnchor)
+            
+        ])
+        NSLayoutConstraint.activate([
+            postButton.centerYAnchor.constraint(equalTo: textView.centerYAnchor),
+            postButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            postButton.widthAnchor.constraint(equalToConstant: 50),
+            postButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        postButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
+
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        return .zero
+    }
+    
+    @objc func handleSend() {
+        print("works")
+        textView.resignFirstResponder()
+        textView.text.removeAll()
+        postButton.isEnabled = false
+    }
+}
+
+extension CommentAccessoryView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let text = textView.text, !text.isEmpty else {
+            postButton.isEnabled = false
+            return
+        }
+        postButton.isEnabled = true
+        print(text)
+    }
+}

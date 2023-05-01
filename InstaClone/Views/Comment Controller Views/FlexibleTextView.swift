@@ -1,5 +1,5 @@
 //
-//  CommentView.swift
+//  FlexibleTextView.swift
 //  InstaClone
 //
 //  Created by Brendon Crowe on 5/1/23.
@@ -7,40 +7,30 @@
 
 import UIKit
 
-class CommentTextView: UITextView {
+class FlexibleTextView: UITextView {
     // limit the height of expansion per intrinsicContentSize
     var maxHeight: CGFloat = 0.0
-    private let placeholderTextView: UITextView = {
-        let tv = UITextView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.backgroundColor = .clear
-        tv.isScrollEnabled = false
-        tv.isUserInteractionEnabled = false
-        tv.textColor = UIColor.gray
-        return tv
+    public let placeHolderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .clear
+        label.text = "enter comment"
+        label.textColor = UIColor.gray
+        return label
     }()
-    var placeholder: String? {
-        get {
-            return placeholderTextView.text
-        }
-        set {
-            placeholderTextView.text = newValue
-        }
-    }
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         isScrollEnabled = false
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         NotificationCenter.default.addObserver(self, selector: #selector(UITextInputDelegate.textDidChange(_:)), name: UITextView.textDidChangeNotification, object: self)
-        placeholderTextView.font = font
-        addSubview(placeholderTextView)
+        addSubview(placeHolderLabel)
         
         NSLayoutConstraint.activate([
-            placeholderTextView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            placeholderTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            placeholderTextView.topAnchor.constraint(equalTo: topAnchor),
-            placeholderTextView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            placeHolderLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            placeHolderLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
+            placeHolderLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            placeHolderLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
     }
     
@@ -51,23 +41,17 @@ class CommentTextView: UITextView {
     override var text: String! {
         didSet {
             invalidateIntrinsicContentSize()
-            placeholderTextView.isHidden = !text.isEmpty
+            placeHolderLabel.isHidden = !text.isEmpty
         }
     }
     
     override var font: UIFont? {
         didSet {
-            placeholderTextView.font = font
+            placeHolderLabel.font = font
             invalidateIntrinsicContentSize()
         }
     }
-    
-    override var contentInset: UIEdgeInsets {
-        didSet {
-            placeholderTextView.contentInset = contentInset
-        }
-    }
-    
+
     override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         
@@ -93,6 +77,7 @@ class CommentTextView: UITextView {
     @objc private func textDidChange(_ note: Notification) {
         // needed incase isScrollEnabled is set to true which stops automatically calling invalidateIntrinsicContentSize()
         invalidateIntrinsicContentSize()
-        placeholderTextView.isHidden = !text.isEmpty
+        placeHolderLabel.isHidden = !text.isEmpty
     }
 }
+
