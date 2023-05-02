@@ -13,7 +13,10 @@ class CommentAccessoryView: UIView {
         let tv = FlexibleTextView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.isScrollEnabled = false
+        tv.autocapitalizationType = .none
         tv.font = UIFont.preferredFont(forTextStyle: .body)
+        tv.layer.borderWidth = 0.5
+        tv.layer.borderColor = UIColor.lightGray.cgColor
         return tv
     }()
     
@@ -36,12 +39,7 @@ class CommentAccessoryView: UIView {
     }
     
     private func commonInit() {
-        postButton.isEnabled = false
-        textView.delegate = self
-        textView.layer.cornerRadius = 6
-        textView.maxHeight = 80
-        autoresizingMask = .flexibleHeight
-        backgroundColor = .systemGroupedBackground
+        viewConfiguration()
         addSubview(textView)
         addSubview(postButton)
         NSLayoutConstraint.activate([
@@ -59,11 +57,20 @@ class CommentAccessoryView: UIView {
         ])
         
         postButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-
+        
     }
     
     override var intrinsicContentSize: CGSize {
         return .zero
+    }
+    
+    private func viewConfiguration() {
+        postButton.isEnabled = false
+        textView.delegate = self
+        textView.layer.cornerRadius = 8
+        textView.maxHeight = 80
+        autoresizingMask = .flexibleHeight
+        backgroundColor = .systemGroupedBackground
     }
     
     @objc func handleSend() {

@@ -27,7 +27,7 @@ class FlexibleTextView: UITextView {
         addSubview(placeHolderLabel)
         
         NSLayoutConstraint.activate([
-            placeHolderLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            placeHolderLabel.topAnchor.constraint(equalTo: topAnchor, constant: 9),
             placeHolderLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
             placeHolderLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             placeHolderLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
@@ -44,17 +44,9 @@ class FlexibleTextView: UITextView {
             placeHolderLabel.isHidden = !text.isEmpty
         }
     }
-    
-    override var font: UIFont? {
-        didSet {
-            placeHolderLabel.font = font
-            invalidateIntrinsicContentSize()
-        }
-    }
 
     override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
-        
         if size.height == UIView.noIntrinsicMetric {
             // force layout
             layoutManager.glyphRange(for: textContainer)
@@ -63,7 +55,6 @@ class FlexibleTextView: UITextView {
         
         if maxHeight > 0.0 && size.height > maxHeight {
             size.height = maxHeight
-            
             if !isScrollEnabled {
                 isScrollEnabled = true
             }

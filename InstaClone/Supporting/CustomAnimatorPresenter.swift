@@ -19,6 +19,7 @@ class CustomAnimatorPresenter: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(toView)
         
         let startingFrame = CGRect(x: -toView.frame.width, y: 0, width: toView.frame.width, height: toView.frame.height)
+        
         toView.frame = startingFrame
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {

@@ -82,6 +82,7 @@ class PhotoPreviewView: UIView {
         DispatchQueue.main.async {
             let savedLabel = UILabel()
             savedLabel.text = "Photo was saved"
+            savedLabel.textColor = .label
             savedLabel.numberOfLines = 0
             savedLabel.textAlignment = .center
             savedLabel.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -99,6 +100,7 @@ class PhotoPreviewView: UIView {
                     savedLabel.alpha = 0
                 } completion: { (_) in
                     savedLabel.removeFromSuperview()
+                    self.removeFromSuperview()
                 }
             }
         }
