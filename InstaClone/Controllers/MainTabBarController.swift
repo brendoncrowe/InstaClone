@@ -14,7 +14,7 @@ class MainTabBarController: UITabBarController {
     
     private lazy var homeFeedController: UIViewController = {
         let viewController = UINavigationController(rootViewController: HomeFeedController())
-        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 0)
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "house")?.withBaselineOffset(fromBottom: UIFont.systemFontSize + 8), tag: 1)
         return viewController
     }()
     
@@ -47,6 +47,16 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         viewControllers = [homeFeedController, searchController, addPostController, favoritesController, userProfileController]
+        tabBar.standardAppearance = setIconColor()
+    }
+    
+    
+    private func setIconColor() -> UITabBarAppearance {
+        let appearance = UITabBarAppearance()
+        appearance.stackedLayoutAppearance.selected.iconColor = .label
+        appearance.compactInlineLayoutAppearance.selected.iconColor = .label
+        appearance.inlineLayoutAppearance.selected.iconColor = .label
+        return appearance
     }
 }
 
@@ -75,5 +85,15 @@ extension MainTabBarController: UITabBarControllerDelegate {
                 NotificationCenter.default.post(name: MainTabBarController.notificationName, object: nil)
             }
         }
+    }
+}
+
+extension UITabBarItem {
+    func setIconColor(_ color: UIColor) {
+        image = image?.withRenderingMode(.alwaysTemplate)
+        selectedImage = selectedImage?.withRenderingMode(.alwaysTemplate)
+        setTitleTextAttributes([.foregroundColor: color], for: .selected)
+        setTitleTextAttributes([.foregroundColor: UIColor.lightGray], for: .normal)
+        imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
     }
 }

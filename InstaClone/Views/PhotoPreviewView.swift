@@ -80,15 +80,18 @@ class PhotoPreviewView: UIView {
             }
         }
         DispatchQueue.main.async {
-            let savedLabel = UILabel()
-            savedLabel.text = "Photo was saved"
-            savedLabel.textColor = .label
-            savedLabel.numberOfLines = 0
-            savedLabel.textAlignment = .center
-            savedLabel.font = UIFont.preferredFont(forTextStyle: .title3)
-            savedLabel.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
-            savedLabel.frame = CGRect(x: 0, y: 0, width: 200, height: 80)
-            savedLabel.center = self.center
+            let savedLabel: UILabel = {
+                let label = UILabel()
+                label.text = "Photo was saved"
+                label.textColor = .label
+                label.numberOfLines = 0
+                label.textAlignment = .center
+                label.font = UIFont.preferredFont(forTextStyle: .title3)
+                label.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
+                label.frame = CGRect(x: 0, y: 0, width: 200, height: 80)
+                label.center = self.center
+                return label
+            }()
             self.addSubview(savedLabel)
             
             savedLabel.layer.transform = CATransform3DMakeScale(0, 0, 0)

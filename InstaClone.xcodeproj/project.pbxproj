@@ -56,6 +56,7 @@
 		40A7C93629F9B85E001F44E8 /* SearchedUserProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7C93529F9B85E001F44E8 /* SearchedUserProfileHeader.swift */; };
 		40A7C93929F9B8E5001F44E8 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7C93829F9B8E5001F44E8 /* PostCell.swift */; };
 		40A7C94029FB4B11001F44E8 /* AddPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A7C93F29FB4B11001F44E8 /* AddPostController.swift */; };
+		40B375642A00933E0049348B /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B375632A00933E0049348B /* Comment.swift */; };
 		40E60EDC29EF629E00CA6EB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */; };
 		40E60EDE29EF629E00CA6EB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */; };
 		40E60EE029EF629E00CA6EB7 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60EDF29EF629E00CA6EB7 /* SignUpController.swift */; };
@@ -109,6 +110,7 @@
 		40A7C93529F9B85E001F44E8 /* SearchedUserProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUserProfileHeader.swift; sourceTree = "<group>"; };
 		40A7C93829F9B8E5001F44E8 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		40A7C93F29FB4B11001F44E8 /* AddPostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPostController.swift; sourceTree = "<group>"; };
+		40B375632A00933E0049348B /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		40E60ED829EF629E00CA6EB7 /* InstaClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40E60EDB29EF629E00CA6EB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		40E60EDD29EF629E00CA6EB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 			children = (
 				4086DCCE29F1CEEE00F2FFC5 /* User.swift */,
 				408FE0FB29F6F8EB00E8EEE8 /* Post.swift */,
+				40B375632A00933E0049348B /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40A7C92C29F8B75E001F44E8 /* SearchUserCell.swift in Sources */,
+				40B375642A00933E0049348B /* Comment.swift in Sources */,
 				401E95182A003DC400526525 /* CommentController.swift in Sources */,
 				4086DCCC29F1C86A00F2FFC5 /* UserProfileHeader.swift in Sources */,
 				40A7C93929F9B8E5001F44E8 /* PostCell.swift in Sources */,
