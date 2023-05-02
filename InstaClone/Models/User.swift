@@ -26,7 +26,7 @@ extension User {
         self.photoURL = dictionary["photoURL"] as? String ?? "no photo url"
     }
     
-    init(firebaseUser: FirebaseAuth.User) {
+    init(firebaseUser: Firebase.User) {
         self.email = firebaseUser.email ?? "no user email"
         self.createdDate = Timestamp(date: firebaseUser.metadata.creationDate ?? Date())
         self.displayName = firebaseUser.displayName ?? "no display name"
