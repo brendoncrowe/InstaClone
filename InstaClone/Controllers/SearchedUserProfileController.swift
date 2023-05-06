@@ -50,7 +50,6 @@ class SearchedUserProfileController: UIViewController {
         fetchPosts()
     }
     
-    
     private func fetchPosts() {
         DataBaseService.shared.fetchUserPosts(userId: user.userId) { [weak self] result in
             switch result {

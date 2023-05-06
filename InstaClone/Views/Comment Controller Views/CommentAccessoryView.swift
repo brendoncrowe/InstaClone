@@ -68,7 +68,7 @@ class CommentAccessoryView: UIView {
         postButton.isEnabled = false
         textView.delegate = self
         textView.layer.cornerRadius = 8
-        textView.maxHeight = 80
+        textView.maxHeight = 100
         autoresizingMask = .flexibleHeight
         backgroundColor = .systemGroupedBackground
     }
