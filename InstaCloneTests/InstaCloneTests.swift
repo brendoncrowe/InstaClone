@@ -12,14 +12,13 @@ import XCTest
 
 final class InstaCloneTests: XCTestCase {
     
-    func testCurrentUser() {
-        let expectation = XCTestExpectation(description: "Fetch users completion handler should be called.")
-        
+    func testFetchUsers() {
+        let expectation = XCTestExpectation(description: "users found")
         DataBaseService.shared.fetchUsers { result in
             switch result {
             case .success(let users):
                 expectation.fulfill()
-                XCTAssertFalse(users.isEmpty, "Users array should not be empty.")
+                XCTAssertEqual(users.count, 3, "user's should be equal to \(users.count)")
             case .failure(let error):
                 XCTFail("Fetching users should not result in an error: \(error)")
             }

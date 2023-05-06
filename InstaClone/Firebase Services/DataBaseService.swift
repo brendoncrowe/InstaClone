@@ -41,7 +41,7 @@ class DataBaseService {
             }
         }
     }
-        
+    
     public func fetchUsers(completion: @escaping (Result<[User], Error>) ->()) {
         dataBase.collection(DataBaseService.usersCollection).getDocuments { snapshot, error in
             if let error = error {
@@ -52,6 +52,24 @@ class DataBaseService {
             }
         }
     }
+    
+    
+    public func fetchUser(_ uid: String, completion: @escaping (Result<User, Error>) ->()) {
+        dataBase.collection(DataBaseService.usersCollection).document(uid).getDocument { document, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let document = document {
+                let data = document.data()
+                let createdDate = data?["createdDate"] as? Timestamp ?? Timestamp(date: Date())
+                let displayName = data?["displayName"] as? String ?? ""
+                let userId = data?["userId"] as? String ?? ""
+                let photoURL = data?["photoURL"] as? String ?? ""
+                let user = User(email: nil, createdDate: createdDate, displayName: displayName, userId: userId, photoURL: photoURL)
+                completion(.success(user))
+            }
+        }
+    }
+    
     
     public func fetchFollowedUsers(completion: @escaping (Result<[String], Error>) ->()) {
         guard let user = Auth.auth().currentUser else { return }

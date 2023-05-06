@@ -11,6 +11,7 @@ import FirebaseAuth
 
 protocol HomeFeedCellDelegate: NSObject {
     func commentButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post)
+    func profileNameButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post)
 }
 
 class HomeFeedCell: UICollectionViewCell {
@@ -27,12 +28,13 @@ class HomeFeedCell: UICollectionViewCell {
         return iv
     }()
     
-    public lazy var profileNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.clipsToBounds = true
-        label.text = "UserName"
-        return label
+    public lazy var profileNameButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+        button.setTitle("Username", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        return button
     }()
     
     public lazy var photoImageView: UIImageView = {
@@ -122,6 +124,7 @@ class HomeFeedCell: UICollectionViewCell {
     private func setupButtonActions() {
         optionsButton.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
+        profileNameButton.addTarget(self, action: #selector(handleProfileButton), for: .touchUpInside)
     }
     
     private func setupProfilePhotoConstraints() {
@@ -135,12 +138,11 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     private func setupProfileNameLabelConstraints() {
-        contentView.addSubview(profileNameLabel)
+        contentView.addSubview(profileNameButton)
         NSLayoutConstraint.activate([
-            profileNameLabel.topAnchor.constraint(equalTo: topAnchor),
-            profileNameLabel.leadingAnchor.constraint(equalTo: userProfilePhotoimageView.trailingAnchor, constant: 8),
-            profileNameLabel.bottomAnchor.constraint(equalTo: photoImageView.topAnchor),
-            profileNameLabel.trailingAnchor.constraint(equalTo: optionsButton.leadingAnchor, constant: -8)
+            profileNameButton.topAnchor.constraint(equalTo: topAnchor),
+            profileNameButton.leadingAnchor.constraint(equalTo: userProfilePhotoimageView.trailingAnchor, constant: 8),
+            profileNameButton.bottomAnchor.constraint(equalTo: photoImageView.topAnchor),
         ])
     }
     
@@ -198,12 +200,14 @@ class HomeFeedCell: UICollectionViewCell {
     
     public func configureCell(_ post: Post) {
         self.currentPost = post
-        profileNameLabel.text = post.displayName
+        profileNameButton.setTitle(post.displayName, for: .normal)
         setupAttributedCaption(post)
         guard let photoURL = URL(string: post.imageURL), let profileImageURL = URL(string: post.userPhotoURL) else { return }
         photoImageView.kf.setImage(with: photoURL)
         userProfilePhotoimageView.kf.setImage(with: profileImageURL)
     }
+    
+    // MARK: Button Actions
     
     @objc private func handleOptions() {
         print("options")
@@ -212,6 +216,12 @@ class HomeFeedCell: UICollectionViewCell {
     @objc private func handleComment() {
         if let post = currentPost {
             delegate?.commentButtonTapped(self, for: post)
+        }
+    }
+    
+    @objc func handleProfileButton() {
+        if let post = currentPost {
+            delegate?.profileNameButtonTapped(self, for: post)
         }
     }
 }

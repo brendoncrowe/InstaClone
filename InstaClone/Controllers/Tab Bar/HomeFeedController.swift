@@ -137,8 +137,23 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
 
 
 extension HomeFeedController: HomeFeedCellDelegate {
+    func profileNameButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post) {
+        DataBaseService.shared.fetchUser(post.userId) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error", message: "Could not access user's profile: \(error.localizedDescription) ")
+                }
+            case .success(let user):
+                DispatchQueue.main.async {
+                    let controller = SearchedUserProfileController(user)
+                    self?.navigationController?.pushViewController(controller, animated: true)
+                }
+            }
+        }
+    }
+    
     func commentButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post) {
-
         let controller = CommentController(post)
         navigationController?.pushViewController(controller, animated: true)
     }

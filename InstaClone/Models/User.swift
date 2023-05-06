@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 
 struct User: Equatable {
-    let email: String
+    let email: String?
     let createdDate: Timestamp
     let displayName: String
     let userId: String
