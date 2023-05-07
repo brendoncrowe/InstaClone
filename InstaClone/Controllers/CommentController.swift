@@ -22,6 +22,7 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     private var comments = [Comment]() {
         didSet {
             collectionView.reloadData()
+            print(comments.count)
         }
     }
     
@@ -38,6 +39,7 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
         super.viewDidLoad()
         navigationItem.title = "Comments"
         configureCV()
+        fetchComments()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +59,21 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     
     override var canBecomeFirstResponder: Bool {
         return true
+    }
+    
+    private func fetchComments() {
+        DataBaseService.shared.fetchComments(postId: post.postId) { [weak self] result in
+            switch result {
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error", message: "could not load the comments for this post")
+                }
+            case .success(let comments):
+                DispatchQueue.main.async {
+                    self?.comments = comments
+                }
+            }
+        }
     }
     
     private func configureCV() {

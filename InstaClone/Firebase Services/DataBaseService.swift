@@ -169,7 +169,14 @@ class DataBaseService {
         }
     }
     
-    public func fetchComments() {
-        
+    public func fetchComments(postId: String, completion: @escaping (Result<[Comment], Error>) ->()) {
+        dataBase.collection(DataBaseService.postsCollections).document(postId).collection(DataBaseService.commentsCollection).getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let comments = snapshot.documents.map { Comment( $0.data()) }
+                completion(.success(comments))
+            }
+        }
     }
 }
