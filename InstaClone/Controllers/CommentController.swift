@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class CommentController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let cellId = "cellId"
+    private var listener: ListenerRegistration?
     
     private lazy var containerView: CommentAccessoryView = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
@@ -22,7 +24,6 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     private var comments = [Comment]() {
         didSet {
             collectionView.reloadData()
-            print(comments.count)
         }
     }
     
@@ -50,6 +51,7 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.isHidden = false
+        listener?.remove()
     }
     
     override var inputAccessoryView: UIView? {
@@ -62,18 +64,16 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     private func fetchComments() {
-        DataBaseService.shared.fetchComments(postId: post.postId) { [weak self] result in
-            switch result {
-            case .failure:
+        listener = Firestore.firestore().collection(DataBaseService.postsCollections).document(post.postId).collection(DataBaseService.commentsCollection).addSnapshotListener({ [weak self] snapshot, error in
+            if let error = error {
                 DispatchQueue.main.async {
-                    self?.showAlert(title: "Error", message: "could not load the comments for this post")
+                    self?.showAlert(title: "Could not load comments", message: error.localizedDescription)
                 }
-            case .success(let comments):
-                DispatchQueue.main.async {
-                    self?.comments = comments
-                }
+            } else if let snapshot = snapshot {
+                let comments = snapshot.documents.map { Comment($0.data()) }
+                self?.comments = comments.sorted { $0.postedDate.dateValue() < $1.postedDate.dateValue() }
             }
-        }
+        })
     }
     
     private func configureCV() {
@@ -98,6 +98,10 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         // returning a dynamic cell size
@@ -107,7 +111,7 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
         dummyCell.configureCell(with: comment)
         dummyCell.layoutIfNeeded()
         
-        let targetSize = CGSize(width: view.frame.width, height: 1000)
+        let targetSize = CGSize(width: view.frame.width, height: 100)
         let estimatedSize = dummyCell.systemLayoutSizeFitting(targetSize)
         
         let height = max(40 + 8 + 8, estimatedSize.height)

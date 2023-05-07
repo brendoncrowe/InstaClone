@@ -66,6 +66,7 @@ class CommentCell: UICollectionViewCell {
     public func configureCell(with comment: Comment) {
         let attributedText = NSMutableAttributedString(string: comment.displayName, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 15), NSAttributedString.Key.foregroundColor: UIColor.label])
         attributedText.append(NSAttributedString(string: " " + comment.commentText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.label]))
+        attributedText.append(NSAttributedString(string: "\n\n" + comment.postedDate.dateValue().agoDisplay(), attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14), NSAttributedString.Key.foregroundColor: UIColor.label]))
         commentTextView.attributedText = attributedText
         guard let photoURL = URL(string: comment.userPhotoURL) else { return }
         profilePhotoView.kf.setImage(with: photoURL)
