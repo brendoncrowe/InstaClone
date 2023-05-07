@@ -17,9 +17,12 @@ class DataBaseService {
     static let usersCollection = "users"
     static let postsCollections = "posts"
     static let followingCollection = "following"
+    static let commentsCollection = "comments"
     
     private let dataBase = Firestore.firestore()
     // creating a user for the users collection in the database to more easily access
+    
+    // MARK: User methods
     public func createDataBaseUser(authDataResult: AuthDataResult, displayName: String, photoURL: String, completion: @escaping (Result<Bool, Error>) -> ()) {
         guard let email = authDataResult.user.email else { return }
         dataBase.collection(DataBaseService.usersCollection).document(authDataResult.user.uid).setData(["email": email, "createdDate": Timestamp(date: Date()), "userId": authDataResult.user.uid, "displayName": displayName, "photoURL": photoURL]) { error in
@@ -27,17 +30,6 @@ class DataBaseService {
                 completion(.failure(error))
             } else {
                 completion(.success(true))
-            }
-        }
-    }
-    
-    public func createPost(postCaption: String, user: FirebaseAuth.User, completion: @escaping (Result<String, Error>) -> ()){
-        let docRef = dataBase.collection(DataBaseService.postsCollections).document()
-        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "displayName": user.displayName!, "userId": user.uid, "userPhotoURL": user.photoURL!.absoluteString]) { error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                completion(.success(docRef.documentID))
             }
         }
     }
@@ -129,6 +121,18 @@ class DataBaseService {
             }
         }
     }
+     
+    // MARK: Post methods
+    public func createPost(postCaption: String, user: FirebaseAuth.User, completion: @escaping (Result<String, Error>) -> ()){
+        let docRef = dataBase.collection(DataBaseService.postsCollections).document()
+        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "displayName": user.displayName!, "userId": user.uid, "userPhotoURL": user.photoURL!.absoluteString]) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(docRef.documentID))
+            }
+        }
+    }
     
     public func fetchUserPosts(userId: String, completion: @escaping (Result<[Post], Error>) ->()) {
         dataBase.collection(DataBaseService.postsCollections).whereField("userId", isEqualTo: userId).getDocuments { snapshot, error in
@@ -150,5 +154,18 @@ class DataBaseService {
                 completion(.success( posts.sorted { $0.postedDate.dateValue() > $1.postedDate.dateValue() }))
             }
         })
+    }
+    
+    // MARK: Comment methods
+    public func createComment(for post: Post, with text: String, completion: @escaping (Result<Bool, Error>) -> ()) {
+        guard let currentDatabaseUser = Auth.auth().currentUser else { return }
+        let user = User(firebaseUser: currentDatabaseUser)
+        let docRef = dataBase.collection(DataBaseService.commentsCollection).document()
+        dataBase.collection(DataBaseService.commentsCollection).document(docRef.documentID).setData(["userId": user.userId, "userPhotoURL": user.photoURL, "displayName": user.displayName, "postedDate": Timestamp(date: Date()), "commentText": text]) { error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            completion(.success(true))
+        }
     }
 }

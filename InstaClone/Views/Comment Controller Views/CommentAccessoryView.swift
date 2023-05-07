@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol CommentAccessoryViewDelegate: NSObject {
+    func postButtonWasPressed(_ commentAccessoryView: CommentAccessoryView)
+}
+
 class CommentAccessoryView: UIView {
+    
+    weak var delegate: CommentAccessoryViewDelegate?
     
     public let textView: FlexibleTextView = {
         let tv = FlexibleTextView()
@@ -57,7 +63,6 @@ class CommentAccessoryView: UIView {
         ])
         
         postButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
-        
     }
     
     override var intrinsicContentSize: CGSize {
@@ -74,7 +79,7 @@ class CommentAccessoryView: UIView {
     }
     
     @objc func handleSend() {
-        print("works")
+        delegate?.postButtonWasPressed(self)
         textView.resignFirstResponder()
         textView.text.removeAll()
         postButton.isEnabled = false
@@ -88,6 +93,5 @@ extension CommentAccessoryView: UITextViewDelegate {
             return
         }
         postButton.isEnabled = true
-        print(text)
     }
 }

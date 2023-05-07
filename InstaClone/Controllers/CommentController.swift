@@ -11,13 +11,19 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     
     private let cellId = "cellId"
     
-     lazy var containerView: CommentAccessoryView = {
+     private lazy var containerView: CommentAccessoryView = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let commentInputAccessoryView = CommentAccessoryView(frame: frame)
         return commentInputAccessoryView
     }()
     
     private var post: Post
+    
+    private var comments = [Comment]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     init(_ post: Post) {
         self.post = post
@@ -30,14 +36,8 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.backgroundColor = .systemBackground
         navigationItem.title = "Comments"
-        collectionView.alwaysBounceVertical = true
-        collectionView.keyboardDismissMode = .onDrag
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
-        
+        configureCV()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,8 +50,8 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
         tabBarController?.tabBar.isHidden = false
     }
     
-    
     override var inputAccessoryView: UIView? {
+        containerView.delegate = self
         return containerView
     }
     
@@ -59,8 +59,17 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
         return true
     }
     
+    private func configureCV() {
+        collectionView.backgroundColor = .systemBackground
+        collectionView.alwaysBounceVertical = true
+        collectionView.keyboardDismissMode = .onDrag
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: -50, right: 0)
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return comments.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,5 +80,11 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 300, height: 80)
+    }
+}
+
+extension CommentController: CommentAccessoryViewDelegate {
+    func postButtonWasPressed(_ commentAccessoryView: CommentAccessoryView) {
+        print("comment posted")
     }
 }
