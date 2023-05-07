@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CommentAccessoryViewDelegate: NSObject {
-    func postButtonWasPressed(_ commentAccessoryView: CommentAccessoryView)
+    func postButtonWasPressed(_ commentAccessoryView: CommentAccessoryView, comment: String)
 }
 
 class CommentAccessoryView: UIView {
@@ -79,7 +79,7 @@ class CommentAccessoryView: UIView {
     }
     
     @objc func handleSend() {
-        delegate?.postButtonWasPressed(self)
+        delegate?.postButtonWasPressed(self, comment: textView.text)
         textView.resignFirstResponder()
         textView.text.removeAll()
         postButton.isEnabled = false

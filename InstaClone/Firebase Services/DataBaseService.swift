@@ -125,7 +125,7 @@ class DataBaseService {
     // MARK: Post methods
     public func createPost(postCaption: String, user: FirebaseAuth.User, completion: @escaping (Result<String, Error>) -> ()){
         let docRef = dataBase.collection(DataBaseService.postsCollections).document()
-        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postedDate": Timestamp(date: Date()), "displayName": user.displayName!, "userId": user.uid, "userPhotoURL": user.photoURL!.absoluteString]) { error in
+        dataBase.collection(DataBaseService.postsCollections).document(docRef.documentID).setData(["postCaption" : postCaption, "postId": docRef.documentID, "postedDate": Timestamp(date: Date()), "displayName": user.displayName!, "userId": user.uid, "userPhotoURL": user.photoURL!.absoluteString]) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -161,11 +161,15 @@ class DataBaseService {
         guard let currentDatabaseUser = Auth.auth().currentUser else { return }
         let user = User(firebaseUser: currentDatabaseUser)
         let docRef = dataBase.collection(DataBaseService.commentsCollection).document()
-        dataBase.collection(DataBaseService.commentsCollection).document(docRef.documentID).setData(["userId": user.userId, "userPhotoURL": user.photoURL, "displayName": user.displayName, "postedDate": Timestamp(date: Date()), "commentText": text]) { error in
+        dataBase.collection(DataBaseService.postsCollections).document(post.postId).collection(DataBaseService.commentsCollection).document(docRef.documentID)      .setData(["userId": user.userId, "userPhotoURL": user.photoURL, "displayName": user.displayName, "postedDate": Timestamp(date: Date()), "commentText": text]) { error in
             if let error = error {
                 completion(.failure(error))
             }
             completion(.success(true))
         }
+    }
+    
+    public func fetchComments() {
+        
     }
 }

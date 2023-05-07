@@ -11,7 +11,7 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
     
     private let cellId = "cellId"
     
-     private lazy var containerView: CommentAccessoryView = {
+    private lazy var containerView: CommentAccessoryView = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let commentInputAccessoryView = CommentAccessoryView(frame: frame)
         return commentInputAccessoryView
@@ -84,7 +84,16 @@ class CommentController: UICollectionViewController, UICollectionViewDelegateFlo
 }
 
 extension CommentController: CommentAccessoryViewDelegate {
-    func postButtonWasPressed(_ commentAccessoryView: CommentAccessoryView) {
-        print("comment posted")
+    func postButtonWasPressed(_ commentAccessoryView: CommentAccessoryView, comment: String) {
+        DataBaseService.shared.createComment(for: post, with: comment) { [weak self] result in
+            switch result {
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Comment Error", message: "There was an error posting the comment")
+                }
+            case .success:
+                print("comment posted")
+            }
+        }
     }
 }
