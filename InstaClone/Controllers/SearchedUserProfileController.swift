@@ -75,6 +75,8 @@ class SearchedUserProfileController: UIViewController {
     }
 }
 
+
+// MARK: Delegate Methods
 extension SearchedUserProfileController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return posts.count
@@ -108,6 +110,13 @@ extension SearchedUserProfileController: UICollectionViewDataSource {
         attributedText.append(NSAttributedString(string: "posts", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]))
         header.configureHeader(user, attributedText)
         return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let post = posts[indexPath.row]
+        let controller = PostDetailViewController(post)
+        navigationController?.pushViewController(controller, animated: true)
+        // TODO: inject post into detail controller 
     }
 }
 
