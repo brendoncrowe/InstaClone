@@ -48,7 +48,8 @@ class HomeFeedController: UIViewController {
     
     private func configureVC() {
         view.backgroundColor = .systemBackground
-        navigationItem.titleView = UIImageView(image: UIImage(named: "logo2")?.withTintColor(.label))
+        navigationItem.titleView = UIImageView(image: UIImage(named: "logo2")?.withTintColor(.label, renderingMode: .alwaysOriginal))
+        navigationItem.titleView?.contentMode = .scaleAspectFit
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "camera")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(cameraButtonTapped))
     }
     
