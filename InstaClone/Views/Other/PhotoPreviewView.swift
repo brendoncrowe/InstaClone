@@ -13,7 +13,7 @@ class PhotoPreviewView: UIView {
     let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleToFill
+        iv.contentMode = .scaleAspectFill
         return iv
     }()
     

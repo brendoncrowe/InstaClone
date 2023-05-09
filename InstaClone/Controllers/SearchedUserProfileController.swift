@@ -116,7 +116,6 @@ extension SearchedUserProfileController: UICollectionViewDataSource {
         let post = posts[indexPath.row]
         let controller = PostDetailViewController(post)
         navigationController?.pushViewController(controller, animated: true)
-        // TODO: inject post into detail controller 
     }
 }
 

@@ -56,7 +56,7 @@ class CameraController: UIViewController {
             captureSession.addOutput(outPut)
         }
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.videoGravity = .resize
+        previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
         previewLayer.frame = view.frame
         DispatchQueue.global(qos: .background).async {
