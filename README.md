@@ -16,3 +16,6 @@ The purpose of this app was to showcase much of what I have learned in the past 
 
 ## Login & Signup
 ![signupGif](Assets/signUpGif.gif)           ![loginGif](Assets/loginGif.gif)
+
+## Creating a Post
+![createPostGif](Assets/createPost.gif)
