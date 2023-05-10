@@ -13,3 +13,6 @@ The purpose of this app was to showcase much of what I have learned in the past 
 - [ ] Push Notifcations
 - [x] Simple animations for a more refind ux
 - [x] And much more
+
+### Login & Signup
+![signupGif](Assets/signUpGif.gif)
