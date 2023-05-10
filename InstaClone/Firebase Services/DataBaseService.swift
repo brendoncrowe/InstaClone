@@ -18,6 +18,7 @@ class DataBaseService {
     static let postsCollections = "posts"
     static let followingCollection = "following"
     static let commentsCollection = "comments"
+    static let favoritesCollection = "favorites"
     
     private let dataBase = Firestore.firestore()
     // creating a user for the users collection in the database to more easily access
@@ -177,6 +178,17 @@ class DataBaseService {
                 let comments = snapshot.documents.map { Comment( $0.data()) }
                 completion(.success(comments))
             }
+        }
+    }
+    
+    // MARK: Favorite method
+    public func favoritePost(post: Post, completion: @escaping (Result<Bool, Error>) ->()) {
+        guard let user = Auth.auth().currentUser else { return }
+        dataBase.collection(DataBaseService.usersCollection).document(user.uid).collection(DataBaseService.favoritesCollection).document(post.postId).setData(["postCaption" : post.postCaption, "postId": post.postId, "postedDate": Timestamp(date: Date()), "displayName": post.displayName, "userId": post.userId, "userPhotoURL": post.userPhotoURL]) { error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            completion(.success(true))
         }
     }
 }

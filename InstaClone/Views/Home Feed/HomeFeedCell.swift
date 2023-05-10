@@ -12,6 +12,7 @@ import FirebaseAuth
 protocol HomeFeedCellDelegate: NSObject {
     func commentButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post)
     func profileNameButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post)
+    func favoriteButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post)
 }
 
 class HomeFeedCell: UICollectionViewCell {
@@ -125,6 +126,8 @@ class HomeFeedCell: UICollectionViewCell {
         optionsButton.addTarget(self, action: #selector(handleOptions), for: .touchUpInside)
         commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         profileNameButton.addTarget(self, action: #selector(handleProfileButton), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
+
     }
     
     private func setupProfilePhotoConstraints() {
@@ -222,6 +225,12 @@ class HomeFeedCell: UICollectionViewCell {
     @objc func handleProfileButton() {
         if let post = currentPost {
             delegate?.profileNameButtonTapped(self, for: post)
+        }
+    }
+    
+    @objc func handleLike() {
+        if let post = currentPost {
+            delegate?.favoriteButtonTapped(self, for: post)
         }
     }
 }

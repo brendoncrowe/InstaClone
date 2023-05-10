@@ -158,4 +158,17 @@ extension HomeFeedController: HomeFeedCellDelegate {
         let controller = CommentController(post)
         navigationController?.pushViewController(controller, animated: true)
     }
+    
+    func favoriteButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post) {
+        DataBaseService.shared.favoritePost(post: post) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error favoriting", message: "could not favorite post: \(error.localizedDescription)")
+                }
+            case .success:
+                homeFeedCell.likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+            }
+        }
+    }
 }
