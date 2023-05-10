@@ -20,3 +20,5 @@ Hard coded numbers have been set in place for both followers and following for a
 
 ## Creating a Post
 ![createPostGif](Assets/createPost.gif)
+
+**More updates to README coming...**
