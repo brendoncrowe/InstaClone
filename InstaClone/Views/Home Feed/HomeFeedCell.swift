@@ -18,6 +18,7 @@ protocol HomeFeedCellDelegate: NSObject {
 class HomeFeedCell: UICollectionViewCell {
     
     public weak var delegate: HomeFeedCellDelegate?
+    
     private var currentPost: Post?
     
     public lazy var userProfilePhotoimageView: UIImageView = {
@@ -115,7 +116,7 @@ class HomeFeedCell: UICollectionViewCell {
     private func commonInit() {
         setupProfilePhotoConstraints()
         setupImageViewConstraints()
-        setupOptionsButtonConstraints()
+//        setupOptionsButtonConstraints() Not currently using the options button
         setupProfileNameLabelConstraints()
         setupActionButtons()
         setupCaptionLabelConstraints()
@@ -232,7 +233,6 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     // MARK: Button Actions
-    
     @objc private func handleOptions() {
         print("options")
     }

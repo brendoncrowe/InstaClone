@@ -109,6 +109,7 @@ class SignUpController: UIViewController {
         var configuration = PHPickerConfiguration()
         configuration.filter = .images
         configuration.selectionLimit = 1
+        configuration.preferredAssetRepresentationMode = .current
         let phpController = PHPickerViewController(configuration: configuration)
         if let sheet = phpController.sheetPresentationController {
             sheet.detents = [.medium()]
