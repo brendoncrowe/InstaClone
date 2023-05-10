@@ -21,7 +21,10 @@ class DataBaseService {
     static let favoritesCollection = "favorites"
     
     private let dataBase = Firestore.firestore()
-    // creating a user for the users collection in the database to more easily access
+    private let currentUser: User = {
+        let firebaseUser = Auth.auth().currentUser!
+        return User(firebaseUser: firebaseUser)
+    }()
     
     // MARK: User methods
     public func createDataBaseUser(authDataResult: AuthDataResult, displayName: String, photoURL: String, completion: @escaping (Result<Bool, Error>) -> ()) {
@@ -46,7 +49,6 @@ class DataBaseService {
         }
     }
     
-    
     public func fetchUser(_ uid: String, completion: @escaping (Result<User, Error>) ->()) {
         dataBase.collection(DataBaseService.usersCollection).document(uid).getDocument { document, error in
             if let error = error {
@@ -63,11 +65,9 @@ class DataBaseService {
         }
     }
     
-    
     public func fetchFollowedUsers(completion: @escaping (Result<[String], Error>) ->()) {
-        guard let user = Auth.auth().currentUser else { return }
         var userIds = [String]()
-        dataBase.collection(DataBaseService.usersCollection).document(user.uid).collection(DataBaseService.followingCollection).getDocuments { snapshot, error in
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.userId).collection(DataBaseService.followingCollection).getDocuments { snapshot, error in
             if let error = error {
                 completion(.failure(error))
             } else if let snapshot = snapshot {
@@ -86,8 +86,7 @@ class DataBaseService {
     }
     
     public func followUser(user: User, completion: @escaping (Result<Bool, Error>) ->()) {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        dataBase.collection(DataBaseService.usersCollection).document(currentUser.uid).collection(DataBaseService.followingCollection).document(user.userId).setData(["userName": user.displayName, "userId": user.userId, "photoURL": user.photoURL, "followedDate": Timestamp(date: Date())]) { error in
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.userId).collection(DataBaseService.followingCollection).document(user.userId).setData(["userName": user.displayName, "userId": user.userId, "photoURL": user.photoURL, "followedDate": Timestamp(date: Date())]) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
@@ -159,10 +158,8 @@ class DataBaseService {
     
     // MARK: Comment methods
     public func createComment(for post: Post, with text: String, completion: @escaping (Result<Bool, Error>) -> ()) {
-        guard let currentDatabaseUser = Auth.auth().currentUser else { return }
-        let user = User(firebaseUser: currentDatabaseUser)
         let docRef = dataBase.collection(DataBaseService.commentsCollection).document()
-        dataBase.collection(DataBaseService.postsCollections).document(post.postId).collection(DataBaseService.commentsCollection).document(docRef.documentID)      .setData(["userId": user.userId, "userPhotoURL": user.photoURL, "displayName": user.displayName, "postedDate": Timestamp(date: Date()), "commentText": text]) { error in
+        dataBase.collection(DataBaseService.postsCollections).document(post.postId).collection(DataBaseService.commentsCollection).document(docRef.documentID)      .setData(["userId": currentUser.userId, "userPhotoURL": currentUser.photoURL, "displayName": currentUser.displayName, "postedDate": Timestamp(date: Date()), "commentText": text]) { error in
             if let error = error {
                 completion(.failure(error))
             }
@@ -183,12 +180,26 @@ class DataBaseService {
     
     // MARK: Favorite method
     public func favoritePost(post: Post, completion: @escaping (Result<Bool, Error>) ->()) {
-        guard let user = Auth.auth().currentUser else { return }
-        dataBase.collection(DataBaseService.usersCollection).document(user.uid).collection(DataBaseService.favoritesCollection).document(post.postId).setData(["postCaption" : post.postCaption, "postId": post.postId, "postedDate": Timestamp(date: Date()), "displayName": post.displayName, "userId": post.userId, "userPhotoURL": post.userPhotoURL]) { error in
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.userId).collection(DataBaseService.favoritesCollection).document(post.postId).setData(["postCaption" : post.postCaption, "postId": post.postId, "postedDate": Timestamp(date: Date()), "displayName": post.displayName, "userId": post.userId, "userPhotoURL": post.userPhotoURL]) { error in
             if let error = error {
                 completion(.failure(error))
             }
             completion(.success(true))
+        }
+    }
+    
+    public func checkIfPostIsFavorited(post: Post, completion: @escaping (Result<Bool, Error>) ->()) {
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.userId).collection(DataBaseService.favoritesCollection).whereField("postId", isEqualTo: post.postId).getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let count = snapshot.documents.count
+                if count > 0 {
+                    completion(.success(true))
+                } else { // here, the post is not favorited
+                    completion(.success(false))
+                }
+            }
         }
     }
 }

@@ -202,12 +202,33 @@ class HomeFeedCell: UICollectionViewCell {
     }
     
     public func configureCell(_ post: Post) {
+        // TODO: Write a function that will check if the post is favorited here
         self.currentPost = post
         profileNameButton.setTitle(post.displayName, for: .normal)
         setupAttributedCaption(post)
         guard let photoURL = URL(string: post.imageURL), let profileImageURL = URL(string: post.userPhotoURL) else { return }
         photoImageView.kf.setImage(with: photoURL)
         userProfilePhotoimageView.kf.setImage(with: profileImageURL)
+        DataBaseService.shared.checkIfPostIsFavorited(post: post) { [weak self] result in
+            switch result {
+            case .failure(let error):
+                print("there was an error checking the post's favorited status: \(error)")
+            case .success(let result):
+                self?.setHeartImage(result)
+            }
+        }
+    }
+    
+    private func setHeartImage(_ ifFavorited: Bool) {
+        if ifFavorited {
+            DispatchQueue.main.async {
+                self.likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+            }
+        }
     }
     
     // MARK: Button Actions
