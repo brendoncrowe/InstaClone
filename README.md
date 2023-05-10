@@ -15,7 +15,8 @@ The purpose of this app was to showcase much of what I have learned in the past 
 - [x] And much more
 
 ## Login & Signup
-![signupGif](Assets/signUpGif.gif)           ![loginGif](Assets/loginGif.gif)
+![signupGif](Assets/signUpGif.gif)           ![loginGif](Assets/loginGif.gif) </br>
+Hard coded numbers have been set in place for both followers and following for all profiles although this data is being tracked in firebase.
 
 ## Creating a Post
 ![createPostGif](Assets/createPost.gif)
