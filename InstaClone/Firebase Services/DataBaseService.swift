@@ -202,4 +202,13 @@ class DataBaseService {
             }
         }
     }
+    
+    public func unFavoritePost(post: Post, completion: @escaping (Result<Bool, Error>) ->()) {
+        dataBase.collection(DataBaseService.usersCollection).document(currentUser.userId).collection(DataBaseService.favoritesCollection).document(post.postId).delete { error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            completion(.success(true))
+        }
+    }
 }

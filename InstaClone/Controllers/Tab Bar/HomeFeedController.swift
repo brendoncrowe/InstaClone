@@ -160,14 +160,34 @@ extension HomeFeedController: HomeFeedCellDelegate {
     }
     
     func favoriteButtonTapped(_ homeFeedCell: HomeFeedCell, for post: Post) {
-        DataBaseService.shared.favoritePost(post: post) { [weak self] result in
+        DataBaseService.shared.checkIfPostIsFavorited(post: post) { result in
             switch result {
             case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.showAlert(title: "Error favoriting", message: "could not favorite post: \(error.localizedDescription)")
+                print(error.localizedDescription)
+            case .success(let result):
+                if result == true {
+                    DataBaseService.shared.unFavoritePost(post: post) { [weak self] result in
+                        switch result {
+                        case .failure(let error):
+                            DispatchQueue.main.async {
+                                self?.showAlert(title: "Error favoriting", message: "could not favorite post: \(error.localizedDescription)")
+                            }
+                        case .success:
+                            homeFeedCell.likeButton.setImage(UIImage(systemName: "heart")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+                        }
+                    }
+                } else {
+                    DataBaseService.shared.favoritePost(post: post) { [weak self] result in
+                        switch result {
+                        case .failure(let error):
+                            DispatchQueue.main.async {
+                                self?.showAlert(title: "Error favoriting", message: "could not favorite post: \(error.localizedDescription)")
+                            }
+                        case .success:
+                            homeFeedCell.likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+                        }
+                    }
                 }
-            case .success:
-                homeFeedCell.likeButton.setImage(UIImage(systemName: "heart.fill")?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
             }
         }
     }
